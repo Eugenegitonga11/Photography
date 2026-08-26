@@ -96,10 +96,13 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- cursor ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-.cursor{width:34px;height:34px;border:1px solid rgba(255,255,255,.6);margin:-17px 0 0 -17px;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),opacity .3s}
-.cursor-dot{width:4px;height:4px;background:#fff;margin:-2px 0 0 -2px}
-.cursor.is-big{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:rgba(255,255,255,.9)}
+.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference}
+.cursor{width:46px;height:38px;margin:-19px 0 0 -23px;transition:opacity .3s}
+.cursor svg{width:100%;height:100%;display:block;overflow:visible;
+  stroke:rgba(255,255,255,.72);fill:none;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;
+  transform-origin:50% 50%;transition:transform .35s var(--ease),stroke .35s var(--ease)}
+.cursor-dot{width:4px;height:4px;border-radius:50%;background:#fff;margin:-2px 0 0 -2px}
+.cursor.is-big svg{transform:scale(1.45);stroke:rgba(255,255,255,.95)}
 @media (hover:none),(max-width:900px){.cursor,.cursor-dot{display:none}}
 
 /* ============================================================
@@ -540,7 +543,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   <div class="preload__bar"></div>
 </div>
 
-<div class="cursor" id="cursor"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 46 38"><path d="M6 10.5h7.5l2.6-4h14.8l2.6 4H40a3 3 0 013 3v15a3 3 0 01-3 3H6a3 3 0 01-3-3v-15a3 3 0 013-3z"/><circle cx="23" cy="21" r="7.4"/><circle cx="36.4" cy="15.2" r="1.1"/></svg></div>
 <div class="cursor-dot" id="cursorDot"></div>
 
 <!-- ===================== HEADER ===================== -->
@@ -584,7 +587,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
     <li><a href="blog.html" data-close>Blog</a></li>
     <li><a href="contacts.html" data-close>Contact</a></li>
   </ul>
-  <div class="menu__meta">info@ronny.com &nbsp;·&nbsp; +1 (354) 78 96 452</div>
+  <div class="menu__meta">ronnyonkeo@gmail.com &nbsp;·&nbsp; +254 705 488 046</div>
 </div>
 
 <!-- ===================== HERO ===================== -->
@@ -639,8 +642,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       <div class="svc__head">
         <span class="eyebrow" data-reveal>Services</span>
         <h2 class="h-lg"><span class="line"><span>What We Do</span></span></h2>
-        <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur officia ullamco sunt nisi velit culpa.</p>
-        <p data-reveal style="--d:280ms;margin:38px 0 0"><a href="#" class="btn"><span>All Services</span></a></p>
+        <p class="p-body" data-reveal style="--d:150ms">Portraits, weddings, documentary and commercial work — shot across Nairobi and on assignment anywhere the story leads. Every booking starts with a conversation about what you actually need.</p>
+        <p data-reveal style="--d:280ms;margin:38px 0 0"><a href="portfolio.html" class="btn"><span>All Services</span></a></p>
         <p class="svc__hint" data-reveal style="--d:380ms">Swipe to explore →</p>
       </div>
       <div class="svc__scroller" id="svcScroller">
@@ -747,7 +750,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 <section class="sec said">
   <div class="said__bg"><img src="https://picsum.photos/seed/broms-said/1600/900" alt="" loading="lazy"></div>
   <div class="wrap said__inner">
-    <span class="eyebrow" data-reveal>Party</span>
+    <span class="eyebrow" data-reveal>Testimonials</span>
     <h2 class="h-lg" style="text-align:center"><span class="line"><span>What People Say About Us</span></span></h2>
     <p class="p-body fade-swap" id="saidText"></p>
     <div class="faces" id="faces"></div>
@@ -765,11 +768,11 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <a href="#">
           <div class="post__media rv-img" data-reveal-img>
             <img src="https://picsum.photos/seed/broms-post1/800/600" alt="Camera on a table" loading="lazy">
-            <span class="post__date">Oct 14, 2020</span>
+            <span class="post__date">Jun 12, 2026</span>
           </div>
-          <h3>Tips And Tricks For Commercial Shooting</h3>
+          <h3>What A Commercial Shoot Actually Costs You</h3>
         </a>
-        <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad…</p>
+        <p>The day rate is the easy part. Here is what goes into a brand shoot before anyone picks up a camera — and where budgets quietly disappear…</p>
         <a href="#" class="arrow-link" aria-label="Read article">
           <svg viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h54M48 1l6 5-6 5"/></svg>
         </a>
@@ -778,11 +781,11 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <a href="#">
           <div class="post__media rv-img" data-reveal-img style="--d:140ms">
             <img src="https://picsum.photos/seed/broms-post2/800/600" alt="Studio lighting setup" loading="lazy">
-            <span class="post__date">Oct 14, 2020</span>
+            <span class="post__date">Jul 03, 2026</span>
           </div>
-          <h3>How To Prepare A Personal Session</h3>
+          <h3>How To Prepare For Your First Portrait Session</h3>
         </a>
-        <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad…</p>
+        <p>What to wear, what to bring, and why the first ten minutes matter far more than anything you plan in advance…</p>
         <a href="#" class="arrow-link" aria-label="Read article">
           <svg viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h54M48 1l6 5-6 5"/></svg>
         </a>
@@ -790,8 +793,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       <div class="blog__aside">
         <span class="eyebrow" data-reveal>News And Articles</span>
         <h2 class="h-lg"><span class="line"><span>Latest From Ronny</span></span></h2>
-        <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
-        <p data-reveal style="--d:260ms;margin:36px 0 0"><a href="#" class="btn"><span>Read Blog</span></a></p>
+        <p class="p-body" data-reveal style="--d:150ms">Notes from the field — how the frames get made, what the gear survives, and the thinking behind the work. Written for anyone who wants to shoot better, not just hire better.</p>
+        <p data-reveal style="--d:260ms;margin:36px 0 0"><a href="blog.html" class="btn"><span>Read Blog</span></a></p>
       </div>
     </div>
   </div>
@@ -803,7 +806,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
     <div class="ftr__grid">
       <div data-reveal>
         <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
+        <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
           <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
           <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
@@ -813,7 +816,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       </div>
       <div data-reveal style="--d:120ms">
         <h4>Newsletter</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>One letter a month: new work, frames that never made the edit, and open session dates.</p>
         <div class="sub">
           <input type="email" id="subEmail" placeholder="Enter your email" aria-label="Email address">
           <button class="btn" id="subBtn"><span>Subscribe</span></button>
@@ -822,29 +825,29 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       </div>
       <div data-reveal style="--d:240ms">
         <h4>Contact Us</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>Booking across Kenya and available on assignment worldwide.</p>
         <div class="ftr__cols2" style="margin-top:20px">
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
-              <span>Info@ronny.com</span>
+              <a href="mailto:ronnyonkeo@gmail.com">ronnyonkeo@gmail.com</a>
             </div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>
-              <span>+1 (354) 78 96 452</span>
+              <a href="tel:+254705488046">+254 705 488 046</a>
             </div>
           </div>
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
-              <span>Pariatur voluptate occaecat nostrud est exercitation.</span>
+              <span>Nairobi, Kenya</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="ftr__bar">
-      <div>© All rights reserved. Ronny 2020.</div>
+      <div>© All rights reserved. Ronny Onkeo 2026.</div>
       <div><a href="#">Terms and Conditions</a><span>·</span><a href="#">Privacy Policy</a></div>
     </div>
   </div>
@@ -921,12 +924,13 @@ const CASES = [
   }
 ];
 
+/* PLACEHOLDER TESTIMONIALS — swap in real words from real clients before this goes live. */
 const SAID = [
-  { text:'Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa excepteur amet. Incididunt sunt velit fugiat exercitation sit incididunt anim occaecat exercitation ut quis.', name:'Johnny Quicker', role:'Wedding Day' },
-  { text:'Culpa culpa laboris excepteur ad occaecat nostrud est exercitation. Duis officia ullamco sunt nisi velit culpa excepteur amet incididunt sunt velit fugiat exercitation sit anim occaecat ut quis exercitation.', name:'Marla Fenwick', role:'Personal Session' },
-  { text:'Occaecat nostrud est exercitation pariatur voluptate. Culpa laboris excepteur ad duis officia ullamco sunt nisi velit culpa excepteur amet incididunt sunt velit fugiat exercitation sit anim.', name:'Ade Okonkwo', role:'Commercial Session' },
-  { text:'Duis officia ullamco sunt nisi velit culpa excepteur amet. Pariatur voluptate occaecat nostrud est exercitation culpa laboris excepteur ad incididunt sunt velit fugiat exercitation sit anim quis.', name:'Sofia Bertrand', role:'Love Stories' },
-  { text:'Incididunt sunt velit fugiat exercitation sit anim occaecat. Pariatur voluptate nostrud est exercitation culpa culpa laboris excepteur ad duis officia ullamco sunt nisi velit culpa amet.', name:'Tomas Ilves', role:'Family Album' }
+  { text:'He shot our wedding like he already knew the family. We got the big moments, but also the ones we never noticed were happening \u2014 my mother laughing in the corner, my brother fixing his tie. We open that album every anniversary.', name:'Client name', role:'Wedding' },
+  { text:'I came in nervous about being photographed and left with frames I actually recognise myself in. He talks you through it, shows you the back of the camera, and by the tenth shot you forget the lens is there.', name:'Client name', role:'Personal Session' },
+  { text:'We needed campaign images that looked like our people and our branches, not stock photography. He spent a day on the ground with the team before shooting anything. Those images ran across our channels for a full year.', name:'Client name', role:'Commercial' },
+  { text:'Our podcast finally looks the way it sounds. Lighting, stills and thumbnails delivered fast and consistent across the whole season \u2014 which is exactly what we could not get anywhere else.', name:'Client name', role:'Podcast' },
+  { text:'He documented the entire festival, from setup at dawn to the last set of the night. What came back told the story of the day better than anything our own team managed to capture.', name:'Client name', role:'Events' }
 ];
 
 const ICONS = {

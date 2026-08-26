@@ -30,7 +30,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   background:var(--ink);
   color:var(--text);
@@ -402,14 +402,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    ============================================================ */
 .ftr{background:var(--panel);border-top:1px solid var(--line-soft)}
 .ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:78px 0}
+.ftr__grid > *{min-width:0}
 .ftr h4{font-size:19px;font-weight:600;margin:0 0 18px}
 .ftr p{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;max-width:38ch}
 .ftr__social{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px;letter-spacing:.1em}
 .ftr__social .dash{width:10px;height:1px;background:rgba(255,255,255,.3)}
 .ftr__social a:hover{opacity:.65}
-.sub{display:flex;gap:12px;margin-top:26px;max-width:430px}
+.sub{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;width:100%;max-width:430px}
 .sub input{
-  flex:1;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  flex:1 1 180px;min-width:0;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
   color:#fff;padding:0 22px;font-family:inherit;font-size:13px;font-weight:300;transition:border-color .4s,background .4s;
 }
 .sub input::placeholder{color:var(--muted-2)}
@@ -422,6 +423,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .ftr__bar{border-top:1px solid var(--line-soft);padding:24px 0;display:flex;justify-content:space-between;gap:20px;color:var(--muted-2);font-size:12.5px}
 .ftr__bar a:hover{color:#fff}
 .ftr__bar span{margin:0 10px}
+@media(max-width:520px){.sub{flex-direction:column}.sub input{flex:0 0 auto;width:100%;height:48px}.sub .btn{width:100%}}
 @media(max-width:980px){.ftr__grid{grid-template-columns:1fr;gap:44px}.ftr__bar{flex-direction:column;text-align:center;align-items:center}}
 
 /* ============================================================
@@ -684,7 +686,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <li><a href="blog.html" data-close>Blog</a></li>
     <li><a href="contacts.html" data-close>Contact</a></li>
   </ul>
-  <div class="menu__meta">info@ronny.com &nbsp;&middot;&nbsp; +1 (354) 78 96 452</div>
+  <div class="menu__meta">ronnyonkeo@gmail.com &nbsp;&middot;&nbsp; +254 705 488 046</div>
 </div>
 
 <!-- ===================== PAGE BANNER ===================== -->
@@ -728,7 +730,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <div class="ftr__grid">
       <div data-reveal>
         <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
+        <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
           <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
           <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
@@ -738,7 +740,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       </div>
       <div data-reveal style="--d:120ms">
         <h4>Newsletter</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>One letter a month: new work, frames that never made the edit, and open session dates.</p>
         <div class="sub">
           <input type="email" id="subEmail" placeholder="Enter your email" aria-label="Email address">
           <button class="btn" id="subBtn"><span>Subscribe</span></button>
@@ -747,29 +749,29 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       </div>
       <div data-reveal style="--d:240ms">
         <h4>Contact Us</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>Booking across Kenya and available on assignment worldwide.</p>
         <div class="ftr__cols2" style="margin-top:20px">
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
-              <span>Info@ronny.com</span>
+              <a href="mailto:ronnyonkeo@gmail.com">ronnyonkeo@gmail.com</a>
             </div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>
-              <span>+1 (354) 78 96 452</span>
+              <a href="tel:+254705488046">+254 705 488 046</a>
             </div>
           </div>
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
-              <span>Pariatur voluptate occaecat nostrud est exercitation.</span>
+              <span>Nairobi, Kenya</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="ftr__bar">
-      <div>© All rights reserved. Ronny 2020.</div>
+      <div>© All rights reserved. Ronny Onkeo 2026.</div>
       <div><a href="#">Terms and Conditions</a><span>·</span><a href="#">Privacy Policy</a></div>
     </div>
   </div>

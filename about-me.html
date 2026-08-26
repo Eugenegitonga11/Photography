@@ -30,7 +30,7 @@
 }
 *{box-sizing:border-box}
 html,body{margin:0;padding:0}
-html{scroll-behavior:smooth}
+html{scroll-behavior:smooth;overflow-x:clip}
 body{
   background:var(--ink);
   color:var(--text);
@@ -263,9 +263,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    ============================================================ */
 .svc{display:grid;grid-template-columns:minmax(240px,300px) 1fr;gap:70px;align-items:start}
 .svc__head{padding-top:22px}
-.svc__scroller{overflow:hidden;position:relative;margin-right:calc(var(--pad) * -1)}
-.svc__track{display:flex;gap:14px;cursor:grab;will-change:transform;transition:transform .9s var(--ease-out)}
-.svc__track.is-dragging{cursor:grabbing;transition:none}
+.svc__scroller{
+  position:relative;overflow-x:auto;overflow-y:hidden;margin-right:calc(var(--pad) * -1);
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;
+}
+.svc__scroller::-webkit-scrollbar{display:none}
+.svc__track{display:flex;gap:14px;width:max-content;padding-right:var(--pad);cursor:grab}
+.svc__track.is-dragging{cursor:grabbing}
+.card{scroll-snap-align:start}
 .card{flex:0 0 224px;user-select:none}
 .card__media{position:relative;overflow:hidden;aspect-ratio:224/288;background:var(--panel-2)}
 .card__media img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease-out),filter .8s}
@@ -282,6 +288,10 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 @media(max-width:900px){
   .svc{grid-template-columns:1fr;gap:44px}
   .svc__scroller{margin-right:calc(var(--pad) * -1)}
+}
+@media(max-width:640px){
+  .card{flex:0 0 64vw;max-width:280px}
+  .svc__hint{margin-top:26px}
 }
 
 /* ============================================================
@@ -402,14 +412,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    ============================================================ */
 .ftr{background:var(--panel);border-top:1px solid var(--line-soft)}
 .ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:78px 0}
+.ftr__grid > *{min-width:0}
 .ftr h4{font-size:19px;font-weight:600;margin:0 0 18px}
 .ftr p{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;max-width:38ch}
 .ftr__social{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px;letter-spacing:.1em}
 .ftr__social .dash{width:10px;height:1px;background:rgba(255,255,255,.3)}
 .ftr__social a:hover{opacity:.65}
-.sub{display:flex;gap:12px;margin-top:26px;max-width:430px}
+.sub{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;width:100%;max-width:430px}
 .sub input{
-  flex:1;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
+  flex:1 1 180px;min-width:0;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
   color:#fff;padding:0 22px;font-family:inherit;font-size:13px;font-weight:300;transition:border-color .4s,background .4s;
 }
 .sub input::placeholder{color:var(--muted-2)}
@@ -422,6 +433,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .ftr__bar{border-top:1px solid var(--line-soft);padding:24px 0;display:flex;justify-content:space-between;gap:20px;color:var(--muted-2);font-size:12.5px}
 .ftr__bar a:hover{color:#fff}
 .ftr__bar span{margin:0 10px}
+@media(max-width:520px){.sub{flex-direction:column}.sub input{flex:0 0 auto;width:100%;height:48px}.sub .btn{width:100%}}
 @media(max-width:980px){.ftr__grid{grid-template-columns:1fr;gap:44px}.ftr__bar{flex-direction:column;text-align:center;align-items:center}}
 
 /* ============================================================
@@ -493,6 +505,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .crumb i{font-style:normal;margin:0 12px;opacity:.45}
 .crumb b{font-weight:400;color:#fff}
 
+.intro{overflow:hidden}
 .intro__grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:60px;align-items:center}
 .intro__copy .p-body + .p-body{margin-top:20px}
 .intro__copy h2{font-size:clamp(27px,2.9vw,38px);line-height:1.22}
@@ -621,7 +634,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <li><a href="blog.html" data-close>Blog</a></li>
     <li><a href="contacts.html" data-close>Contact</a></li>
   </ul>
-  <div class="menu__meta">info@ronny.com &nbsp;&middot;&nbsp; +1 (354) 78 96 452</div>
+  <div class="menu__meta">ronnyonkeo@gmail.com &nbsp;&middot;&nbsp; +254 705 488 046</div>
 </div>
 
 <!-- ===================== PAGE BANNER ===================== -->
@@ -672,7 +685,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <h2 class="h-lg"><span class="line"><span>What We Do</span></span></h2>
         <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur officia ullamco sunt nisi velit culpa.</p>
         <p data-reveal style="--d:280ms;margin:38px 0 0"><a href="portfolio.html" class="btn"><span>All Services</span></a></p>
-        <p class="svc__hint" data-reveal style="--d:380ms">Drag to explore &rarr;</p>
+        <p class="svc__hint" data-reveal style="--d:380ms">Swipe to explore &rarr;</p>
       </div>
       <div class="svc__scroller" id="svcScroller">
         <div class="svc__track" id="svcTrack"></div>
@@ -692,7 +705,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <dl class="contact__facts" data-reveal style="--d:260ms">
           <div class="fact">
             <svg viewBox="0 0 26 28"><path d="M5 4h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 6a2 2 0 012-2z"/></svg>
-            <div><dt>Phone</dt><dd>+1 (354) 78 96 452</dd></div>
+            <div><dt>Phone</dt><dd>+254 705 488 046</dd></div>
           </div>
           <div class="fact">
             <svg viewBox="0 0 26 28"><path d="M13 25s8-6.6 8-13a8 8 0 10-16 0c0 6.4 8 13 8 13z"/><circle cx="13" cy="11.6" r="2.9"/></svg>
@@ -700,7 +713,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
           </div>
           <div class="fact">
             <svg viewBox="0 0 26 28"><circle cx="13" cy="14" r="9.4"/><circle cx="13" cy="14" r="3.6"/><path d="M16.6 14v3a3 3 0 005.4-1.8A9.4 9.4 0 1017 22.6"/></svg>
-            <div><dt>Email</dt><dd>Info@ronny.com</dd></div>
+            <div><dt>Email</dt><dd>ronnyonkeo@gmail.com</dd></div>
           </div>
         </dl>
       </div>
@@ -724,7 +737,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <div class="ftr__grid">
       <div data-reveal>
         <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
+        <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
           <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
           <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
@@ -734,7 +747,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       </div>
       <div data-reveal style="--d:120ms">
         <h4>Newsletter</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>One letter a month: new work, frames that never made the edit, and open session dates.</p>
         <div class="sub">
           <input type="email" id="subEmail" placeholder="Enter your email" aria-label="Email address">
           <button class="btn" id="subBtn"><span>Subscribe</span></button>
@@ -743,29 +756,29 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       </div>
       <div data-reveal style="--d:240ms">
         <h4>Contact Us</h4>
-        <p>Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p>Booking across Kenya and available on assignment worldwide.</p>
         <div class="ftr__cols2" style="margin-top:20px">
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
-              <span>Info@ronny.com</span>
+              <a href="mailto:ronnyonkeo@gmail.com">ronnyonkeo@gmail.com</a>
             </div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>
-              <span>+1 (354) 78 96 452</span>
+              <a href="tel:+254705488046">+254 705 488 046</a>
             </div>
           </div>
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
-              <span>Pariatur voluptate occaecat nostrud est exercitation.</span>
+              <span>Nairobi, Kenya</span>
             </div>
           </div>
         </div>
       </div>
     </div>
     <div class="ftr__bar">
-      <div>© All rights reserved. Ronny 2020.</div>
+      <div>© All rights reserved. Ronny Onkeo 2026.</div>
       <div><a href="#">Terms and Conditions</a><span>·</span><a href="#">Privacy Policy</a></div>
     </div>
   </div>
@@ -873,21 +886,27 @@ SERVICES.forEach((s,i)=>{
     <p class="card__price">from <b>${s.price}</b></p>`;
   track.appendChild(el);
 });
+/* native scrolling does the work — touch gets real momentum, mouse gets click-and-drag */
 (function drag(){
   const scroller = $('#svcScroller');
-  let x = 0, startX = 0, startPos = 0, dragging = false, moved = false;
-  const max = () => Math.max(0, track.scrollWidth - scroller.clientWidth);
-  const set = v => { x = Math.min(0, Math.max(-max(), v)); track.style.transform = `translate3d(${x}px,0,0)`; };
-  scroller.addEventListener('pointerdown', e=>{ dragging = true; moved = false; startX = e.clientX; startPos = x;
-    track.classList.add('is-dragging'); scroller.setPointerCapture(e.pointerId); });
-  scroller.addEventListener('pointermove', e=>{ if(!dragging) return;
-    const d = e.clientX - startX; if(Math.abs(d) > 4) moved = true; set(startPos + d); });
+  let startX = 0, startLeft = 0, dragging = false, moved = false;
+  scroller.addEventListener('pointerdown', e=>{
+    if(e.pointerType === 'touch') return;            // let the browser handle swipes
+    dragging = true; moved = false;
+    startX = e.clientX; startLeft = scroller.scrollLeft;
+    track.classList.add('is-dragging');
+    scroller.setPointerCapture(e.pointerId);
+  });
+  scroller.addEventListener('pointermove', e=>{
+    if(!dragging) return;
+    const d = e.clientX - startX;
+    if(Math.abs(d) > 4) moved = true;
+    scroller.scrollLeft = startLeft - d;
+  });
   const end = ()=>{ dragging = false; track.classList.remove('is-dragging'); };
   scroller.addEventListener('pointerup', end);
   scroller.addEventListener('pointercancel', end);
   scroller.addEventListener('click', e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); } }, true);
-  scroller.addEventListener('wheel', e=>{ if(Math.abs(e.deltaX) > Math.abs(e.deltaY)){ e.preventDefault(); set(x - e.deltaX); } }, {passive:false});
-  window.addEventListener('resize', ()=>set(x));
 })();
 
 /* ---------- header, menu, dropdown ---------- */
