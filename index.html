@@ -3,13 +3,15 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Broms — Photography Studio</title>
+<title>Ronny — Photography Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="hero-maasai-1920.jpg"
+      imagesrcset="hero-maasai-1280.jpg 1280w, hero-maasai-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
-   BROMS — tokens
+   RONNY — tokens
    Swap every photo in one place: see the IMG map in the script.
    ============================================================ */
 :root{
@@ -209,7 +211,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .hero__bg{position:absolute;inset:0}
 .hero__slide{position:absolute;inset:0;opacity:0;transition:opacity 1.3s var(--ease)}
 .hero__slide.is-active{opacity:1}
-.hero__slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.16);transition:transform 9s linear}
+.hero__slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.09);transition:transform 11s linear}
 .hero__slide.is-active img{transform:scale(1)}
 .hero__veil{
   position:absolute;inset:0;
@@ -222,7 +224,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .hero__copy{max-width:640px;position:relative;z-index:4}
 .hero__title{font-size:clamp(44px,7.1vw,96px);font-weight:600;line-height:1.03;letter-spacing:-.022em;margin:24px 0 0}
 .hero__bottom{display:flex;align-items:center;gap:36px;margin-top:56px}
-.hero__note{color:#c9ccd6;font-size:15px;line-height:1.85;font-weight:300;max-width:24ch}
+.hero__note{color:#c9ccd6;font-size:14.5px;line-height:1.8;font-weight:300;max-width:30ch}
 
 /* play button with circular text */
 .play{position:relative;width:118px;height:118px;flex:0 0 auto;display:grid;place-items:center}
@@ -288,14 +290,14 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    Cases
    ============================================================ */
 .case{position:relative;overflow:hidden}
-.case__ghost{position:absolute;inset:0;opacity:.16;z-index:0}
+.case__ghost{position:absolute;inset:0;opacity:.12;z-index:0}
 .case__ghost img{width:100%;height:100%;object-fit:cover;filter:grayscale(.4)}
-.case__ghost::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,12,.9),rgba(8,8,12,.55) 45%,rgba(8,8,12,.95))}
+.case__ghost::after{content:"";position:absolute;inset:0;background:linear-gradient(90deg,rgba(8,8,12,.92),rgba(8,8,12,.6) 45%,rgba(8,8,12,.96))}
 .case__grid{position:relative;z-index:2;display:grid;grid-template-columns:1.05fr 1fr;gap:80px;align-items:center}
-.case__visual{position:relative;padding:34px 0 34px 78px;max-width:560px}
-.case__visual .case__back{position:absolute;left:0;top:52px;width:158px;aspect-ratio:3/4;opacity:.42;overflow:hidden;filter:grayscale(.5);z-index:1}
+.case__visual{position:relative;padding:34px 0 34px 62px;max-width:590px}
+.case__visual .case__back{position:absolute;left:0;top:78px;width:150px;aspect-ratio:3/4;opacity:.42;overflow:hidden;filter:grayscale(.5);z-index:1}
 .case__visual .case__back img{width:100%;height:100%;object-fit:cover}
-.case__main{position:relative;z-index:2;aspect-ratio:5/6;max-width:470px;overflow:hidden;background:var(--panel-2)}
+.case__main{position:relative;z-index:2;aspect-ratio:4/3;max-width:520px;overflow:hidden;background:var(--panel-2)}
 .case__main img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out),opacity .6s}
 .case__main:hover img{transform:scale(1.05)}
 .case__meta{display:grid;grid-template-columns:1fr 1fr;gap:30px 34px;margin:44px 0 0;max-width:520px}
@@ -303,8 +305,12 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .meta svg{width:30px;height:32px;flex:0 0 auto;stroke:rgba(255,255,255,.55);fill:none;stroke-width:1.1}
 .meta dt{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
 .meta dd{margin:6px 0 0;color:var(--muted);font-size:14px}
+.case__text .p-body{min-height:118px}
+.case__year{display:inline-block;margin-left:14px;font-size:11px;letter-spacing:.2em;color:var(--muted-2);vertical-align:middle}
 .case__foot{display:flex;align-items:center;justify-content:space-between;gap:30px;margin-top:44px;max-width:520px}
-.case__nav{display:flex;gap:26px}
+.case__count{font-size:12px;letter-spacing:.16em;color:var(--muted-2);margin-right:4px}
+.case__count b{color:#fff;font-weight:500}
+.case__nav{display:flex;align-items:center;gap:22px}
 .fade-swap{transition:opacity .45s var(--ease),transform .45s var(--ease)}
 .is-swapping .fade-swap{opacity:0;transform:translateY(14px)}
 @media(max-width:980px){
@@ -318,6 +324,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    Backstage
    ============================================================ */
 .backstage{text-align:center}
+.reel__sub{color:var(--muted);font-size:14px;letter-spacing:.02em;margin:14px 0 0}
 .reel{
   position:relative;margin-top:56px;aspect-ratio:1720/700;overflow:hidden;background:var(--panel-2);
   display:grid;place-items:center;
@@ -339,13 +346,17 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .event__grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 1fr;gap:80px;align-items:center}
 .event__radar{width:520px;height:520px;left:-190px;bottom:-120px;opacity:.10}
 .event__sub{font-size:21px;font-weight:600;margin:44px 0 0}
-.event__facts{display:flex;gap:64px;margin:22px 0 0}
+.event__facts{display:flex;flex-wrap:wrap;gap:22px 48px;margin:22px 0 0}
+.event__apply{margin:20px 0 0;font-size:12.5px;color:var(--muted)}
+.event__apply a{border-bottom:1px solid rgba(255,255,255,.25);padding-bottom:2px;transition:color .35s,border-color .35s}
+.event__apply a:hover{color:#fff;border-color:#fff}
+.event__apply i{font-style:normal;margin:0 12px;opacity:.5}
 .event__facts dt{font-size:11px;letter-spacing:.18em;text-transform:uppercase;font-weight:600}
 .event__facts dd{margin:8px 0 0;color:var(--muted);font-size:14px}
 .poster{position:relative;perspective:1200px;width:100%;max-width:432px;justify-self:start}
-.poster__ghost{position:absolute;right:-72px;top:52px;width:74%;aspect-ratio:3/4;overflow:hidden;opacity:.3;filter:blur(1px) grayscale(.3)}
+.poster__ghost{position:absolute;right:-72px;top:52px;width:74%;aspect-ratio:905/1280;overflow:hidden;opacity:.3;filter:blur(1px) grayscale(.3)}
 .poster__ghost img{width:100%;height:100%;object-fit:cover}
-.poster__card{position:relative;aspect-ratio:3/4;overflow:hidden;transform-style:preserve-3d;transition:transform .5s var(--ease)}
+.poster__card{display:block;position:relative;aspect-ratio:905/1280;overflow:hidden;transform-style:preserve-3d;transition:transform .5s var(--ease)}
 .poster__card img{width:100%;height:100%;object-fit:cover}
 .poster__label{position:absolute;inset:0;display:flex;flex-direction:column;justify-content:space-between;padding:30px 26px;text-align:center;
   background:linear-gradient(180deg,rgba(20,10,40,.55),rgba(10,10,30,.15) 35%,rgba(10,6,26,.72))}
@@ -430,7 +441,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .modal{position:fixed;inset:0;z-index:900;display:grid;place-items:center;padding:30px;
   background:rgba(6,6,10,.92);backdrop-filter:blur(8px);opacity:0;visibility:hidden;transition:opacity .5s,visibility .5s}
 .modal.is-open{opacity:1;visibility:visible}
-.modal__box{width:min(980px,100%);aspect-ratio:16/9;border:1px solid var(--line);background:var(--panel-2);
+.modal__box{width:min(980px,100%);aspect-ratio:16/9;position:relative;border:1px solid var(--line);background:var(--panel-2);
   display:grid;place-items:center;text-align:center;padding:30px;transform:translateY(24px) scale(.98);transition:transform .6s var(--ease-out)}
 .modal.is-open .modal__box{transform:none}
 .modal__box p{color:var(--muted);font-size:14px;line-height:1.9;max-width:44ch;margin:14px auto 0}
@@ -445,6 +456,17 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .filmstrip i:nth-child(4){animation-delay:.36s}
 .filmstrip i:nth-child(5){animation-delay:.48s}
 @keyframes strip{0%,100%{transform:scaleY(.5);opacity:.3}50%{transform:scaleY(1);opacity:.9}}
+/* a YouTube Short is vertical, so the frame flips shape when one is playing */
+.modal__box.is-video{width:auto;height:min(84vh,860px);aspect-ratio:9/16;padding:0;border:0;background:#000;overflow:hidden}
+.modal__box.is-video.is-wide{width:min(1040px,100%);height:auto;aspect-ratio:16/9}
+.modal__box.is-video .modal__ph{display:none}
+.modal__frame{display:none;width:100%;height:100%}
+.modal__box.is-video .modal__frame{display:block}
+.modal__frame iframe{width:100%;height:100%;border:0;display:block}
+.modal__cap{position:absolute;left:24px;right:24px;bottom:22px;text-align:center;color:var(--muted);
+  font-size:12.5px;letter-spacing:.05em;line-height:1.6;opacity:0;transition:opacity .5s var(--ease);margin:0}
+.modal.has-video .modal__cap{opacity:1}
+@media(max-width:640px){.modal__box.is-video{height:auto;width:100%;max-height:70vh}.modal__cap{bottom:14px;font-size:11.5px}}
 
 /* ============================================================
    Reveal system
@@ -502,7 +524,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 </svg>
 
 <div class="preload" id="preload">
-  <div class="preload__logo">BR<i class="logo__o" style="display:inline-block"></i>MS</div>
+  <div class="preload__logo">R<i class="logo__o" style="display:inline-block"></i>NNY</div>
   <div class="preload__bar"></div>
 </div>
 
@@ -512,7 +534,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 <!-- ===================== HEADER ===================== -->
 <header class="hdr" id="hdr">
   <button class="burger" id="burger" aria-label="Open menu"><i></i><i></i><i></i></button>
-  <a href="index.html" class="logo">BR<i class="logo__o"></i>MS</a>
+  <a href="index.html" class="logo">R<i class="logo__o"></i>NNY</a>
   <nav class="nav">
     <a href="index.html" class="is-active">Home</a>
     <div class="nav__has" data-nav-has>
@@ -550,7 +572,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
     <li><a href="blog.html" data-close>Blog</a></li>
     <li><a href="contacts.html" data-close>Contact</a></li>
   </ul>
-  <div class="menu__meta">info@broms.com &nbsp;·&nbsp; +1 (354) 78 96 452</div>
+  <div class="menu__meta">info@ronny.com &nbsp;·&nbsp; +1 (354) 78 96 452</div>
 </div>
 
 <!-- ===================== HERO ===================== -->
@@ -567,22 +589,23 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <div class="play">
           <svg class="play__ring" viewBox="0 0 118 118" aria-hidden="true">
             <defs><path id="circPath" d="M59,59 m-46,0 a46,46 0 1,1 92,0 a46,46 0 1,1 -92,0"/></defs>
-            <text><textPath href="#circPath" startOffset="0" textLength="289" lengthAdjust="spacing">Whatch video about us ·</textPath></text>
+            <text><textPath href="#circPath" startOffset="0" textLength="289" lengthAdjust="spacing">Watch the making of ·</textPath></text>
           </svg>
           <span class="play__pulse"></span><span class="play__pulse"></span>
-          <button class="play__btn" data-modal aria-label="Play showreel">
+          <button class="play__btn" data-modal data-video="3rs7HrRFWO0" aria-label="Play: The Making of Esafiri Title Shot">
             <svg viewBox="0 0 14 16"><path d="M0 0l14 8-14 8z"/></svg>
           </button>
         </div>
-        <p class="hero__note">Pariatur voluptate occaecat nostrud est exercitation.</p>
+        <p class="hero__note">The Making of Esafiri Title Shot — African innovators fighting climate change</p>
       </div>
     </div>
   </div>
 
   <div class="rail rail--social">
-    <a href="#">Fb</a><span class="dash"></span>
-    <a href="#">Tw</a><span class="dash"></span>
-    <a href="#">In</a>
+    <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
+    <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
+    <a href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn">Li</a><span class="dash"></span>
+    <a href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube">Yt</a>
   </div>
 
   <div class="rail rail--dots" id="heroDots"></div>
@@ -625,13 +648,14 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <div class="case__main rv-img" data-reveal-img style="--d:180ms"><img id="caseMain" alt="Featured case" loading="lazy"></div>
       </div>
       <div class="case__text">
-        <span class="eyebrow" data-reveal>Cases</span>
+        <span class="eyebrow fade-swap" data-reveal id="caseTag">Cases</span>
         <h2 class="h-lg fade-swap" id="caseTitle"></h2>
         <p class="p-body fade-swap" id="caseDesc"></p>
         <dl class="case__meta fade-swap" id="caseMeta"></dl>
         <div class="case__foot">
-          <a href="#" class="btn"><span>View Case</span></a>
+          <a href="portfolio.html" class="btn"><span>View Case</span></a>
           <div class="case__nav">
+            <span class="case__count" id="caseCount"></span>
             <button class="nav-arrow nav-arrow--prev" data-case="prev" aria-label="Previous case">
               <svg viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M56 6H2M8 1L2 6l6 5"/></svg>
             </button>
@@ -648,17 +672,18 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 <!-- ===================== BACKSTAGE ===================== -->
 <section class="sec sec--tight backstage">
   <div class="wrap">
-    <span class="eyebrow" data-reveal>Cases</span>
-    <h2 class="h-lg" style="max-width:none"><span class="line"><span>Latest Backstage Of July 2020</span></span></h2>
+    <span class="eyebrow" data-reveal>Podcast &middot; Flow &amp; Tell EP 048</span>
+    <h2 class="h-lg" style="max-width:none"><span class="line"><span>Behind The Lyrics: Coast 2 Coast</span></span></h2>
+    <p class="reel__sub" data-reveal style="--d:120ms">The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo</p>
     <div class="reel rv-img" data-reveal-img style="--d:150ms">
-      <img src="https://picsum.photos/seed/broms-reel/1720/700" alt="Backstage still" loading="lazy">
+      <img src="https://img.youtube.com/vi/7ZUtsDJWQcE/maxresdefault.jpg" alt="Behind The Lyrics: Coast 2 Coast — Flow &amp; Tell EP 048" loading="lazy">
       <div class="play">
         <svg class="play__ring" viewBox="0 0 150 150" aria-hidden="true">
           <defs><path id="circPath2" d="M75,75 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0"/></defs>
-          <text><textPath href="#circPath2" startOffset="0" textLength="377" lengthAdjust="spacing">Backstage reel · July 2020 ·</textPath></text>
+          <text><textPath href="#circPath2" startOffset="0" textLength="377" lengthAdjust="spacing">Behind the lyrics · EP 048 ·</textPath></text>
         </svg>
         <span class="play__pulse"></span><span class="play__pulse"></span>
-        <button class="play__btn" data-modal aria-label="Play backstage reel">
+        <button class="play__btn" data-modal data-video="7ZUtsDJWQcE" data-caption="Behind The Lyrics: Coast 2 Coast — The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo · Flow &amp; Tell EP 048" aria-label="Play: Behind The Lyrics, Coast 2 Coast">
           <svg viewBox="0 0 14 16"><path d="M0 0l14 8-14 8z"/></svg>
         </button>
       </div>
@@ -673,26 +698,34 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   <div class="wrap">
     <div class="event__grid">
       <div>
-        <span class="eyebrow" data-reveal>Party</span>
-        <h2 class="h-lg"><span class="line"><span>Upcoming Event</span></span></h2>
-        <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
-        <h3 class="event__sub" data-reveal style="--d:230ms">Join Us And Have Fun!</h3>
-        <dl class="event__facts" data-reveal style="--d:300ms">
-          <div><dt>Date</dt><dd>December 13, 2020</dd></div>
-          <div><dt>Time</dt><dd>7:30 PM</dd></div>
+        <span class="eyebrow" data-reveal>Festival</span>
+        <h2 class="h-lg">
+          <span class="line"><span>Sondeka ALT</span></span>
+          <span class="line"><span style="--d:120ms">The Return</span></span>
+        </h2>
+        <p class="p-body" data-reveal style="--d:150ms">A one-day public festival celebrating the energy and diversity of contemporary African creativity &mdash; music, fashion, film, games, digital art and creative technology under one roof.</p>
+        <p class="p-body" data-reveal style="--d:210ms">Expect live performances, DJs, a fashion show, screenings, interactive installations, panel discussions, creative workshops and a vibrant marketplace. A collaboration between Creatives Garage (Kenya) and B-Side Festival (UK), celebrating Nairobi&rsquo;s evolving creative scene.</p>
+        <h3 class="event__sub" data-reveal style="--d:260ms">Free Entry &mdash; RSVP To Attend</h3>
+        <dl class="event__facts" data-reveal style="--d:320ms">
+          <div><dt>Date</dt><dd>12 September</dd></div>
+          <div><dt>Time</dt><dd>1200h &ndash; 2100h</dd></div>
+          <div><dt>Venue</dt><dd>The Junction Mall</dd></div>
         </dl>
-        <p data-reveal style="--d:400ms;margin:40px 0 0"><a href="#" class="btn"><span>Buy Tickets</span></a></p>
+        <p data-reveal style="--d:400ms;margin:38px 0 0">
+          <a href="https://britishcouncilseason.co.ke/event/creatives-garage/" target="_blank" rel="noopener" class="btn"><span>RSVP Free</span></a>
+        </p>
+        <p class="event__apply" data-reveal style="--d:470ms">
+          <a href="https://docs.google.com/forms/d/e/1FAIpQLSf16nYBF9ZTqHCcmlNF4EV-wx_cbhbtoE0UmwYrbvikPc6VLg/viewform" target="_blank" rel="noopener">Apply as a vendor</a>
+          <i>&middot;</i>
+          <a href="https://forms.gle/kUf9KPKYfSqRENmdA" target="_blank" rel="noopener">Lead a workshop</a>
+        </p>
       </div>
       <div class="poster" id="poster">
-        <div class="poster__ghost"><img src="https://picsum.photos/seed/broms-event/700/930" alt="" loading="lazy"></div>
-        <div class="poster__card rv-img" data-reveal-img id="posterCard">
-          <img src="https://picsum.photos/seed/broms-event/900/1200" alt="Music event poster" loading="lazy">
-          <div class="poster__label">
-            <div class="poster__top"><b>Cooper Smoke</b>presents</div>
-            <div class="poster__mid"><small>Music</small>EVENT</div>
-            <div class="poster__date">Dec 13<span>Sunday</span></div>
-          </div>
-        </div>
+        <div class="poster__ghost"><img src="event-sondeka-ghost.jpg" alt="" loading="lazy"></div>
+        <a class="poster__card rv-img" data-reveal-img id="posterCard"
+           href="https://britishcouncilseason.co.ke/event/creatives-garage/" target="_blank" rel="noopener">
+          <img src="event-sondeka.jpg" alt="Sondeka Festival: The Return — 12/09, The Junction Mall" loading="lazy">
+        </a>
       </div>
     </div>
   </div>
@@ -744,7 +777,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       </article>
       <div class="blog__aside">
         <span class="eyebrow" data-reveal>News And Articles</span>
-        <h2 class="h-lg"><span class="line"><span>Latest In Broms</span></span></h2>
+        <h2 class="h-lg"><span class="line"><span>Latest From Ronny</span></span></h2>
         <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
         <p data-reveal style="--d:260ms;margin:36px 0 0"><a href="#" class="btn"><span>Read Blog</span></a></p>
       </div>
@@ -757,12 +790,13 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   <div class="wrap">
     <div class="ftr__grid">
       <div data-reveal>
-        <h4 class="logo" style="margin:0 0 18px;font-size:19px">BR<i class="logo__o"></i>MS</h4>
+        <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
         <p>Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad. Duis officia ullamco sunt nisi velit culpa.</p>
         <div class="ftr__social">
-          <a href="#">Fb</a><span class="dash"></span>
-          <a href="#">Tw</a><span class="dash"></span>
-          <a href="#">In</a>
+          <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
+          <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
+          <a href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn">Li</a><span class="dash"></span>
+          <a href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube">Yt</a>
         </div>
       </div>
       <div data-reveal style="--d:120ms">
@@ -781,7 +815,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><rect x="2" y="5" width="20" height="14" rx="2"/><path d="M2 7l10 6 10-6"/></svg>
-              <span>Info@broms.com</span>
+              <span>Info@ronny.com</span>
             </div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M5 3h4l2 5-3 2a12 12 0 006 6l2-3 5 2v4a2 2 0 01-2 2A17 17 0 013 5a2 2 0 012-2z"/></svg>
@@ -798,7 +832,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       </div>
     </div>
     <div class="ftr__bar">
-      <div>© All rights reserved. Broms 2020.</div>
+      <div>© All rights reserved. Ronny 2020.</div>
       <div><a href="#">Terms and Conditions</a><span>·</span><a href="#">Privacy Policy</a></div>
     </div>
   </div>
@@ -807,13 +841,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 <!-- ===================== MODAL ===================== -->
 <div class="modal" id="modal">
   <button class="modal__close" id="modalClose" aria-label="Close"></button>
-  <div class="modal__box">
-    <div>
+  <div class="modal__box" id="modalBox">
+    <div class="modal__ph">
       <div class="filmstrip" style="justify-content:center"><i></i><i></i><i></i><i></i><i></i></div>
       <h3 class="h-md" style="margin-top:22px">Showreel</h3>
-      <p>Drop your film in here — replace this box with a <code>&lt;video&gt;</code> tag or a YouTube/Vimeo iframe and it plays full-bleed.</p>
+      <p>Drop your film in here — add <code>data-video="YOUTUBE_ID"</code> to any play button and it opens here.</p>
     </div>
+    <div class="modal__frame" id="modalFrame"></div>
   </div>
+  <p class="modal__cap" id="modalCap"></p>
 </div>
 
 <script>
@@ -821,23 +857,12 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    IMAGES — swap these for your own files/URLs in one place.
    ============================================================ */
 const IMG = {
+  /* Hero shots — local files, two widths each so phones don't download the big one.
+     `pos` is the focal point CSS uses when the image is cropped to fit the screen. */
   hero: [
-    'https://picsum.photos/seed/broms-hero1/1920/1080',
-    'https://picsum.photos/seed/broms-hero2/1920/1080',
-    'https://picsum.photos/seed/broms-hero3/1920/1080'
-  ],
-  services: [
-    'https://picsum.photos/seed/broms-s1/600/780',
-    'https://picsum.photos/seed/broms-s2/600/780',
-    'https://picsum.photos/seed/broms-s3/600/780',
-    'https://picsum.photos/seed/broms-s4/600/780',
-    'https://picsum.photos/seed/broms-s5/600/780',
-    'https://picsum.photos/seed/broms-s6/600/780'
-  ],
-  cases: [
-    ['https://picsum.photos/seed/broms-c1/900/1120','https://picsum.photos/seed/broms-c1b/500/660'],
-    ['https://picsum.photos/seed/broms-c2/900/1120','https://picsum.photos/seed/broms-c2b/500/660'],
-    ['https://picsum.photos/seed/broms-c3/900/1120','https://picsum.photos/seed/broms-c3b/500/660']
+    { name:'hero-maasai',  pos:'58% 30%', alt:'Maasai moran raising a rungu, shield in hand, against an open sky' },
+    { name:'hero-matatu',  pos:'58% 45%', alt:'Dancer swinging from the door of a painted matatu on a Nairobi street' },
+    { name:'hero-rusinga', pos:'52% 42%', alt:'Shield-bearing performer striding out of the water at the Rusinga festival' }
   ],
   faces: [1,2,3,4,5].map(n => 'https://i.pravatar.cc/240?img=' + (n * 7))
 };
@@ -850,29 +875,37 @@ const HERO = [
 ];
 
 const SERVICES = [
-  { title:'Personal Session',   price:'$150' },
-  { title:'Wedding Day',        price:'$150' },
-  { title:'Commercial Session', price:'$150' },
-  { title:'Love Stories',       price:'$150' },
-  { title:'Studio Portrait',    price:'$150' },
-  { title:'Family Album',       price:'$150' }
+  { title:'Personal Session', price:'KSh 8,000',   slug:'svc-personal-session' },
+  { title:'Portraits',        price:'KSh 10,000',  slug:'svc-portraits' },
+  { title:'Wedding',          price:'KSh 85,000',  slug:'svc-wedding' },
+  { title:'Events',           price:'KSh 35,000',  slug:'svc-events' },
+  { title:'Documentaries',    price:'KSh 120,000', slug:'svc-documentaries' },
+  { title:'Editorials',       price:'KSh 45,000',  slug:'svc-editorials' },
+  { title:'Podcasts',         price:'KSh 25,000',  slug:'svc-podcasts' },
+  { title:'Shop',             price:'KSh 3,500',   slug:'svc-shop' }
 ];
 
 const CASES = [
   {
-    title:['Autumn Individual','Photosession 2020'],
-    desc:'Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad.',
-    meta:[['pin','Location','Green Garden Park'],['dress','Look','Diamond You'],['lash','Make Up','Lily Stoners'],['model','Model','Milana Walker']]
+    tag:'Weddings',
+    slug:'case-wedding',
+    title:['Joe &amp; Pauline','The Wedding, 2024'],
+    desc:'Every vow, every tear, every kiss. Your wedding day deserves more than photographs \u2014 it deserves a visual legacy. Crafted with intention by a Pan-African artist with international exhibition credits and a decade behind the lens.',
+    meta:[['rings','Couple','Joe &amp; Pauline'],['calendar','Year','2024'],['camera','Service','Wedding day'],['film','Coverage','Stills &amp; film']]
   },
   {
-    title:['Winter Editorial','Photosession 2020'],
-    desc:'Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad.',
-    meta:[['pin','Location','Old Harbour Docks'],['dress','Look','Northern Frost'],['lash','Make Up','Anna Reeds'],['model','Model','Kira Sandhu']]
+    tag:'Commercial',
+    slug:'case-sga',
+    title:['SGA Security','Courier Network'],
+    desc:'SGA Security Courier provides a range of professional and efficient courier services. With experienced and friendly staff, SGA is dedicated to catering to all client delivery needs within a large network of branches, depots and drop-off points in Uganda and Tanzania.',
+    meta:[['shield','Client','SGA Security'],['box','Service','Courier campaign'],['globe','Network','Uganda &amp; Tanzania'],['camera','Scope','Brand photography']]
   },
   {
-    title:['Summer Rooftop','Photosession 2020'],
-    desc:'Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur ad.',
-    meta:[['pin','Location','Skyline Terrace'],['dress','Look','Neon Bloom'],['lash','Make Up','Dee Morgan'],['model','Model','Lea Novak']]
+    tag:'Exhibition',
+    slug:'case-gtc',
+    title:['Nairobi GTC','Selected Works'],
+    desc:'Work selected and exhibited at the Nairobi GTC \u2014 street portraiture printed large and hung in the tower\u2019s public gallery, where the everyday styling of the city meets a marble wall.',
+    meta:[['frame','Venue','Nairobi GTC'],['palette','Role','Exhibiting artist'],['camera','Series','Street portraiture'],['film','Format','Large-format prints']]
   }
 ];
 
@@ -885,10 +918,15 @@ const SAID = [
 ];
 
 const ICONS = {
-  pin:'<svg viewBox="0 0 30 32"><path d="M15 29s9-8.6 9-16.5A9 9 0 106 12.5C6 20.4 15 29 15 29z"/><circle cx="15" cy="12.4" r="3.4"/></svg>',
-  dress:'<svg viewBox="0 0 30 32"><path d="M11 4h8l-1.6 5.4L15 12l-2.4-2.6L11 4z"/><path d="M12.6 9.4 6 27h18L17.4 9.4"/><path d="M9 20h12"/></svg>',
-  lash:'<svg viewBox="0 0 30 32"><path d="M4 17c4-5.6 18-5.6 22 0"/><path d="M6 19.6 4.4 24M11 21.4l-.8 4.6M15.4 22l.2 4.8M20 21.2l1 4.6M24 19.2 25.8 23.6"/></svg>',
-  model:'<svg viewBox="0 0 30 32"><path d="M10 12a5 5 0 0110 0v3a5 5 0 01-10 0z"/><path d="M10.6 8.4c3-2.6 7-2.4 9 .6M6 29c1.4-5 4.6-7.4 9-7.4S22.6 24 24 29"/><path d="M13 19.6h4"/></svg>'
+  rings:'<svg viewBox="0 0 30 32"><circle cx="12" cy="20" r="7.4"/><circle cx="19.5" cy="20" r="7.4"/><path d="M15.8 6.6 18 10h-6l2.2-3.4z"/></svg>',
+  calendar:'<svg viewBox="0 0 30 32"><rect x="4.5" y="8" width="21" height="18" rx="2"/><path d="M4.5 14h21M10 5v5M20 5v5"/></svg>',
+  camera:'<svg viewBox="0 0 30 32"><path d="M4 12h4l2-3h10l2 3h4a1.6 1.6 0 011.6 1.6v9.8A1.6 1.6 0 0126 25H4a1.6 1.6 0 01-1.6-1.6v-9.8A1.6 1.6 0 014 12z"/><circle cx="15" cy="18.4" r="4.4"/></svg>',
+  film:'<svg viewBox="0 0 30 32"><rect x="3.5" y="8.5" width="23" height="15" rx="1.6"/><path d="M9 8.5v15M21 8.5v15M3.5 12h5.5M3.5 16h5.5M3.5 20h5.5M21 12h5.5M21 16h5.5M21 20h5.5"/></svg>',
+  box:'<svg viewBox="0 0 30 32"><path d="M15 6.5 26 11v11l-11 4.5L4 22V11z"/><path d="M4 11l11 4.5L26 11M15 15.5V26.5M9.5 8.7 20.5 13.4"/></svg>',
+  globe:'<svg viewBox="0 0 30 32"><circle cx="15" cy="16" r="11"/><path d="M4 16h22M15 5c3.4 3.2 3.4 18.8 0 22M15 5c-3.4 3.2-3.4 18.8 0 22"/></svg>',
+  shield:'<svg viewBox="0 0 30 32"><path d="M15 4.5l10 3.4v8c0 6-4.2 10-10 12-5.8-2-10-6-10-12v-8z"/><path d="M11 16.2l3 3 5.6-5.8"/></svg>',
+  frame:'<svg viewBox="0 0 30 32"><rect x="4" y="6.5" width="22" height="19" rx="1.4"/><rect x="8.4" y="10.6" width="13.2" height="10.8"/><path d="M15 25.5v3"/></svg>',
+  palette:'<svg viewBox="0 0 30 32"><path d="M15 5.5c6.6 0 11.5 4.4 11.5 10 0 3.4-2.6 5-5 5h-2.2c-1.7 0-3 1.2-3 2.8 0 .8.3 1.4.7 2 .4.5.6 1 .6 1.6 0 1-.8 1.6-2.1 1.6C8.4 28.5 3.5 23.4 3.5 16.5s5-11 11.5-11z"/><circle cx="10" cy="13" r="1.5"/><circle cx="15" cy="10.4" r="1.5"/><circle cx="20" cy="13" r="1.5"/></svg>'
 };
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -941,10 +979,16 @@ window.addEventListener('load', ()=>{
    Hero slider
    ============================================================ */
 const heroBg = $('#heroBg');
-IMG.hero.forEach((src,i)=>{
+IMG.hero.forEach((h,i)=>{
   const d = document.createElement('div');
   d.className = 'hero__slide';
-  d.innerHTML = `<img src="${src}" alt="Photography work ${i+1}" ${i? 'loading="lazy"':''}>`;
+  d.innerHTML = `<img
+      src="${h.name}-1920.jpg"
+      srcset="${h.name}-1280.jpg 1280w, ${h.name}-1920.jpg 1920w"
+      sizes="100vw"
+      alt="${h.alt}"
+      style="object-position:${h.pos}"
+      ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>`;
   heroBg.appendChild(d);
 });
 const heroSlides = $$('.hero__slide');
@@ -998,7 +1042,7 @@ SERVICES.forEach((s,i)=>{
   el.className = 'card';
   el.innerHTML = `
     <div class="card__media rv-img" data-reveal-img style="--d:${i*110}ms">
-      <img src="${IMG.services[i]}" alt="${s.title}" loading="lazy" draggable="false">
+      <img src="${s.slug}.jpg" alt="${s.title}" loading="lazy" draggable="false">
     </div>
     <h3 class="card__title">${s.title}</h3>
     <p class="card__price">from <b>${s.price}</b></p>`;
@@ -1044,9 +1088,12 @@ function renderCase(i, instant){
     $('#caseDesc').textContent = c.desc;
     $('#caseMeta').innerHTML = c.meta.map(([ic,label,val])=>
       `<div class="meta">${ICONS[ic]}<div><dt>${label}</dt><dd>${val}</dd></div></div>`).join('');
-    $('#caseMain').src  = IMG.cases[caseIdx][0];
-    $('#caseBack').src  = IMG.cases[caseIdx][1];
-    $('#caseGhost').src = IMG.cases[caseIdx][0];
+    $('#caseTag').textContent = 'Cases \u00b7 ' + c.tag;
+    $('#caseCount').innerHTML = `<b>${String(caseIdx+1).padStart(2,'0')}</b> / ${String(CASES.length).padStart(2,'0')}`;
+    $('#caseMain').src  = `${c.slug}-main.jpg`;
+    $('#caseMain').alt  = c.title.join(' ').replace(/&amp;/g,'&');
+    $('#caseBack').src  = `${c.slug}-back.jpg`;
+    $('#caseGhost').src = `${c.slug}-main.jpg`;
     caseGrid.classList.remove('is-swapping');
   };
   if(instant || reduce){ go(); return; }
@@ -1137,11 +1184,26 @@ $$('[data-sub]').forEach(btn=>{
   });
 });
 
-const modal = $('#modal');
+const modal = $('#modal'), modalBox = $('#modalBox'), modalFrame = $('#modalFrame');
 $$('[data-modal]').forEach(b=>b.addEventListener('click',()=>{
+  const id = b.dataset.video;
+  if(id){
+    modalBox.classList.toggle('is-wide', b.dataset.ratio === 'wide' || !b.closest('.hero'));
+    modalFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1"
+        title="${b.getAttribute('aria-label') || 'Video'}" allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    $('#modalCap').textContent = b.dataset.caption || $('.hero__note').textContent;
+    modalBox.classList.add('is-video');
+    modal.classList.add('has-video');
+  }
   modal.classList.add('is-open'); document.body.classList.add('is-locked');
 }));
-const closeModal = ()=>{ modal.classList.remove('is-open'); document.body.classList.remove('is-locked'); };
+const closeModal = ()=>{
+  modal.classList.remove('is-open');
+  document.body.classList.remove('is-locked');
+  modal.classList.remove('has-video');
+  setTimeout(()=>{ modalFrame.innerHTML = ''; modalBox.classList.remove('is-video','is-wide'); }, 400);  // unloading the iframe stops playback
+};
 $('#modalClose').addEventListener('click', closeModal);
 modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
 addEventListener('keydown', e=>{ if(e.key === 'Escape'){ closeModal(); closeMenu(); $$('[data-nav-has]').forEach(i=>i.classList.remove('is-open')); } });
