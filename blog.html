@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="page-banner-1920.jpg"
+      imagesrcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
    RONNY — tokens
@@ -246,9 +248,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 
 /* hero side rails */
 .rail{position:absolute;z-index:5;display:flex;align-items:center;gap:16px}
-.rail--social{left:calc(var(--pad) - 16px);bottom:120px;flex-direction:column;color:#cfd3dd;font-size:11.5px;letter-spacing:.12em}
-.rail--social a{transition:color .35s,transform .35s var(--ease);display:inline-block}
-.rail--social a:hover{color:#fff;transform:translateY(-3px)}
+.rail--social{left:calc(var(--pad) - 18px);bottom:110px;flex-direction:column;gap:12px}
+.rail--social a{transition:color .35s,transform .35s var(--ease)}
 .rail--social .dash{width:1px;height:14px;background:rgba(255,255,255,.35)}
 .rail--dots{right:calc(var(--pad) - 6px);top:50%;transform:translateY(-50%);flex-direction:column;gap:14px;align-items:flex-end}
 .dot{font-size:14px;font-weight:500;color:rgba(255,255,255,.42);letter-spacing:.02em;transition:color .4s,font-size .4s var(--ease);line-height:1}
@@ -408,9 +409,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .ftr__grid > *{min-width:0}
 .ftr h4{font-size:19px;font-weight:600;margin:0 0 18px}
 .ftr p{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;max-width:38ch}
-.ftr__social{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px;letter-spacing:.1em}
+.ftr__social{display:flex;align-items:center;gap:12px;margin-top:28px}
+/* social icon buttons */
+.soc{display:inline-flex !important;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.78);flex:0 0 auto;
+  transition:color .35s var(--ease),background .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+.soc svg{width:17px;height:17px;fill:currentColor;display:block;margin:auto}
+.soc:hover{color:#0a0a0f;background:#fff;border-color:#fff;transform:translateY(-2px)}
+
 .ftr__social .dash{width:10px;height:1px;background:rgba(255,255,255,.3)}
-.ftr__social a:hover{opacity:.65}
 .sub{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;width:100%;max-width:430px}
 .sub input{
   flex:1 1 180px;min-width:0;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
@@ -608,9 +615,8 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 .author__pic img{width:100%;height:100%;object-fit:cover}
 .author h3{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin:18px 0 0}
 .author p{color:var(--muted);font-size:12.5px;line-height:1.9;margin:12px 0 0}
-.author__soc{display:flex;align-items:center;justify-content:center;gap:12px;margin-top:20px;font-size:12px}
+.author__soc{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px}
 .author__soc .dash{width:8px;height:1px;background:rgba(255,255,255,.3)}
-.author__soc a:hover{opacity:.6}
 .side h3.side__title{font-size:19px;font-weight:600;margin:0 0 20px}
 .rp{display:flex;gap:14px;text-decoration:none;align-items:flex-start;margin-bottom:20px}
 .rp__pic{width:40px;height:40px;flex:0 0 auto;overflow:hidden;background:var(--panel-2)}
@@ -717,7 +723,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <!-- ===================== PAGE BANNER ===================== -->
 <section class="pbanner" id="pbanner">
-  <img src="https://picsum.photos/seed/broms-lens/1920/1080" alt="Camera lens close-up">
+  <img src="page-banner-1920.jpg" srcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" sizes="100vw" fetchpriority="high" alt="Camera lens close-up">
   <div class="pbanner__veil"></div>
   <div class="radar pbanner__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="pbanner__inner">
@@ -749,10 +755,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
           <h3>Ariana Bennett</h3>
           <p>Hi! I&rsquo;m an author of this blog. I would be glad if my posts are useful to you.</p>
           <div class="author__soc">
-            <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
-            <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
-            <a href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn">Li</a><span class="dash"></span>
-            <a href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube">Yt</a>
+            <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
+    <a class="soc" href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.39C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.39 2.12.66.66 1.33 1.08 2.12 1.39.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.73 2.12-1.39.66-.66 1.08-1.33 1.39-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.73-1.46-1.39-2.12C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
+    <a class="soc" href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+    <a class="soc" href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="-0.85 -0.85 25.7 25.7" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
           </div>
         </div>
 
@@ -793,10 +799,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
         <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
-          <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
-          <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
-          <a href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn">Li</a><span class="dash"></span>
-          <a href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube">Yt</a>
+          <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
+    <a class="soc" href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.39C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.39 2.12.66.66 1.33 1.08 2.12 1.39.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.73 2.12-1.39.66-.66 1.08-1.33 1.39-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.73-1.46-1.39-2.12C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
+    <a class="soc" href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+    <a class="soc" href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="-0.85 -0.85 25.7 25.7" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
         </div>
       </div>
       <div data-reveal style="--d:120ms">
@@ -995,13 +1001,18 @@ $('#tags').addEventListener('click', e=>{
 render(false);
 
 /* ---------- boot ---------- */
-window.addEventListener('load', ()=>{
-  setTimeout(()=>{
+/* boot on window.load, but never wait longer than 2.2s — a slow image
+   must not leave the visitor staring at the preloader */
+let booted = false;
+function boot(){
+  if(booted) return; booted = true;
     $('#preload').classList.add('is-done');
-    $('#pbanner').classList.add('is-ready');
-    observe(document);
-  }, reduce ? 100 : 1450);
-});
+  $('#pbanner').classList.add('is-ready');
+  observe(document);
+}
+const BOOT_WAIT = reduce ? 100 : 1450;
+window.addEventListener('load', ()=>setTimeout(boot, BOOT_WAIT));
+setTimeout(boot, reduce ? 200 : 2200);
 
 /* ---------- header, menu, dropdown ---------- */
 const hdr = $('#hdr');

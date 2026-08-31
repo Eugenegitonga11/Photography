@@ -7,6 +7,8 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
+<link rel="preload" as="image" href="page-banner-1920.jpg"
+      imagesrcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
    RONNY — tokens
@@ -730,7 +732,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <!-- ===================== PAGE BANNER ===================== -->
 <section class="pbanner" id="pbanner">
-  <img src="https://picsum.photos/seed/broms-lens/1920/1080" alt="Camera lens close-up">
+  <img src="page-banner-1920.jpg" srcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" sizes="100vw" fetchpriority="high" alt="Camera lens close-up">
   <div class="pbanner__veil"></div>
   <div class="radar pbanner__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="pbanner__inner">
@@ -963,13 +965,18 @@ const io = new IntersectionObserver(es=>es.forEach(e=>{
 }),{threshold:.16, rootMargin:'0px 0px -8% 0px'});
 function observe(){ $$('[data-reveal], [data-reveal-img], h1 .line, h2 .line, h3 .line').forEach(el=>io.observe(el)); }
 
-window.addEventListener('load', ()=>{
-  setTimeout(()=>{
+/* boot on window.load, but never wait longer than 2.2s — a slow image
+   must not leave the visitor staring at the preloader */
+let booted = false;
+function boot(){
+  if(booted) return; booted = true;
     $('#preload').classList.add('is-done');
-    $('#pbanner').classList.add('is-ready');
-    observe();
-  }, reduce ? 100 : 1450);
-});
+  $('#pbanner').classList.add('is-ready');
+  observe();
+}
+const BOOT_WAIT = reduce ? 100 : 1450;
+window.addEventListener('load', ()=>setTimeout(boot, BOOT_WAIT));
+setTimeout(boot, reduce ? 200 : 2200);
 
 /* ---------- team carousel (looping) ---------- */
 const viewport = $('#teamViewport'), track = $('#teamTrack');

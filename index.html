@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Ronny — Photographer</title>
+<title>Ronny — Photography Studio</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -646,7 +646,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       <div class="svc__head">
         <span class="eyebrow" data-reveal>Services</span>
         <h2 class="h-lg"><span class="line"><span>What I Do</span></span></h2>
-        <p class="p-body" data-reveal style="--d:150ms">Portraits, weddings, documentary and commercial work shot across Nairobi and on assignment anywhere the story leads. Every booking starts with a conversation about what you actually need.</p>
+        <p class="p-body" data-reveal style="--d:150ms">Portraits, weddings, documentary and commercial work — shot across Nairobi and on assignment anywhere the story leads. Every booking starts with a conversation about what you actually need.</p>
         <p data-reveal style="--d:280ms;margin:38px 0 0"><a href="portfolio.html" class="btn"><span>All Services</span></a></p>
         <p class="svc__hint" data-reveal style="--d:380ms">Swipe to browse →</p>
       </div>
@@ -722,7 +722,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
           <span class="line"><span>Sondeka ALT</span></span>
           <span class="line"><span style="--d:120ms">The Return</span></span>
         </h2>
-        <p class="p-body" data-reveal style="--d:150ms">A one-day public festival celebrating the energy and diversity of contemporary African creativity music, fashion, film, games, digital art and creative technology under one roof.</p>
+        <p class="p-body" data-reveal style="--d:150ms">A one-day public festival celebrating the energy and diversity of contemporary African creativity &mdash; music, fashion, film, games, digital art and creative technology under one roof.</p>
         <p class="p-body" data-reveal style="--d:210ms">Expect live performances, DJs, a fashion show, screenings, interactive installations, panel discussions, creative workshops and a vibrant marketplace. A collaboration between Creatives Garage (Kenya) and B-Side Festival (UK), celebrating Nairobi&rsquo;s evolving creative scene.</p>
         <h3 class="event__sub" data-reveal style="--d:260ms">Free Entry &mdash; RSVP To Attend</h3>
         <dl class="event__facts" data-reveal style="--d:320ms">
@@ -915,14 +915,14 @@ const CASES = [
     tag:'Weddings',
     slug:'case-wedding',
     title:['Joe &amp; Pauline','The Wedding, 2024'],
-    desc:'Every vow, every tear, every kiss. Your wedding day deserves more than photographs - it deserves a visual legacy. Crafted with intention by a Pan-African artist with international exhibition credits and a decade behind the lens.',
+    desc:'Every vow, every tear, every kiss. Your wedding day deserves more than photographs \u2014 it deserves a visual legacy. Crafted with intention by a Pan-African artist with international exhibition credits and a decade behind the lens.',
     meta:[['rings','Couple','Joe &amp; Pauline'],['calendar','Year','2024'],['camera','Service','Wedding day'],['film','Coverage','Stills &amp; film']]
   },
   {
     tag:'Documentary',
     slug:'case-esafiri',
     title:['E-safiri','Earthshot Kenya'],
-    desc:'Swap-and-go charging for electric boda bodas, photographed for Earthshot Kenya. Riders pull in, change a battery and are back on the road African innovators building the answer to climate change where the traffic actually is.',
+    desc:'Swap-and-go charging for electric boda bodas, photographed for Earthshot Kenya. Riders pull in, change a battery and are back on the road \u2014 African innovators building the answer to climate change where the traffic actually is.',
     meta:[['shield','Client','E-safiri'],['pin','Location','Kisumu, Kenya'],['globe','Programme','Earthshot Kenya'],['film','Coverage','Stills &amp; film']]
   },
   {
@@ -1000,14 +1000,19 @@ function observe(root=document){
 /* ============================================================
    Preloader → hero intro
    ============================================================ */
-window.addEventListener('load', ()=>{
-  setTimeout(()=>{
+/* boot on window.load, but never wait longer than 2.2s — a slow image
+   must not leave the visitor staring at the preloader */
+let booted = false;
+function boot(){
+  if(booted) return; booted = true;
     $('#preload').classList.add('is-done');
-    document.body.classList.add('is-ready');
-    playHero(0, true);
-    observe();
-  }, reduce ? 100 : 1450);
-});
+  document.body.classList.add('is-ready');
+  playHero(0, true);
+  observe();
+}
+const BOOT_WAIT = reduce ? 100 : 1450;
+window.addEventListener('load', ()=>setTimeout(boot, BOOT_WAIT));
+setTimeout(boot, reduce ? 200 : 2200);
 
 /* ============================================================
    Hero slider
