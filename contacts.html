@@ -46,8 +46,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 :focus-visible{outline:2px solid #fff;outline-offset:4px}
 
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
-.sec{position:relative;padding:130px 0}
-.sec--tight{padding:110px 0}
+.sec{position:relative;padding:92px 0}
+.sec--tight{padding:76px 0}
 
 /* ---------- shared type ---------- */
 .eyebrow{
@@ -94,10 +94,13 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- cursor ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-.cursor{width:34px;height:34px;border:1px solid rgba(255,255,255,.6);margin:-17px 0 0 -17px;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),opacity .3s}
-.cursor-dot{width:4px;height:4px;background:#fff;margin:-2px 0 0 -2px}
-.cursor.is-big{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:rgba(255,255,255,.9)}
+.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference}
+.cursor{width:46px;height:38px;margin:-19px 0 0 -23px;transition:opacity .3s}
+.cursor svg{width:100%;height:100%;display:block;overflow:visible;
+  stroke:rgba(255,255,255,.72);fill:none;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;
+  transform-origin:50% 50%;transition:transform .35s var(--ease),stroke .35s var(--ease)}
+.cursor-dot{width:4px;height:4px;border-radius:50%;background:#fff;margin:-2px 0 0 -2px}
+.cursor.is-big svg{transform:scale(1.45);stroke:rgba(255,255,255,.95)}
 @media (hover:none),(max-width:900px){.cursor,.cursor-dot{display:none}}
 
 /* ============================================================
@@ -401,7 +404,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    Footer
    ============================================================ */
 .ftr{background:var(--panel);border-top:1px solid var(--line-soft)}
-.ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:78px 0}
+.ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:66px 0}
 .ftr__grid > *{min-width:0}
 .ftr h4{font-size:19px;font-weight:600;margin:0 0 18px}
 .ftr p{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;max-width:38ch}
@@ -474,7 +477,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   .line > span{transform:none}
   .rv-img::after{display:none}
 }
-@media(max-width:640px){:root{--pad:22px}.sec{padding:88px 0}}
+@media(max-width:640px){:root{--pad:22px}.sec{padding:62px 0}}
 
 /* ============================================================
    About Me — page specific
@@ -553,7 +556,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 /* ============================================================
    Contacts — page specific
    ============================================================ */
-.ct{position:relative;overflow:hidden;padding:110px 0 118px}
+.ct{position:relative;overflow:hidden;padding:90px 0 94px}
 .ct__radar{width:560px;height:560px;right:-190px;top:40px;opacity:.10}
 .ct__grid{position:relative;z-index:2;display:grid;grid-template-columns:minmax(0,1fr) 240px;gap:100px;align-items:start}
 .ct__grid > *{min-width:0}
@@ -618,7 +621,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="preload__bar"></div>
 </div>
 
-<div class="cursor" id="cursor"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 46 38"><path d="M6 10.5h7.5l2.6-4h14.8l2.6 4H40a3 3 0 013 3v15a3 3 0 01-3 3H6a3 3 0 01-3-3v-15a3 3 0 013-3z"/><circle cx="23" cy="21" r="7.4"/><circle cx="36.4" cy="15.2" r="1.1"/></svg></div>
 <div class="cursor-dot" id="cursorDot"></div>
 
 <header class="hdr" id="hdr">

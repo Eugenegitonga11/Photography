@@ -46,8 +46,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 :focus-visible{outline:2px solid #fff;outline-offset:4px}
 
 .wrap{max-width:var(--wrap);margin:0 auto;padding:0 var(--pad)}
-.sec{position:relative;padding:130px 0}
-.sec--tight{padding:110px 0}
+.sec{position:relative;padding:92px 0}
+.sec--tight{padding:76px 0}
 
 /* ---------- shared type ---------- */
 .eyebrow{
@@ -94,10 +94,13 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 @keyframes spin{to{transform:rotate(360deg)}}
 
 /* ---------- cursor ---------- */
-.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;border-radius:50%;mix-blend-mode:difference}
-.cursor{width:34px;height:34px;border:1px solid rgba(255,255,255,.6);margin:-17px 0 0 -17px;transition:width .3s var(--ease),height .3s var(--ease),margin .3s var(--ease),opacity .3s}
-.cursor-dot{width:4px;height:4px;background:#fff;margin:-2px 0 0 -2px}
-.cursor.is-big{width:64px;height:64px;margin:-32px 0 0 -32px;border-color:rgba(255,255,255,.9)}
+.cursor,.cursor-dot{position:fixed;top:0;left:0;z-index:9999;pointer-events:none;mix-blend-mode:difference}
+.cursor{width:46px;height:38px;margin:-19px 0 0 -23px;transition:opacity .3s}
+.cursor svg{width:100%;height:100%;display:block;overflow:visible;
+  stroke:rgba(255,255,255,.72);fill:none;stroke-width:1.4;stroke-linejoin:round;stroke-linecap:round;
+  transform-origin:50% 50%;transition:transform .35s var(--ease),stroke .35s var(--ease)}
+.cursor-dot{width:4px;height:4px;border-radius:50%;background:#fff;margin:-2px 0 0 -2px}
+.cursor.is-big svg{transform:scale(1.45);stroke:rgba(255,255,255,.95)}
 @media (hover:none),(max-width:900px){.cursor,.cursor-dot{display:none}}
 
 /* ============================================================
@@ -243,9 +246,8 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 
 /* hero side rails */
 .rail{position:absolute;z-index:5;display:flex;align-items:center;gap:16px}
-.rail--social{left:calc(var(--pad) - 16px);bottom:120px;flex-direction:column;color:#cfd3dd;font-size:11.5px;letter-spacing:.12em}
-.rail--social a{transition:color .35s,transform .35s var(--ease);display:inline-block}
-.rail--social a:hover{color:#fff;transform:translateY(-3px)}
+.rail--social{left:calc(var(--pad) - 18px);bottom:110px;flex-direction:column;gap:12px}
+.rail--social a{transition:color .35s,transform .35s var(--ease)}
 .rail--social .dash{width:1px;height:14px;background:rgba(255,255,255,.35)}
 .rail--dots{right:calc(var(--pad) - 6px);top:50%;transform:translateY(-50%);flex-direction:column;gap:14px;align-items:flex-end}
 .dot{font-size:14px;font-weight:500;color:rgba(255,255,255,.42);letter-spacing:.02em;transition:color .4s,font-size .4s var(--ease);line-height:1}
@@ -266,12 +268,11 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .svc__scroller{
   position:relative;overflow-x:auto;overflow-y:hidden;margin-right:calc(var(--pad) * -1);
   -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
-  scroll-snap-type:x proximity;scrollbar-width:none;-ms-overflow-style:none;
+  scrollbar-width:none;-ms-overflow-style:none;
 }
 .svc__scroller::-webkit-scrollbar{display:none}
 .svc__track{display:flex;gap:14px;width:max-content;padding-right:var(--pad);cursor:grab}
 .svc__track.is-dragging{cursor:grabbing}
-.card{scroll-snap-align:start}
 .card{flex:0 0 224px;user-select:none}
 .card__media{position:relative;overflow:hidden;aspect-ratio:224/288;background:var(--panel-2)}
 .card__media img{width:100%;height:100%;object-fit:cover;transition:transform 1.1s var(--ease-out),filter .8s}
@@ -411,13 +412,19 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
    Footer
    ============================================================ */
 .ftr{background:var(--panel);border-top:1px solid var(--line-soft)}
-.ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:78px 0}
+.ftr__grid{display:grid;grid-template-columns:1.05fr 1fr 1.2fr;gap:56px;padding:66px 0}
 .ftr__grid > *{min-width:0}
 .ftr h4{font-size:19px;font-weight:600;margin:0 0 18px}
 .ftr p{color:var(--muted);font-size:13.5px;line-height:1.9;margin:0;max-width:38ch}
-.ftr__social{display:flex;align-items:center;gap:14px;margin-top:28px;font-size:12px;letter-spacing:.1em}
+.ftr__social{display:flex;align-items:center;gap:12px;margin-top:28px}
+/* social icon buttons */
+.soc{display:inline-flex !important;align-items:center;justify-content:center;width:34px;height:34px;border-radius:50%;
+  border:1px solid rgba(255,255,255,.16);color:rgba(255,255,255,.78);flex:0 0 auto;
+  transition:color .35s var(--ease),background .35s var(--ease),border-color .35s var(--ease),transform .35s var(--ease)}
+.soc svg{width:17px;height:17px;fill:currentColor;display:block;margin:auto}
+.soc:hover{color:#0a0a0f;background:#fff;border-color:#fff;transform:translateY(-2px)}
+
 .ftr__social .dash{width:10px;height:1px;background:rgba(255,255,255,.3)}
-.ftr__social a:hover{opacity:.65}
 .sub{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px;width:100%;max-width:430px}
 .sub input{
   flex:1 1 180px;min-width:0;height:48px;border-radius:60px;border:1px solid var(--line);background:rgba(255,255,255,.03);
@@ -484,7 +491,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   .line > span{transform:none}
   .rv-img::after{display:none}
 }
-@media(max-width:640px){:root{--pad:22px}.sec{padding:88px 0}}
+@media(max-width:640px){:root{--pad:22px}.sec{padding:62px 0}}
 
 /* ============================================================
    About Me — page specific
@@ -518,7 +525,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .intro__main img{width:100%;height:100%;object-fit:cover;transition:transform 1.6s var(--ease-out)}
 .intro__main:hover img{transform:scale(1.04)}
 
-.skills{border-top:1px solid var(--line-soft);padding-top:96px;margin-top:20px}
+.skills{border-top:1px solid var(--line-soft);padding-top:74px;margin-top:14px}
 .skills__grid{display:grid;grid-template-columns:1fr 1fr;gap:60px 90px}
 .skill{display:flex;gap:28px;align-items:center}
 .ring{position:relative;width:98px;height:98px;flex:0 0 auto}
@@ -593,7 +600,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="preload__bar"></div>
 </div>
 
-<div class="cursor" id="cursor"></div>
+<div class="cursor" id="cursor" aria-hidden="true"><svg viewBox="0 0 46 38"><path d="M6 10.5h7.5l2.6-4h14.8l2.6 4H40a3 3 0 013 3v15a3 3 0 01-3 3H6a3 3 0 01-3-3v-15a3 3 0 013-3z"/><circle cx="23" cy="21" r="7.4"/><circle cx="36.4" cy="15.2" r="1.1"/></svg></div>
 <div class="cursor-dot" id="cursorDot"></div>
 
 <header class="hdr" id="hdr">
@@ -639,7 +646,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <!-- ===================== PAGE BANNER ===================== -->
 <section class="pbanner" id="pbanner">
-  <img src="https://picsum.photos/seed/broms-about-banner/1920/1080" alt="Andrew Johnson at work">
+  <img src="https://picsum.photos/seed/broms-about-banner/1920/1080" alt="Ronny Onkeo at work">
   <div class="pbanner__veil"></div>
   <div class="radar pbanner__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="pbanner__inner">
@@ -657,15 +664,15 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <span class="eyebrow" data-reveal>My Mission</span>
         <h2 class="h-lg">
           <span class="line"><span>Hello! My Name Is</span></span>
-          <span class="line"><span style="--d:120ms">Andrew Johnson</span></span>
+          <span class="line"><span style="--d:120ms">Ronny Onkeo</span></span>
         </h2>
         <p class="p-body" data-reveal style="--d:180ms">My style is a combination between photojournalism and fine-art photography with a touch of fashion and creative lighting.</p>
         <p class="p-body" data-reveal style="--d:280ms">My photos are inspired by light, techniques from black &amp; white processing, vintage photos, creative perspective, and of course, most importantly, the personalities of the people I photograph!</p>
         <p data-reveal style="--d:400ms;margin:40px 0 0"><a href="portfolio.html" class="btn"><span>My Works</span></a></p>
       </div>
       <div class="intro__visual">
-        <div class="intro__ghost"><img src="https://picsum.photos/seed/broms-andrew/500/660" alt="" loading="lazy"></div>
-        <div class="intro__main rv-img" data-reveal-img><img src="https://picsum.photos/seed/broms-andrew/900/1080" alt="Andrew Johnson, photographer" loading="lazy"></div>
+        <div class="intro__ghost"><img src="about-ronny-ghost.jpg" alt="" loading="lazy"></div>
+        <div class="intro__main rv-img" data-reveal-img><img src="about-ronny.jpg" alt="Ronny Onkeo, photographer" loading="lazy"></div>
       </div>
     </div>
 
@@ -682,10 +689,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <div class="svc">
       <div class="svc__head">
         <span class="eyebrow" data-reveal>Services</span>
-        <h2 class="h-lg"><span class="line"><span>What We Do</span></span></h2>
+        <h2 class="h-lg"><span class="line"><span>What I Do</span></span></h2>
         <p class="p-body" data-reveal style="--d:150ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur officia ullamco sunt nisi velit culpa.</p>
         <p data-reveal style="--d:280ms;margin:38px 0 0"><a href="portfolio.html" class="btn"><span>All Services</span></a></p>
-        <p class="svc__hint" data-reveal style="--d:380ms">Swipe to explore &rarr;</p>
+        <p class="svc__hint" data-reveal style="--d:380ms">Swipe to browse &rarr;</p>
       </div>
       <div class="svc__scroller" id="svcScroller">
         <div class="svc__track" id="svcTrack"></div>
@@ -739,10 +746,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
         <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
-          <a href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook">Fb</a><span class="dash"></span>
-          <a href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram">Ig</a><span class="dash"></span>
-          <a href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn">Li</a><span class="dash"></span>
-          <a href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube">Yt</a>
+          <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
+    <a class="soc" href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.39C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.39 2.12.66.66 1.33 1.08 2.12 1.39.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.73 2.12-1.39.66-.66 1.08-1.33 1.39-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.73-1.46-1.39-2.12C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
+    <a class="soc" href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
+    <a class="soc" href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="-0.85 -0.85 25.7 25.7" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
         </div>
       </div>
       <div data-reveal style="--d:120ms">
@@ -875,23 +882,40 @@ window.addEventListener('load', ()=>{
 
 /* ---------- services row ---------- */
 const track = $('#svcTrack');
-SERVICES.forEach((s,i)=>{
+/* rendered twice so the drift can loop without a visible jump */
+[...SERVICES, ...SERVICES].forEach((s,i)=>{
+  const clone = i >= SERVICES.length;
   const el = document.createElement('article');
   el.className = 'card';
+  if(clone) el.setAttribute('aria-hidden','true');
   el.innerHTML = `
-    <div class="card__media rv-img" data-reveal-img style="--d:${i*110}ms">
-      <img src="${s.slug}.jpg" alt="${s.title}" loading="lazy" draggable="false">
+    <div class="card__media${clone ? '' : ' rv-img'}"${clone ? '' : ' data-reveal-img'} style="--d:${(i % SERVICES.length)*110}ms">
+      <img src="${s.slug}.jpg" alt="${clone ? '' : s.title}" loading="lazy" draggable="false">
     </div>
     <h3 class="card__title">${s.title}</h3>
     <p class="card__price">from <b>${s.price}</b></p>`;
   track.appendChild(el);
 });
-/* native scrolling does the work — touch gets real momentum, mouse gets click-and-drag */
-(function drag(){
+/* Slow, endless drift. The card list is rendered twice, so when the scroller passes
+   the halfway mark we jump back by exactly one set and nobody sees the seam.
+   It pauses on hover, while dragging, and for a moment after a swipe. */
+(function marquee(){
   const scroller = $('#svcScroller');
+  const SPEED = 22;                       // pixels per second — raise for a faster drift
   let startX = 0, startLeft = 0, dragging = false, moved = false;
+  let paused = false, resumeAt = 0, last = performance.now();
+
+  const half = () => track.scrollWidth / 2;
+  const hold = ms => { resumeAt = performance.now() + ms; };
+
+  scroller.addEventListener('pointerenter', ()=>{ if(!matchMedia('(hover:none)').matches) paused = true; });
+  scroller.addEventListener('pointerleave', ()=>{ paused = false; });
+  scroller.addEventListener('touchstart', ()=>hold(4000), {passive:true});
+  scroller.addEventListener('wheel',      ()=>hold(4000), {passive:true});
+
   scroller.addEventListener('pointerdown', e=>{
-    if(e.pointerType === 'touch') return;            // let the browser handle swipes
+    hold(4000);
+    if(e.pointerType === 'touch') return;   // let the browser handle swipes
     dragging = true; moved = false;
     startX = e.clientX; startLeft = scroller.scrollLeft;
     track.classList.add('is-dragging');
@@ -903,10 +927,29 @@ SERVICES.forEach((s,i)=>{
     if(Math.abs(d) > 4) moved = true;
     scroller.scrollLeft = startLeft - d;
   });
-  const end = ()=>{ dragging = false; track.classList.remove('is-dragging'); };
+  const end = ()=>{ dragging = false; track.classList.remove('is-dragging'); hold(2500); };
   scroller.addEventListener('pointerup', end);
   scroller.addEventListener('pointercancel', end);
   scroller.addEventListener('click', e=>{ if(moved){ e.preventDefault(); e.stopPropagation(); } }, true);
+
+  if(reduce) return;                        // no drift for reduced-motion visitors
+  /* keep our own float position — reading scrollLeft back each frame rounds away
+     the sub-pixel step and the drift stalls */
+  let pos = scroller.scrollLeft;
+  (function tick(now){
+    const dt = Math.min(now - last, 100) / 1000;
+    last = now;
+    const running = !paused && !dragging && now > resumeAt && !document.hidden;
+    if(running){
+      const h = half();
+      pos += SPEED * dt;
+      if(h && pos >= h) pos -= h;           // seamless wrap
+      scroller.scrollLeft = pos;
+    } else {
+      pos = scroller.scrollLeft;            // the visitor is steering; follow them
+    }
+    requestAnimationFrame(tick);
+  })(last);
 })();
 
 /* ---------- header, menu, dropdown ---------- */
