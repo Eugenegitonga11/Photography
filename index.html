@@ -402,20 +402,23 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 
 /* ---------- client logo band ---------- */
 .clients{text-align:center;position:relative;overflow:hidden}
-.logos{position:relative;margin-top:44px;overflow:hidden;
+.logos{position:relative;margin-top:44px;overflow-x:auto;overflow-y:hidden;cursor:grab;
+  -webkit-overflow-scrolling:touch;overscroll-behavior-x:contain;
+  scrollbar-width:none;-ms-overflow-style:none;
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
+.logos::-webkit-scrollbar{display:none}
 .logos__track{display:flex;align-items:center;gap:clamp(34px,5.5vw,74px);width:max-content;
-  animation:logoroll 52s linear infinite}
-.logos:hover .logos__track{animation-play-state:paused}
+  padding:0 var(--pad)}
+.logos__track.is-dragging{cursor:grabbing}
 .logos li{list-style:none;flex:0 0 auto;display:grid;place-items:center}
-.logos img{height:clamp(34px,4.2vw,54px);width:auto;opacity:.58;
+.logos img{height:clamp(34px,4.2vw,54px);width:auto;opacity:.58;-webkit-user-drag:none;user-select:none;
   transition:opacity .45s var(--ease),transform .45s var(--ease)}
 .logos li:hover img{opacity:1;transform:scale(1.06)}
-@keyframes logoroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @media (prefers-reduced-motion:reduce){
   .logos{-webkit-mask-image:none;mask-image:none}
-  .logos__track{animation:none;flex-wrap:wrap;width:auto;justify-content:center;gap:34px 46px;padding:0 var(--pad)}
+  .logos{overflow-x:visible}
+  .logos__track{flex-wrap:wrap;width:auto;justify-content:center;gap:34px 46px}
 }
 /* ============================================================
    Blog
@@ -583,7 +586,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <a href="about-us.html">About Us</a>
         <a href="gallery.html">Gallery</a>
         <a href="portfolio.html">Portfolio</a>
-        <a href="portfolio-single.html">Portfolio Single</a>
+        <a href="esafiri.html">Case: E-Safiri</a>
       </div>
     </div>
     <a href="blog.html">Blog</a>
@@ -603,7 +606,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <li><a href="about-us.html" data-close>About Us</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a></li>
-        <li><a href="portfolio-single.html" data-close>Portfolio Single</a></li>
+        <li><a href="esafiri.html" data-close>Case: E-Safiri</a></li>
       </ul>
     </li>
     <li><a href="#cases" data-close>Cases</a></li>
@@ -693,7 +696,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <p class="p-body fade-swap" id="caseDesc"></p>
         <dl class="case__meta fade-swap" id="caseMeta"></dl>
         <div class="case__foot">
-          <a href="portfolio.html" class="btn"><span>View Case</span></a>
+          <a href="portfolio.html" class="btn" id="caseLink"><span>View Case</span></a>
           <div class="case__nav">
             <span class="case__count" id="caseCount"></span>
             <button class="nav-arrow nav-arrow--prev" data-case="prev" aria-label="Previous case">
@@ -715,7 +718,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
     <span class="eyebrow" data-reveal>Clients</span>
     <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Trusted By</span></span></h2>
   </div>
-  <div class="logos"><ul class="logos__track" id="logoTrack"></ul></div>
+  <div class="logos" id="logos"><ul class="logos__track" id="logoTrack"></ul></div>
 </section>
 
 <!-- ===================== BACKSTAGE ===================== -->
@@ -968,6 +971,7 @@ const CASES = [
   {
     tag:'Documentary',
     slug:'case-esafiri',
+    url:'esafiri.html',
     title:['The Earthshot Prize'],
     sub:'Africa Innovates \u2014 E-Safiri \u00b7 2024',
     desc:'Sole credited photographer for Prince William\u2019s flagship global environmental initiative \u2014 13 images published internationally. The same eye for storytelling comes to your wedding day.',
@@ -1126,7 +1130,7 @@ $$('[data-hero]').forEach(b=>{
 const track = $('#svcTrack');
 /* rendered twice so the marquee loops without a seam */
 $('#logoTrack').innerHTML = [...CLIENTS, ...CLIENTS].map(([slug,name],i)=>
-  `<li${i >= CLIENTS.length ? ' aria-hidden="true"' : ''}><img src="${LOGO_DIR}${slug}.png" alt="${i >= CLIENTS.length ? '' : name}" loading="lazy" width="300" height="96"></li>`).join('');
+  `<li${i >= CLIENTS.length ? ' aria-hidden="true"' : ''}><img src="${LOGO_DIR}${slug}.png" alt="${i >= CLIENTS.length ? '' : name}" loading="lazy" draggable="false" width="300" height="96"></li>`).join('');
 
 /* rendered twice so the drift can loop without a visible jump */
 [...SERVICES, ...SERVICES].forEach((s,i)=>{
@@ -1143,12 +1147,12 @@ $('#logoTrack').innerHTML = [...CLIENTS, ...CLIENTS].map(([slug,name],i)=>
   track.appendChild(el);
 });
 
-/* Slow, endless drift. The card list is rendered twice, so when the scroller passes
-   the halfway mark we jump back by exactly one set and nobody sees the seam.
-   It pauses on hover, while dragging, and for a moment after a swipe. */
-(function marquee(){
-  const scroller = $('#svcScroller');
-  const SPEED = 22;                       // pixels per second — raise for a faster drift
+/* Slow, endless drift shared by the services row and the client logos.
+   Each list is rendered twice, so when the scroller passes the halfway mark we
+   jump back by exactly one set and nobody sees the seam. It pauses on hover,
+   while dragging, and for a moment after a swipe or wheel. */
+function marquee(scroller, track, SPEED){
+  if(!scroller || !track) return;
   let startX = 0, startLeft = 0, dragging = false, moved = false;
   let paused = false, resumeAt = 0, last = performance.now();
 
@@ -1197,7 +1201,9 @@ $('#logoTrack').innerHTML = [...CLIENTS, ...CLIENTS].map(([slug,name],i)=>
     }
     requestAnimationFrame(tick);
   })(last);
-})();
+}
+marquee($('#svcScroller'), track, 22);
+marquee($('#logos'), $('#logoTrack'), 26);
 
 /* ============================================================
    Cases slider
@@ -1209,6 +1215,7 @@ function renderCase(i, instant){
   const c = CASES[caseIdx];
   const go = ()=>{
     $('#caseTitle').innerHTML = c.title.map(t=>`<span style="display:block">${t}</span>`).join('');
+    $('#caseLink').href = c.url || 'portfolio.html';
     $('#caseSub').textContent = c.sub || '';
     $('#caseDesc').textContent = c.desc;
     $('#caseMeta').innerHTML = c.meta.map(([ic,label,val])=>
