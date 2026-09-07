@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog — Ronny Photography</title>
+<title>Gallery — Ronny Photography</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -561,88 +561,67 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 }
 
 /* ============================================================
-   Blog — page specific
+   Gallery — page specific
    ============================================================ */
-:root{--blue:#8aace7;--card:#0f1114;--card-2:#0a0c0d}
-.blog{position:relative;overflow:hidden;padding:88px 0 92px}
-.blog__radar--a{width:520px;height:520px;left:-200px;top:60px;opacity:.10}
-.blog__radar--b{width:600px;height:600px;right:-190px;bottom:-140px;opacity:.10}
-.blog__grid{position:relative;z-index:2;display:grid;grid-template-columns:1fr 267px;gap:48px;align-items:start}
+.gal{padding:88px 0 66px;position:relative;overflow:hidden}
+.grid{
+  display:grid;grid-template-columns:repeat(4,1fr);
+  grid-auto-rows:clamp(150px,19.4vw,300px);gap:10px;
+}
+.tile{position:relative;overflow:hidden;background:var(--panel-2);display:block;
+  grid-column:var(--c) / span var(--cs,1);grid-row:var(--r) / span var(--rs,1);
+  opacity:0;transform:scale(.965);transition:opacity .9s var(--ease),transform 1s var(--ease-out);transition-delay:var(--d,0ms)}
+.tile.is-in{opacity:1;transform:none}
+.tile img{width:100%;height:100%;object-fit:cover;transition:transform 1.4s var(--ease-out),filter .7s var(--ease)}
+.tile:hover img{transform:scale(1.06)}
+.tile__veil{position:absolute;inset:0;background:rgba(8,9,14,.55);opacity:0;transition:opacity .5s var(--ease)}
+.tile:hover .tile__veil,.tile:focus-visible .tile__veil{opacity:1}
+.tile__eye{
+  position:absolute;top:50%;left:50%;width:52px;height:38px;margin:-19px 0 0 -26px;
+  display:grid;place-items:center;opacity:0;transform:scale(.82);
+  transition:opacity .45s var(--ease),transform .6s var(--ease-out);
+}
+.tile:hover .tile__eye,.tile:focus-visible .tile__eye{opacity:1;transform:none}
+.tile__eye svg{width:22px;height:22px;stroke:#fff;fill:none;stroke-width:1.2}
+.tile__eye i{position:absolute;width:9px;height:9px;border:1px solid rgba(255,255,255,.9)}
+.tile__eye i:nth-child(1){top:0;left:0;border-right:0;border-bottom:0}
+.tile__eye i:nth-child(2){top:0;right:0;border-left:0;border-bottom:0}
+.tile__eye i:nth-child(3){bottom:0;left:0;border-right:0;border-top:0}
+.tile__eye i:nth-child(4){bottom:0;right:0;border-left:0;border-top:0}
 
-/* posts */
-.feed{display:flex;flex-direction:column;gap:44px;transition:opacity .4s var(--ease)}
-.feed.is-swapping{opacity:0}
-.post{background:var(--card);display:block;opacity:0;transform:translateY(28px);
-  transition:opacity .8s var(--ease),transform .9s var(--ease-out);transition-delay:var(--d,0ms)}
-.post.is-in{opacity:1;transform:none}
-.post__media{display:block;position:relative;overflow:hidden;aspect-ratio:16/8.5;background:var(--panel-2)}
-.post__media img{width:100%;height:100%;object-fit:cover;transition:transform 1.3s var(--ease-out)}
-.post:hover .post__media img{transform:scale(1.05)}
-.chip{position:absolute;left:16px;top:16px;z-index:2;background:rgba(6,6,9,.92);
-  padding:7px 15px;border-radius:40px;font-size:11px;letter-spacing:.04em;color:#fff}
-.post__body{padding:20px 22px 28px}
-.meta{display:flex;flex-wrap:wrap;align-items:center;gap:10px;color:var(--muted-2);font-size:11.5px}
-.meta i{font-style:normal;opacity:.5}
-.meta em{font-style:normal;color:#9aa0ac}
-.post__rule{height:1px;background:rgba(255,255,255,.09);margin:16px 0 22px}
-.post h2{font-size:clamp(19px,1.7vw,22px);font-weight:600;line-height:1.3;margin:0;transition:color .4s}
-.post:hover h2{color:#dfe5f2}
-.post__ex{color:var(--muted);font-size:13.5px;line-height:1.9;margin:14px 0 22px;max-width:56ch}
-.feed .arrow-link svg{width:44px}
+.gal__more{position:relative;text-align:center;padding:68px 0 18px;overflow:hidden}
+.gal__radar{width:470px;height:470px;left:52%;top:50%;transform:translate(-50%,-50%);opacity:.09}
+.gal__note{margin-top:18px;font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;color:var(--muted-2);min-height:16px}
 
-/* pagination */
-.pager{display:flex;justify-content:center;gap:14px;margin-top:52px}
-.pager button{width:44px;height:44px;border-radius:50%;border:1px solid var(--line);
-  font-size:13.5px;color:#fff;display:grid;place-items:center;
-  transition:background .45s var(--ease),color .45s,border-color .45s,transform .45s var(--ease)}
-.pager button:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.45)}
-.pager button.is-active{background:var(--blue);border-color:var(--blue);color:#0a0c12;font-weight:500}
+/* lightbox */
+.lb{position:fixed;inset:0;z-index:950;display:grid;place-items:center;padding:5vh 6vw;
+  background:rgba(6,6,10,.95);backdrop-filter:blur(10px);
+  opacity:0;visibility:hidden;transition:opacity .5s var(--ease),visibility .5s}
+.lb.is-open{opacity:1;visibility:visible}
+.lb__stage{position:relative;max-width:100%;max-height:90vh;display:grid;place-items:center}
+.lb__stage img{max-width:100%;max-height:90vh;object-fit:contain;
+  transform:scale(.97);opacity:0;transition:transform .6s var(--ease-out),opacity .45s var(--ease)}
+.lb.is-open .lb__stage img{transform:none;opacity:1}
+.lb__close{position:absolute;top:26px;right:30px;width:34px;height:34px;z-index:3}
+.lb__close::before,.lb__close::after{content:"";position:absolute;top:50%;left:0;width:100%;height:1.5px;background:#fff}
+.lb__close::before{transform:rotate(45deg)}
+.lb__close::after{transform:rotate(-45deg)}
+.lb__nav{position:absolute;top:50%;transform:translateY(-50%);width:52px;height:52px;border-radius:50%;
+  border:1px solid var(--line);display:grid;place-items:center;background:rgba(255,255,255,.04);
+  transition:background .4s,border-color .4s,transform .4s var(--ease)}
+.lb__nav svg{width:12px;height:12px;stroke:#fff;fill:none;stroke-width:1.4}
+.lb__nav:hover{background:rgba(255,255,255,.12);border-color:rgba(255,255,255,.4)}
+.lb__nav--prev{left:2vw}
+.lb__nav--next{right:2vw}
+.lb__count{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:11.5px;letter-spacing:.22em;color:var(--muted)}
 
-/* sidebar */
-.side{display:flex;flex-direction:column;gap:34px}
-.search{position:relative}
-.search input{width:100%;height:46px;border-radius:40px;border:1px solid var(--line);
-  background:var(--card-2);color:#fff;padding:0 44px 0 22px;font-family:inherit;font-size:13px;font-weight:300;
-  transition:border-color .4s,background .4s}
-.search input::placeholder{color:var(--muted-2)}
-.search input:focus{outline:none;border-color:rgba(255,255,255,.45)}
-.search svg{position:absolute;right:18px;top:50%;transform:translateY(-50%);width:15px;height:15px;
-  stroke:var(--muted);fill:none;stroke-width:1.4;pointer-events:none}
-.card-w{background:var(--card-2);padding:30px 24px}
-.author{text-align:center}
-.author__pic{width:74px;height:74px;border-radius:50%;overflow:hidden;margin:0 auto;
-  box-shadow:0 0 0 1px rgba(255,255,255,.18),0 0 0 6px rgba(255,255,255,.04)}
-.author__pic img{width:100%;height:100%;object-fit:cover}
-.author h3{font-size:11.5px;letter-spacing:.16em;text-transform:uppercase;font-weight:600;margin:18px 0 0}
-.author p{color:var(--muted);font-size:12.5px;line-height:1.9;margin:12px 0 0}
-.author__soc{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:20px}
-.author__soc .dash{width:8px;height:1px;background:rgba(255,255,255,.3)}
-.side h3.side__title{font-size:19px;font-weight:600;margin:0 0 20px}
-.rp{display:flex;gap:14px;text-decoration:none;align-items:flex-start;margin-bottom:20px}
-.rp__pic{width:40px;height:40px;flex:0 0 auto;overflow:hidden;background:var(--panel-2)}
-.rp__pic img{width:100%;height:100%;object-fit:cover}
-.rp b{display:block;font-size:12.5px;font-weight:400;line-height:1.55;color:#e7eaf1;transition:color .35s}
-.rp:hover b{color:var(--blue)}
-.rp span{display:block;color:var(--muted-2);font-size:11.5px;margin-top:6px}
-.promo{position:relative;overflow:hidden;aspect-ratio:267/368;display:grid;place-items:center;text-align:center}
-.promo img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
-.promo::after{content:"";position:absolute;inset:0;background:linear-gradient(180deg,rgba(8,9,13,.72),rgba(8,9,13,.88))}
-.promo__in{position:relative;z-index:2;padding:20px}
-.promo__in b{display:block;font-size:23px;font-weight:600;line-height:1.1}
-.promo__in span{display:block;font-size:14px;color:#c8ccd6;margin-top:4px}
-.promo__off{font-size:40px;font-weight:600;margin:22px 0 26px;letter-spacing:-.02em}
-.promo .btn{height:44px;padding:0 26px}
-.cmt{background:var(--card-2);padding:16px 18px;margin-bottom:12px;font-size:12.5px;line-height:1.75;color:var(--muted)}
-.cmt b{color:#fff;font-weight:500}
-.tags{display:flex;flex-wrap:wrap;gap:10px}
-.tags a{padding:8px 16px;border-radius:40px;border:1px solid rgba(255,255,255,.16);background:var(--card-2);
-  font-size:12px;color:#c3c7d1;transition:background .4s,color .4s,border-color .4s}
-.tags a:hover{background:#fff;color:#0a0c12;border-color:#fff}
-.feed__empty{color:var(--muted);font-size:13.5px;padding:30px 0}
-
-@media(max-width:940px){
-  .blog__grid{grid-template-columns:1fr;gap:56px}
-  .side{max-width:420px}
+@media(max-width:860px){
+  .gal{padding:62px 0 48px}
+  .grid{grid-template-columns:repeat(2,1fr);grid-auto-rows:38vw;gap:8px}
+  .tile{grid-column:auto / span 1;grid-row:auto / span 1}
+  .tile.tile--wide{grid-column:auto / span 2;grid-row:auto / span 2}
+  .gal{padding:80px 0 72px}
+  .lb__nav{width:42px;height:42px}
 }
 </style>
 </head>
@@ -690,12 +669,15 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       <div class="dropdown">
         <a href="about-me.html">About Me</a>
         <a href="about-us.html">About Us</a>
-        <a href="gallery.html">Gallery</a>
+        <a href="gallery.html" class="is-current">Gallery</a>
         <a href="portfolio.html">Portfolio</a>
         <a href="esafiri.html">Case: E-Safiri</a>
+        <a href="wedding.html">Case: Weddings</a>
+        <a href="sga.html">Case: SGA Security</a>
+        <a href="gtc.html">Case: Nairobi GTC</a>
       </div>
     </div>
-    <a href="blog.html" class="is-active">Blog</a>
+    <a href="blog.html">Blog</a>
     <a href="booking.html">Booking</a>
   </nav>
   <a href="contacts.html" class="btn"><span>Contact</span></a>
@@ -713,6 +695,9 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a></li>
         <li><a href="esafiri.html" data-close>Case: E-Safiri</a></li>
+        <li><a href="wedding.html" data-close>Case: Weddings</a></li>
+        <li><a href="sga.html" data-close>Case: SGA Security</a></li>
+        <li><a href="gtc.html" data-close>Case: Nairobi GTC</a></li>
       </ul>
     </li>
     <li><a href="blog.html" data-close>Blog</a></li>
@@ -727,69 +712,34 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="pbanner__veil"></div>
   <div class="radar pbanner__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="pbanner__inner">
-    <h1 class="h-xl"><span class="line"><span style="--d:200ms">Blog</span></span></h1>
-    <p class="crumb" data-reveal style="--d:460ms"><a href="index.html">Home</a><i>&middot;</i><b>Blog</b></p>
+    <h1 class="h-xl"><span class="line"><span style="--d:200ms">Gallery</span></span></h1>
+    <p class="crumb" data-reveal style="--d:460ms"><a href="index.html">Home</a><i>&middot;</i><b>Gallery</b></p>
   </div>
 </section>
 
-<!-- ===================== BLOG ===================== -->
-<section class="blog">
-  <div class="radar blog__radar--a" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
-  <div class="radar blog__radar--b" data-parallax="-0.04"><svg><use href="#radar"/></svg></div>
-  <div class="wrap wrap--narrow">
-    <div class="blog__grid">
+<!-- ===================== GALLERY GRID ===================== -->
+<section class="gal">
+  <div class="grid" id="grid"></div>
 
-      <div>
-        <div class="feed" id="feed"></div>
-        <div class="pager" id="pager"></div>
-      </div>
-
-      <aside class="side">
-        <div class="search">
-          <input type="search" id="q" placeholder="Search..." aria-label="Search the blog">
-          <svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="5.2"/><path d="M11 11l4 4"/></svg>
-        </div>
-
-        <div class="card-w author" data-reveal>
-          <div class="author__pic"><img src="https://picsum.photos/seed/broms-ariana/200/200" alt="Ariana Bennett" loading="lazy"></div>
-          <h3>Ariana Bennett</h3>
-          <p>Hi! I&rsquo;m an author of this blog. I would be glad if my posts are useful to you.</p>
-          <div class="author__soc">
-            <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
-    <a class="soc" href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.39C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.39 2.12.66.66 1.33 1.08 2.12 1.39.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.73 2.12-1.39.66-.66 1.08-1.33 1.39-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.73-1.46-1.39-2.12C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
-    <a class="soc" href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
-    <a class="soc" href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="-0.85 -0.85 25.7 25.7" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
-          </div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Recent Posts</h3>
-          <div id="recent"></div>
-        </div>
-
-        <div class="promo" data-reveal>
-          <img src="https://picsum.photos/seed/broms-promo/540/740" alt="" loading="lazy">
-          <div class="promo__in">
-            <b>Photography</b><span>studio</span>
-            <div class="promo__off">-20%</div>
-            <a href="booking.html" class="btn"><span>Order Now</span></a>
-          </div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Recent Comments</h3>
-          <div id="comments"></div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Tags</h3>
-          <div class="tags" id="tags"></div>
-        </div>
-      </aside>
-
-    </div>
+  <div class="gal__more">
+    <div class="radar gal__radar" data-parallax="0.04"><svg><use href="#radar"/></svg></div>
+    <p style="position:relative;z-index:2;margin:0"><button class="btn" id="more"><span>More Photos</span></button></p>
+    <p class="gal__note" id="note" role="status"></p>
   </div>
 </section>
+
+<!-- ===================== LIGHTBOX ===================== -->
+<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button class="lb__close" id="lbClose" aria-label="Close viewer"></button>
+  <button class="lb__nav lb__nav--prev" data-lb="-1" aria-label="Previous photo">
+    <svg viewBox="0 0 12 12"><path d="M8 1L3 6l5 5"/></svg>
+  </button>
+  <div class="lb__stage"><img id="lbImg" alt=""></div>
+  <button class="lb__nav lb__nav--next" data-lb="1" aria-label="Next photo">
+    <svg viewBox="0 0 12 12"><path d="M4 1l5 5-5 5"/></svg>
+  </button>
+  <div class="lb__count" id="lbCount"></div>
+</div>
 
 <!-- ===================== FOOTER ===================== -->
 <footer class="ftr" id="footer">
@@ -846,53 +796,20 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <script>
 
-/* ---------- posts: swap the seeds for your own images ---------- */
-const POSTS = [
-  { cat:'Fashion',   date:'Dec 13, 2020', by:'Marco Lutinochi', comments:3,  seed:'nikon',
-    title:'Lightroom Processing Lessons',
-    ex:'This is a program for working with photographs from the shooting stage to their upload and further publication. In this program there is no way to…' },
-  { cat:'Lifestyle', date:'Dec 18, 2020', by:'Marco Lutinochi', comments:2,  seed:'selfie',
-    title:'What Can I Take With My Phone?',
-    ex:'Technically, mobile devices now have very good characteristics that allow you to shoot different scenes in a wide variety of conditions. You need to that the…' },
-  { cat:'Portraits', date:'Dec 23, 2020', by:'Marco Lutinochi', comments:16, seed:'street',
-    title:'Beautiful Portrait Quickly & Efficiently',
-    ex:'In this article I will tell you what basic rules must be followed in order for the shooting to really succeed. And following them, each of you can easily make…' },
+/* ---------- images: swap for your own in one place ---------- */
+/* Each batch is 9 photos laid out in the masonry pattern below. */
+const BATCHES = [
+  ['balloons','hat-girl','chair-portrait','umbrella-couple','two-women','wedding','rocks','yellow-suit','sneakers'],
+  ['studio-lights','city-walk','veil','denim','desert','rooftop','mirror','neon','flowers'],
+  ['backstage','runway','portrait-bw','beach','forest','窗','stairs','coffee','night']
+].map(list => list.map(seed => ({
+  src:   `https://picsum.photos/seed/broms-g-${encodeURIComponent(seed)}/1400/1100`,
+  thumb: `https://picsum.photos/seed/broms-g-${encodeURIComponent(seed)}/800/640`,
+  alt:   seed.replace(/-/g,' ')
+})));
 
-  { cat:'Studio',    date:'Jan 04, 2021', by:'Marco Lutinochi', comments:5,  seed:'softbox',
-    title:'Lighting A Small Home Studio',
-    ex:'You do not need a hall full of equipment. Two sources, a reflector and a wall you can bounce light off will already give you a usable portrait setup…' },
-  { cat:'Nature',    date:'Jan 11, 2021', by:'Ariana Bennett',  comments:8,  seed:'forest',
-    title:'Shooting In Bad Weather',
-    ex:'Grey skies act like a giant softbox and rain adds texture that a clear day never will. Here is how to protect your gear and still come home with frames…' },
-  { cat:'Fashion',   date:'Jan 19, 2021', by:'Ariana Bennett',  comments:4,  seed:'runway',
-    title:'Working With A Model For The First Time',
-    ex:'The first ten minutes decide the whole shoot. Talk through the plan, show the first frames on the back of the camera, and the shoulders come down…' },
-
-  { cat:'Portraits', date:'Feb 02, 2021', by:'Marco Lutinochi', comments:11, seed:'window',
-    title:'Window Light Is Still The Best Light',
-    ex:'One north-facing window will out-perform most lighting kits. The trick is knowing where to put your subject and when to walk away from the glass…' },
-  { cat:'Music',     date:'Feb 15, 2021', by:'Ariana Bennett',  comments:6,  seed:'concert',
-    title:'Concert Photography Without A Pit Pass',
-    ex:'Shooting a gig from the crowd means slow lenses, moving heads and light you cannot control. It also means frames nobody else in the room got…' },
-  { cat:'Studio',    date:'Feb 27, 2021', by:'Marco Lutinochi', comments:9,  seed:'darkroom',
-    title:'Building A Colour Grade You Can Repeat',
-    ex:'A look is only useful if it survives the next hundred photos. Start from the skin tones, save the steps as a preset, and stop chasing the trend…' }
-];
-
-const RECENT = [
-  { t:'Discuss the important point with the model in advance.', d:'Dec 13, 2020', seed:'r1' },
-  { t:'Rain. Tips on how to save the situation.',               d:'Dec 20, 2020', seed:'r2' },
-  { t:'I&rsquo;ll tell you briefly about what technique I&rsquo;m using.', d:'Dec 27, 2020', seed:'r3' }
-];
-
-const COMMENTS = [
-  { who:'Bruce Jones',    on:'expensive professional camera needed…' },
-  { who:'Scott Bush',     on:'my favorite lens is Nikkor 50mm and Fujinon 35…' },
-  { who:'Stacey Longman', on:'the main thing is to try and choose…' }
-];
-
-const TAGS = ['Portraits','Fashion','Nature','Music','Studio','Wedding'];
-const PER_PAGE = 3;
+/* [column start, column span, row start, row span] — mirrors the source layout */
+const LAYOUT = [[1, 1, 1, 1], [2, 1, 1, 1], [3, 2, 1, 2], [1, 1, 2, 1], [2, 1, 2, 1], [1, 2, 3, 2], [3, 1, 3, 1], [4, 1, 3, 2], [3, 1, 4, 1]];
 
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $  = (s,c=document) => c.querySelector(s);
@@ -913,94 +830,70 @@ const io = new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting) return;
   e.target.classList.add('is-in');
   io.unobserve(e.target);
-}),{threshold:.14, rootMargin:'0px 0px -6% 0px'});
-const observe = root => $$('[data-reveal], .post, h1 .line, h2 .line', root).forEach(el=>io.observe(el));
+}),{threshold:.12, rootMargin:'0px 0px -6% 0px'});
+const observe = root => $$('[data-reveal], [data-reveal-img], .tile, h1 .line, h2 .line', root).forEach(el=>io.observe(el));
 
-/* ---------- sidebar ---------- */
-$('#recent').innerHTML = RECENT.map(r=>`
-  <a class="rp" href="#">
-    <span class="rp__pic"><img src="https://picsum.photos/seed/broms-${r.seed}/120/120" alt="" loading="lazy"></span>
-    <span><b>${r.t}</b><span>${r.d}</span></span>
-  </a>`).join('');
-$('#comments').innerHTML = COMMENTS.map(c=>`<div class="cmt"><b>${c.who}</b> on ${c.on}</div>`).join('');
-$('#tags').innerHTML = TAGS.map(t=>`<a href="#" data-tag="${t}">${t}</a>`).join('');
+/* ---------- build the grid ---------- */
+const grid = $('#grid');
+const photos = [];      // flat list, drives the lightbox
+let batch = 0;
 
-/* ---------- feed ---------- */
-const feed = $('#feed'), pager = $('#pager');
-const ARROW = '<svg viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h54M48 1l6 5-6 5"/></svg>';
-let page = 0, query = '';
+const EYE = '<svg viewBox="0 0 24 24"><path d="M1.5 12S5.5 5.5 12 5.5 22.5 12 22.5 12 18.5 18.5 12 18.5 1.5 12 1.5 12z"/><circle cx="12" cy="12" r="3.2"/></svg>';
 
-const matches = p => {
-  if(!query) return true;
-  const q = query.toLowerCase();
-  return (p.title + ' ' + p.ex + ' ' + p.cat).toLowerCase().includes(q);
-};
-
-function cardHtml(p, i){
-  return `
-  <article class="post" style="--d:${i*120}ms">
-    <a href="#" class="post__media">
-      <img src="https://picsum.photos/seed/broms-b-${p.seed}/1000/540" alt="${p.title}" loading="lazy">
-      <span class="chip">${p.cat}</span>
-    </a>
-    <div class="post__body">
-      <div class="meta">
-        <span>${p.date}</span><i>&middot;</i><em>${p.by}</em><i>&middot;</i><span>${p.comments} comments</span>
-      </div>
-      <div class="post__rule"></div>
-      <a href="#"><h2>${p.title}</h2></a>
-      <p class="post__ex">${p.ex}</p>
-      <a href="#" class="arrow-link" aria-label="Read ${p.title}">${ARROW}</a>
-    </div>
-  </article>`;
+function addBatch(){
+  const set = BATCHES[batch];
+  const rowBase = batch * 4;                     // each batch is 4 grid rows tall
+  set.forEach((p,i)=>{
+    const [c,cs,r,rs] = LAYOUT[i];
+    const a = document.createElement('a');
+    a.className = 'tile' + (cs > 1 ? ' tile--wide' : '');
+    a.href = p.src;
+    a.dataset.i = photos.length;
+    a.style.cssText = `--c:${c};--cs:${cs};--r:${rowBase + r};--rs:${rs};--d:${Math.min(i,6)*90}ms`;
+    a.innerHTML = `
+      <img src="${p.thumb}" alt="${p.alt}" loading="lazy" draggable="false">
+      <span class="tile__veil"></span>
+      <span class="tile__eye"><i></i><i></i><i></i><i></i>${EYE}</span>`;
+    a.addEventListener('click', e=>{ e.preventDefault(); openLb(+a.dataset.i); });
+    grid.appendChild(a);
+    photos.push(p);
+  });
+  observe(grid);
+  batch++;
+  if(batch >= BATCHES.length){
+    $('#more').disabled = true;
+    $('#more').style.opacity = .4;
+    $('#note').textContent = 'That is the whole set for now';
+  }
 }
 
-function render(animate){
-  const list = POSTS.filter(matches);
-  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
-  if(page >= pages) page = 0;
-  const slice = query ? list : list.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
+$('#more').addEventListener('click', ()=>{ if(batch < BATCHES.length) addBatch(); });
 
-  const paint = ()=>{
-    feed.innerHTML = slice.length
-      ? slice.map(cardHtml).join('')
-      : `<p class="feed__empty">Nothing matches &ldquo;${query}&rdquo; yet. Try another word.</p>`;
-    pager.innerHTML = query || pages < 2 ? '' :
-      Array.from({length: pages}, (_,n)=>
-        `<button class="${n === page ? 'is-active' : ''}" data-page="${n}" aria-label="Page ${n+1}">${n+1}</button>`).join('');
-    observe(feed);
-    feed.classList.remove('is-swapping');
-  };
-
-  if(animate && !reduce){ feed.classList.add('is-swapping'); setTimeout(paint, 300); }
-  else paint();
+/* ---------- lightbox ---------- */
+const lb = $('#lb'), lbImg = $('#lbImg'), lbCount = $('#lbCount');
+let lbI = 0;
+function openLb(i){
+  lbI = (i + photos.length) % photos.length;
+  lbImg.src = photos[lbI].src;
+  lbImg.alt = photos[lbI].alt;
+  lbCount.textContent = `${lbI + 1} / ${photos.length}`;
+  lb.classList.add('is-open');
+  document.body.classList.add('is-locked');
+  $('#lbClose').focus();
 }
-
-pager.addEventListener('click', e=>{
-  const b = e.target.closest('button');
-  if(!b) return;
-  page = +b.dataset.page;
-  render(true);
-  window.scrollTo({ top: feed.getBoundingClientRect().top + scrollY - 130, behavior: reduce ? 'auto' : 'smooth' });
+const closeLb = ()=>{ lb.classList.remove('is-open'); document.body.classList.remove('is-locked'); };
+$('#lbClose').addEventListener('click', closeLb);
+lb.addEventListener('click', e=>{ if(e.target === lb || e.target.classList.contains('lb__stage')) closeLb(); });
+$$('[data-lb]').forEach(b=>b.addEventListener('click', ()=>openLb(lbI + +b.dataset.lb)));
+addEventListener('keydown', e=>{
+  if(!lb.classList.contains('is-open')) return;
+  if(e.key === 'Escape') closeLb();
+  if(e.key === 'ArrowRight') openLb(lbI + 1);
+  if(e.key === 'ArrowLeft')  openLb(lbI - 1);
 });
-
-let typing;
-$('#q').addEventListener('input', e=>{
-  clearTimeout(typing);
-  typing = setTimeout(()=>{ query = e.target.value.trim(); page = 0; render(true); }, 260);
-});
-$('#tags').addEventListener('click', e=>{
-  const a = e.target.closest('[data-tag]');
-  if(!a) return;
-  e.preventDefault();
-  $('#q').value = a.dataset.tag;
-  query = a.dataset.tag; page = 0; render(true);
-  window.scrollTo({ top: feed.getBoundingClientRect().top + scrollY - 130, behavior: reduce ? 'auto' : 'smooth' });
-});
-
-render(false);
 
 /* ---------- boot ---------- */
+addBatch();
 /* boot on window.load, but never wait longer than 2.2s — a slow image
    must not leave the visitor staring at the preloader */
 let booted = false;
@@ -1071,7 +964,7 @@ if(!reduce){
   addEventListener('pointermove', e=>{ tx = e.clientX; ty = e.clientY; dot.style.transform = `translate(${tx}px,${ty}px)`; });
   (function loop(){ cx += (tx-cx)*.16; cy += (ty-cy)*.16; cur.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
   document.addEventListener('pointerover', e=>{
-    cur.classList.toggle('is-big', !!e.target.closest('a, button, .post, input'));
+    cur.classList.toggle('is-big', !!e.target.closest('a, button, .tile'));
   });
 }
 

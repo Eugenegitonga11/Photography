@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>E-Safiri × The Earthshot Prize — Ronny Onkeo</title>
-<meta name="description" content="Documenting Impact: a visual record of community-led climate action in Kisumu, Kenya, photographed for The Earthshot Prize.">
+<title>Nairobi GTC — Selected Works | Ronny Onkeo</title>
+<meta name="description" content="Street portraiture selected and exhibited at the Nairobi GTC, printed large for the tower's public gallery.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="esafiri/es-hero-1920.jpg"
-      imagesrcset="esafiri/es-hero-1280.jpg 1280w, esafiri/es-hero-1920.jpg 1920w" imagesizes="100vw">
+<link rel="preload" as="image" href="gtc/gtc-hero-1920.jpg"
+      imagesrcset="gtc/gtc-hero-1280.jpg 1280w, gtc/gtc-hero-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
    RONNY — tokens
@@ -685,6 +685,15 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 .lb__nav--next{right:2vw}
 .lb__count{position:absolute;bottom:22px;left:0;right:0;text-align:center;font-size:11.5px;letter-spacing:.22em;color:var(--muted)}
 @media(max-width:640px){.lb__nav{width:42px;height:42px}}
+
+/* ---------- GTC: wall of works ---------- */
+.works-list{margin-top:44px;border-top:1px solid rgba(255,255,255,.09)}
+.work-row{display:grid;grid-template-columns:64px 1fr auto;gap:26px;align-items:baseline;
+  padding:22px 0;border-bottom:1px solid rgba(255,255,255,.09)}
+.work-row span{font-size:11px;letter-spacing:.2em;color:var(--blue)}
+.work-row b{font-size:clamp(17px,1.8vw,21px);font-weight:600}
+.work-row em{font-style:normal;font-size:12.5px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
+@media(max-width:620px){.work-row{grid-template-columns:44px 1fr;gap:14px}.work-row em{grid-column:2}}
 </style>
 </head>
 <body>
@@ -733,10 +742,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <a href="about-us.html">About Us</a>
         <a href="gallery.html">Gallery</a>
         <a href="portfolio.html">Portfolio</a>
-        <a href="esafiri.html" class="is-current">Case: E-Safiri</a>
+        <a href="esafiri.html">Case: E-Safiri</a>
         <a href="wedding.html">Case: Weddings</a>
         <a href="sga.html">Case: SGA Security</a>
-        <a href="gtc.html">Case: Nairobi GTC</a>
+        <a href="gtc.html" class="is-current">Case: Nairobi GTC</a>
       </div>
     </div>
     <a href="blog.html">Blog</a>
@@ -770,18 +779,18 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <!-- ===================== CASE HERO ===================== -->
 <section class="cs-hero" id="csHero">
-  <img src="esafiri/es-hero-1920.jpg" srcset="esafiri/es-hero-1280.jpg 1280w, esafiri/es-hero-1920.jpg 1920w"
-       sizes="100vw" fetchpriority="high" alt="An E-Safiri rider crossing Kisumu on an electric boda boda">
+  <img src="gtc/gtc-hero-1920.jpg" srcset="gtc/gtc-hero-1280.jpg 1280w, gtc/gtc-hero-1920.jpg 1920w"
+       sizes="100vw" fetchpriority="high" alt="Ronny Onkeo seated before a wall of his prints at the Nairobi GTC">
   <div class="cs-hero__veil"></div>
   <div class="radar cs-hero__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="cs-hero__in">
-    <span class="eyebrow" data-reveal>Case Study &middot; 2024</span>
-    <h1 class="bigtype"><span class="line"><span style="--d:220ms">E-<span class="hollow">SAF</span>IRI</span></span></h1>
-    <p class="cs-hero__sub" data-reveal style="--d:520ms">Documenting Impact &mdash; a visual record of community-led climate action in Kisumu, Kenya.</p>
+    <span class="eyebrow" data-reveal>Exhibition</span>
+    <h1 class="bigtype"><span class="line"><span style="--d:220ms">NAIR<span class="hollow">OBI</span>&nbsp;GTC</span></span></h1>
+    <p class="cs-hero__sub" data-reveal style="--d:520ms">Selected works, printed large and hung in the tower&rsquo;s public gallery.</p>
     <div class="cs-hero__facts" data-reveal style="--d:640ms">
-      <span>Client <b>The Earthshot Prize</b></span>
-      <span>Location <b>Kisumu, Kenya</b></span>
-      <span>Role <b>Director / Photographer</b></span>
+      <span>Venue <b>Global Trade Centre</b></span>
+      <span>Role <b>Exhibiting Artist</b></span>
+      <span>Format <b>Large-Format Prints</b></span>
     </div>
   </div>
 </section>
@@ -789,92 +798,71 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 <!-- ===================== INTRO ===================== -->
 <section class="sec">
   <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>The Project</span>
+    <span class="eyebrow" data-reveal>The Show</span>
     <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)">
-      <span class="line"><span>Documenting Impact</span></span>
+      <span class="line"><span>Street work,</span></span>
+      <span class="line"><span style="--d:120ms">on a marble wall.</span></span>
     </h2>
-    <p class="cs-lead" data-reveal style="--d:150ms;margin-top:26px">As an artist and an environmentalist, it is always a full-circle moment to be handpicked for an assignment that is not only captivating but equally tied to a social cause.</p>
-    <p class="cs-body" data-reveal style="--d:230ms;margin-top:26px">This project documents E-Safiri, a nominee of The Earthshot Prize, whose work is centred on reducing urban carbon footprint while empowering local communities. Filmed on location in Kisumu, it captures people-driven climate solutions, resilience at the grassroots, and the tangible impact of sustainable innovation within the community.</p>
+    <p class="cs-lead" data-reveal style="--d:180ms;margin-top:26px">Work selected and exhibited at the Nairobi GTC &mdash; street portraiture taken out of the feed, printed at scale, and hung where the city walks past it every day.</p>
+    <p class="cs-body" data-reveal style="--d:260ms;margin-top:26px">The frames come from the everyday theatre of Nairobi: a dancer swinging from a matatu door on Jogoo Road, a group posed outside a wines and spirits shop, the styling and swagger of a city that dresses for itself. Printed large, on marble, in a tower lobby, they ask to be read as portraiture rather than documentary.</p>
   </div>
 </section>
 
 <!-- ===================== FRAMES 1 ===================== -->
 <div class="wrap">
   <div class="frames">
-    <figure class="frame frame--wide" data-full="esafiri/es-charging-station.jpg">
-      <img src="esafiri/es-charging-station.jpg" alt="The E-Safiri battery swap station in Kisumu" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Swap station &middot; Kisumu</figcaption>
+    <figure class="frame frame--wide" data-full="gtc/gtc-wall.jpg">
+      <img src="gtc/gtc-wall.jpg" alt="A wall of exhibited prints in the GTC lounge" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">The hang &middot; Nairobi GTC</figcaption>
     </figure>
-    <figure class="frame" data-full="esafiri/es-rider-bike-1.jpg" style="--d:90ms">
-      <img src="esafiri/es-rider-bike-1.jpg" alt="A rider connecting a battery at the swap station" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Battery swap</figcaption>
+    <figure class="frame" data-full="gtc/gtc-matatu-print.jpg" style="--d:90ms">
+      <img src="gtc/gtc-matatu-print.jpg" alt="Standing beside the large-format matatu print" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">Jogoo Road, printed large</figcaption>
     </figure>
-    <figure class="frame" data-full="esafiri/es-charging-handover.jpg" style="--d:180ms">
-      <img src="esafiri/es-charging-handover.jpg" alt="Handover at the charging station" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Handover</figcaption>
+    <figure class="frame" data-full="gtc/gtc-tabbys-print.jpg" style="--d:180ms">
+      <img src="gtc/gtc-tabbys-print.jpg" alt="Beside the wines and spirits street portrait" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">The street portrait</figcaption>
     </figure>
-    <figure class="frame" data-full="esafiri/es-rider-bike-2.jpg" style="--d:90ms">
-      <img src="esafiri/es-rider-bike-2.jpg" alt="Two electric boda bodas waiting at the station" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Waiting for a charge</figcaption>
+    <figure class="frame" data-full="gtc/gtc-viewer.jpg" style="--d:90ms">
+      <img src="gtc/gtc-viewer.jpg" alt="A visitor studying one of the prints" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">A visitor reads the work</figcaption>
     </figure>
-    <figure class="frame" data-full="esafiri/es-rider-road.jpg" style="--d:180ms">
-      <img src="esafiri/es-rider-road.jpg" alt="A rider in motion on the road out of Kisumu" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Clean mobility</figcaption>
+    <figure class="frame" data-full="gtc/gtc-viewing.jpg" style="--d:180ms">
+      <img src="gtc/gtc-viewing.jpg" alt="Looking up at the hung print" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">Standing with the work</figcaption>
     </figure>
   </div>
 </div>
 
 <!-- ===================== PULL QUOTE ===================== -->
 <section class="sec sec--tight pullquote">
-  <blockquote data-reveal>E-Safiri is a community-driven initiative based in Kisumu, focused on reducing the city&rsquo;s carbon footprint while creating sustainable solutions for everyday living.</blockquote>
+  <blockquote data-reveal>Fine art photography exhibited across four continents &mdash; a trained artistic eye that turns documentation into portraiture worth framing.</blockquote>
 </section>
 
-<!-- ===================== BODY ===================== -->
+<!-- ===================== EXHIBITION HISTORY ===================== -->
 <section class="sec sec--tight">
   <div class="wrap wrap--narrow">
-    <p class="cs-body" data-reveal>Through clean mobility, environmental awareness and local empowerment, E-Safiri works closely with communities to promote climate action that is practical, inclusive and impactful. Their work centres on people &mdash; supporting livelihoods, encouraging responsible choices, and building a cleaner, more sustainable future from the ground up.</p>
-    <p class="cs-body" data-reveal style="--d:140ms">As an environmentalist, this story spoke to me. It reminded me why I do what I do: using my lens to tell real stories, about real people, creating real change.</p>
+    <span class="eyebrow" data-reveal>Exhibition History</span>
+    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Shown across four continents.</span></span></h2>
+    <div class="works-list">
+      <div class="work-row" data-reveal><span>01</span><b>Nairobi GTC</b><em>Nairobi, Kenya</em></div>
+      <div class="work-row" data-reveal style="--d:90ms"><span>02</span><b>New York</b><em>United States</em></div>
+      <div class="work-row" data-reveal style="--d:180ms"><span>03</span><b>Dubai</b><em>United Arab Emirates</em></div>
+      <div class="work-row" data-reveal style="--d:270ms"><span>04</span><b>Belgrade</b><em>Serbia</em></div>
+    </div>
   </div>
 </section>
 
 <!-- ===================== FRAMES 2 ===================== -->
 <div class="wrap">
   <div class="frames">
-    <figure class="frame frame--wide" data-full="esafiri/es-team-hero.jpg">
-      <img src="esafiri/es-team-hero.jpg" alt="The E-Safiri team at Dunga Beach as riders pass" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">The team &middot; Dunga Beach</figcaption>
+    <figure class="frame" data-full="gtc/gtc-lounge.jpg">
+      <img src="gtc/gtc-lounge.jpg" alt="The lounge hang seen across the room" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">The room</figcaption>
     </figure>
-    <figure class="frame" data-full="esafiri/es-team-dunga-beach.jpg" style="--d:90ms">
-      <img src="esafiri/es-team-dunga-beach.jpg" alt="The team among the fishing boats at Dunga Beach" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Dunga Beach</figcaption>
-    </figure>
-    <figure class="frame" data-full="esafiri/es-team-fish-market.jpg" style="--d:180ms">
-      <img src="esafiri/es-team-fish-market.jpg" alt="The team in Dunga fish market" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Dunga fish market</figcaption>
-    </figure>
-    <figure class="frame" data-full="esafiri/es-dunga-market.jpg" style="--d:90ms">
-      <img src="esafiri/es-dunga-market.jpg" alt="Traders at work in Dunga market" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Traders at work</figcaption>
-    </figure>
-    <figure class="frame" data-full="esafiri/es-office-stairs.jpg" style="--d:180ms">
-      <img src="esafiri/es-office-stairs.jpg" alt="The E-Safiri team on the office stairs" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">The office</figcaption>
-    </figure>
-    <figure class="frame frame--wide" data-full="esafiri/es-awuoth-team.jpg">
-      <img src="esafiri/es-awuoth-team.jpg" alt="The AWUOTH community team" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">AWUOTH &middot; community partners</figcaption>
-    </figure>
-    <figure class="frame" data-full="esafiri/es-team-awuoth-1.jpg" style="--d:90ms">
-      <img src="esafiri/es-team-awuoth-1.jpg" alt="Inside the AWUOTH growing structure" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Growing structures</figcaption>
-    </figure>
-    <figure class="frame" data-full="esafiri/es-team-awuoth-2.jpg" style="--d:180ms">
-      <img src="esafiri/es-team-awuoth-2.jpg" alt="Seedlings under cover at AWUOTH" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">Seedlings</figcaption>
-    </figure>
-    <figure class="frame frame--wide" data-full="esafiri/es-team-with-awuoth.jpg">
-      <img src="esafiri/es-team-with-awuoth.jpg" alt="The E-Safiri team with the AWUOTH team" loading="lazy" draggable="false">
-      <figcaption class="frame__cap">E-Safiri &times; AWUOTH</figcaption>
+    <figure class="frame" data-full="gtc/gtc-seated.jpg" style="--d:90ms">
+      <img src="gtc/gtc-seated.jpg" alt="Ronny Onkeo seated in front of the hang" loading="lazy" draggable="false">
+      <figcaption class="frame__cap">The artist</figcaption>
     </figure>
   </div>
 </div>
@@ -885,11 +873,10 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <span class="eyebrow" data-reveal>Credits</span>
     <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Who Made It</span></span></h2>
     <dl class="credits" data-reveal style="--d:150ms">
-      <div><dt>Commissioned by</dt><dd>The Earthshot Prize</dd></div>
-      <div><dt>Produced by</dt><dd>Crtve Development</dd></div>
-      <div><dt>Director / Photographer</dt><dd>Ronny Onkeo</dd></div>
-      <div><dt>Gaffer &amp; Videographer</dt><dd>Mohammed Ayieko</dd></div>
-      <div><dt>BTS Photographer</dt><dd>Ojijo Hamilton</dd></div>
+      <div><dt>Venue</dt><dd>Nairobi GTC</dd></div>
+      <div><dt>Role</dt><dd>Exhibiting artist</dd></div>
+      <div><dt>Series</dt><dd>Street portraiture</dd></div>
+      <div><dt>Format</dt><dd>Large-format prints</dd></div>
     </dl>
   </div>
 </section>
@@ -897,8 +884,9 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 <!-- ===================== OUTRO ===================== -->
 <section class="sec sec--tight cs-out">
   <div class="wrap">
-    <p data-reveal>Grateful to collaborate on stories that matter, and to document change where it is truly happening.</p>
-    <p data-reveal style="--d:140ms"><a href="contacts.html" class="btn"><span>Start A Project</span></a></p>
+    <h2 class="h-lg" style="font-size:clamp(26px,2.8vw,38px)"><span class="line"><span>Want a print on your wall?</span></span></h2>
+    <p data-reveal style="--d:140ms;margin-top:20px">Selected works are available as large-format prints, and new series are shown regularly. Get in touch for availability and sizes.</p>
+    <p data-reveal style="--d:220ms"><a href="contacts.html" class="btn"><span>Enquire About Prints</span></a></p>
   </div>
 </section>
 

@@ -580,6 +580,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 .tab.is-active::after{transform:scaleX(1)}
 
 .pf__grid{position:relative;z-index:2;display:grid;grid-template-columns:repeat(3,1fr);gap:40px 24px;margin-top:44px}
+.work--flat{cursor:default}
 .work{display:block;opacity:0;transform:translateY(26px) scale(.98);
   transition:opacity .7s var(--ease),transform .8s var(--ease-out);transition-delay:var(--d,0ms)}
 .work.is-in{opacity:1;transform:none}
@@ -651,6 +652,9 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <a href="gallery.html">Gallery</a>
         <a href="portfolio.html" class="is-current">Portfolio</a>
         <a href="esafiri.html">Case: E-Safiri</a>
+        <a href="wedding.html">Case: Weddings</a>
+        <a href="sga.html">Case: SGA Security</a>
+        <a href="gtc.html">Case: Nairobi GTC</a>
       </div>
     </div>
     <a href="blog.html">Blog</a>
@@ -671,6 +675,9 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a></li>
         <li><a href="esafiri.html" data-close>Case: E-Safiri</a></li>
+        <li><a href="wedding.html" data-close>Case: Weddings</a></li>
+        <li><a href="sga.html" data-close>Case: SGA Security</a></li>
+        <li><a href="gtc.html" data-close>Case: Nairobi GTC</a></li>
       </ul>
     </li>
     <li><a href="blog.html" data-close>Blog</a></li>
@@ -760,9 +767,15 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 <script>
 
 /* ---------- works: swap the seeds for your own photos ---------- */
-const CATS = ['All','Fashion','Lifestyle','Studio','Portraits'];
+const CATS = ['All','Weddings','Documentary','Commercial','Exhibition','Portraits','Fashion','Lifestyle','Studio'];
 
 const WORKS = [
+  /* real, published cases — these open their own page */
+  { title:'E-Safiri',           place:'Kisumu',      cat:'Documentary', url:'esafiri.html', img:'esafiri/es-charging-station.jpg' },
+  { title:'Joe & Pauline',      place:'Nairobi',     cat:'Weddings',    url:'wedding.html', img:'wedding/wd-first-kiss.jpg' },
+  { title:'SGA Security',       place:'Nairobi',     cat:'Commercial',  url:'sga.html',     img:'sga/sga-cit-road.jpg' },
+  { title:'Nairobi GTC',        place:'Nairobi',     cat:'Exhibition',  url:'gtc.html',     img:'gtc/gtc-tabbys-print.jpg' },
+  /* placeholders — give them a `url` when their case page exists */
   { title:'Personal Session',    place:'Chicago',     cat:'Portraits', seed:'chicago' },
   { title:'Tourist Photography', place:'Boston',      cat:'Lifestyle', seed:'boston' },
   { title:'Personal Session',    place:'Des Moines',  cat:'Fashion',   seed:'desmoines' },
@@ -816,14 +829,15 @@ const grid = $('#grid');
 let shown = 0;
 
 function build(w, i){
-  const a = document.createElement('a');
-  a.className = 'work';
-  a.href = 'portfolio-single.html';
+  const a = document.createElement(w.url ? 'a' : 'div');
+  a.className = 'work' + (w.url ? '' : ' work--flat');
+  if(w.url) a.href = w.url;
   a.dataset.cat = w.cat;
   a.style.setProperty('--d', Math.min(i, 5) * 90 + 'ms');
+  const src = w.img || `https://picsum.photos/seed/broms-w-${w.seed}/800/990`;
   a.innerHTML = `
     <div class="work__media">
-      <img src="https://picsum.photos/seed/broms-w-${w.seed}/800/990" alt="${w.title} in ${w.place}" loading="lazy">
+      <img src="${src}" alt="${w.title} in ${w.place}" loading="lazy">
     </div>
     <h3 class="work__title">${w.title}</h3>
     <p class="work__loc">${PIN}<span>${w.place}</span></p>`;
