@@ -728,6 +728,11 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 /* the film banner is 16:9 here — the still is cut from a portrait frame */
 .backstage .reel{aspect-ratio:16/9;max-width:1120px;margin-left:auto;margin-right:auto}
 
+
+/* floating deck: steps aside when the film modal or the lightbox is open */
+[data-laundry-deck]{transition:opacity .3s var(--ease)}
+body.is-locked [data-laundry-deck]{opacity:0;pointer-events:none}
+
 /* ---------- Laundry: hero that hands over to film ---------- */
 .cs-hero__film{position:absolute;inset:0;z-index:2;opacity:0;pointer-events:none;
   transition:opacity 1.1s var(--ease);overflow:hidden;background:#000}
@@ -951,7 +956,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       <div><dt>Series</dt><dd>Laundry Link Up</dd></div>
       <div><dt>Photographer</dt><dd>Ronny Onkeo</dd></div>
       <div><dt>Featuring</dt><dd>Juma, Em &amp; Jordez</dd></div>
-      <div><dt>Location</dt><dd>Nairobi, Kenya</dd></div>
+      <div><dt>Location</dt><dd>Century Drycleaners, Nairobi</dd></div>
     </dl>
     <p class="cs-body" data-reveal style="--d:240ms;margin-top:30px">
       <a href="https://youtu.be/G7QcVd0-5zQ" target="_blank" rel="noopener" class="arrow-link" style="gap:14px">
@@ -1230,5 +1235,303 @@ addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
 })();
 
 </script>
+
+<!-- deck widget -->
+<script>
+
+/* ==================================================================
+   Laundry Deck — a floating card-deck gallery
+   Paste this whole block in before the closing body tag of a page.
+   No dependencies; renders inside a shadow root, so it cannot
+   collide with the host page's CSS.
+   ================================================================== */
+(function () {
+  "use strict";
+
+  /* ---- THE HAND ---------------------------------------------------
+     To serve real files instead of the embedded ones, replace each
+     `src` with a path: src: "images/la-doorway.jpg"
+  ------------------------------------------------------------------ */
+  var HAND = [
+    { id: "01", suit: "link up", src: "laundry/la-link-up.jpg",
+      title: "The link up",
+      body: "Around the industrial washer at Century Drycleaners." },
+    { id: "02", suit: "curtains", src: "laundry/la-curtains.jpg",
+      title: "Blue curtains",
+      body: "A portrait against the hanging laundry bags." },
+    { id: "03", suit: "press", src: "laundry/la-press-room.jpg",
+      title: "The press room",
+      body: "Iron in hand, among the pressing machines." },
+    { id: "04", suit: "cart", src: "laundry/la-basket-play.jpg",
+      title: "Cart games",
+      body: "Lollipops and laughter over the laundry cart." },
+    { id: "05", suit: "door", src: "laundry/la-doorway.jpg",
+      title: "Shopfront",
+      body: "Framed in the green shopfront doorway." },
+    { id: "06", suit: "basket", src: "laundry/la-emelyne.jpg",
+      title: "Emelyne",
+      body: "Rings, shades and a laundry basket." }
+  ];
+
+  var CSS = `
+  :host{
+    --ink:#000; --ink-2:#111; --paper:#fff; --paper-dim:rgba(255,255,255,.6);
+    --sky:#8aace7;
+    --w:112px;
+    all:initial;
+    display:block;
+    position:fixed; right:20px; bottom:20px; z-index:2147483000;
+    font-family:"Poppins",system-ui,-apple-system,"Segoe UI",sans-serif;
+    -webkit-font-smoothing:antialiased;
+  }
+  *{box-sizing:border-box}
+
+  .scrim{
+    position:fixed; inset:0; background:rgba(0,0,0,.62);
+    opacity:0; pointer-events:none; transition:opacity .34s ease;
+  }
+  :host(.open) .scrim{opacity:1; pointer-events:auto}
+
+  .fan{position:absolute; right:0; bottom:0; width:var(--w); height:1px}
+
+  .card{
+    position:absolute; right:0; bottom:0;
+    width:var(--w); aspect-ratio:5/7;
+    transform-origin:50% 100%;
+    --rot:0deg; --lift:0px; --slide:0px; --sc:1;
+    transform:rotate(var(--rot)) translate(var(--slide),calc(var(--lift) * -1)) scale(var(--sc));
+    transition:transform .6s cubic-bezier(.22,.9,.24,1), opacity .3s ease;
+    transform-style:preserve-3d;
+    border:0; padding:0; background:none; cursor:pointer;
+    opacity:0; pointer-events:none;
+    -webkit-tap-highlight-color:transparent;
+  }
+  :host(.open) .card{opacity:1; pointer-events:auto}
+
+  .flip{
+    position:absolute; inset:0; transform-style:preserve-3d;
+    transform:rotateY(180deg);
+    transition:transform .6s cubic-bezier(.22,.9,.24,1);
+  }
+  .card.up .flip{transform:rotateY(0)}
+
+  .face,.back{
+    position:absolute; inset:0; border-radius:9px; overflow:hidden;
+    backface-visibility:hidden; -webkit-backface-visibility:hidden;
+    box-shadow:0 14px 30px rgba(0,0,0,.6), 0 0 0 1px rgba(255,255,255,.12);
+  }
+  .face{background:var(--paper); padding:5px}
+  .back{
+    transform:rotateY(180deg); border:5px solid var(--paper);
+    background:
+      repeating-linear-gradient(45deg,transparent 0 6px,rgba(79,176,239,.5) 6px 7px),
+      repeating-linear-gradient(-45deg,transparent 0 6px,rgba(79,176,239,.5) 6px 7px),
+      linear-gradient(155deg,var(--ink-2),var(--ink));
+  }
+  .face img{width:100%;height:100%;object-fit:cover;display:block;border-radius:4px;background:var(--ink-2)}
+  .idx{
+    position:absolute; left:9px; top:7px; z-index:2; line-height:1;
+    font-size:12px; font-weight:800; letter-spacing:-.04em; color:var(--paper);
+    text-shadow:0 1px 5px rgba(0,0,0,.9);
+  }
+  .idx i{display:block;font-style:normal;font-size:8px;font-weight:500;color:var(--sky);margin-top:2px}
+
+  .card:focus-visible .face,.card:focus-visible .back{
+    box-shadow:0 0 0 3px var(--ink),0 0 0 6px var(--sky),0 14px 30px rgba(0,0,0,.6);
+  }
+
+  /* caption, shown while a card is picked out */
+  .cap{
+    position:absolute; right:0; bottom:0;
+    width:min(280px,72vw); text-align:right;
+    opacity:0; transform:translateY(6px); pointer-events:none;
+    transition:opacity .3s ease, transform .3s ease;
+  }
+  .cap.on{opacity:1; transform:none}
+  .cap h3{margin:0 0 2px; font-size:15px; font-weight:700; letter-spacing:-.02em; color:var(--paper)}
+  .cap p{margin:0; font-size:12.5px; line-height:1.45; font-weight:400; color:var(--paper-dim)}
+
+  /* launcher */
+  .launch{
+    position:relative; display:block; width:60px; height:60px;
+    border:0; padding:0; border-radius:50%; cursor:pointer;
+    background:var(--ink); box-shadow:0 8px 22px rgba(0,0,0,.5), 0 0 0 1px rgba(255,255,255,.14);
+    transition:transform .3s cubic-bezier(.22,.9,.24,1), background .25s ease;
+    -webkit-tap-highlight-color:transparent;
+  }
+  .launch:hover{transform:translateY(-2px)}
+  .launch:focus-visible{outline:3px solid var(--sky); outline-offset:3px}
+
+  /* three mini card-backs stacked inside the launcher */
+  .chip{
+    position:absolute; left:50%; top:50%; width:20px; height:28px; border-radius:3px;
+    border:1.5px solid var(--paper); background:var(--ink-2);
+    transition:transform .38s cubic-bezier(.22,.9,.24,1), opacity .25s ease;
+  }
+  .chip:nth-child(1){transform:translate(-50%,-50%) rotate(-13deg) translateX(-4px)}
+  .chip:nth-child(2){transform:translate(-50%,-50%) rotate(0deg)}
+  .chip:nth-child(3){transform:translate(-50%,-50%) rotate(13deg) translateX(4px)}
+  .chip:nth-child(2)::after{
+    content:""; position:absolute; left:50%; top:50%; width:6px; height:6px;
+    border-radius:50%; background:var(--sky); transform:translate(-50%,-50%);
+  }
+  :host(.open) .chip{opacity:0}
+  :host(.open) .chip:nth-child(1){transform:translate(-50%,-50%) rotate(45deg) scaleY(.1)}
+  :host(.open) .chip:nth-child(3){transform:translate(-50%,-50%) rotate(-45deg) scaleY(.1)}
+
+  /* the X that replaces the stack when open */
+  .x{
+    position:absolute; left:50%; top:50%; width:17px; height:2px; background:var(--paper);
+    opacity:0; transition:opacity .25s ease .12s, transform .38s cubic-bezier(.22,.9,.24,1);
+  }
+  .x:nth-of-type(1){transform:translate(-50%,-50%) rotate(0deg)}
+  .x:nth-of-type(2){transform:translate(-50%,-50%) rotate(0deg)}
+  :host(.open) .x{opacity:1}
+  :host(.open) .x:nth-of-type(1){transform:translate(-50%,-50%) rotate(45deg)}
+  :host(.open) .x:nth-of-type(2){transform:translate(-50%,-50%) rotate(-45deg)}
+
+  .badge{
+    position:absolute; right:-2px; top:-2px; min-width:19px; height:19px; padding:0 5px;
+    border-radius:999px; background:var(--sky); color:var(--ink);
+    font-size:11px; font-weight:800; line-height:19px; text-align:center;
+    box-shadow:0 0 0 2px var(--ink);
+  }
+  :host(.open) .badge{opacity:0; transition:opacity .2s ease}
+
+  @media (max-width:420px){ :host{--w:96px; right:14px; bottom:14px} }
+  @media (prefers-reduced-motion:reduce){
+    .card,.flip,.chip,.x,.launch,.cap,.scrim{transition-duration:.001s !important}
+  }
+  `;
+
+  /* ---- build ------------------------------------------------------ */
+  var host = document.createElement("div");
+  host.setAttribute("data-laundry-deck", "");
+  document.body.appendChild(host);
+  var root = host.attachShadow({ mode: "open" });
+
+  root.innerHTML =
+    "<style>" + CSS + "</style>" +
+    '<div class="scrim" part="scrim"></div>' +
+    '<div class="fan"></div>' +
+    '<div class="cap"><h3></h3><p></p></div>' +
+    '<button class="launch" type="button" aria-expanded="false" aria-label="Open the photo deck">' +
+      '<span class="chip"></span><span class="chip"></span><span class="chip"></span>' +
+      '<i class="x"></i><i class="x"></i>' +
+      '<span class="badge">' + HAND.length + "</span>" +
+    "</button>";
+
+  var wrapEl  = root.host;
+  var fan     = root.querySelector(".fan");
+  var launch  = root.querySelector(".launch");
+  var scrim   = root.querySelector(".scrim");
+  var cap     = root.querySelector(".cap");
+  var capH    = cap.querySelector("h3");
+  var capP    = cap.querySelector("p");
+
+  var open = false, picked = -1;
+
+  var cards = HAND.map(function (d, i) {
+    var el = document.createElement("button");
+    el.className = "card";
+    el.type = "button";
+    el.setAttribute("aria-label", "Photo " + d.id + ", " + d.title);
+    el.innerHTML =
+      '<div class="flip">' +
+        '<div class="face">' +
+          '<span class="idx">' + d.id + "<i>" + d.suit + "</i></span>" +
+          '<img src="' + d.src + '" alt="' + d.title + '" loading="lazy">' +
+        "</div>" +
+        '<div class="back"></div>' +
+      "</div>";
+    el.addEventListener("click", function (e) { e.stopPropagation(); pick(i); });
+    fan.appendChild(el);
+    return el;
+  });
+
+  function set(el, rot, lift, slide, sc) {
+    el.style.setProperty("--rot", rot + "deg");
+    el.style.setProperty("--lift", lift + "px");
+    el.style.setProperty("--slide", slide + "px");
+    el.style.setProperty("--sc", sc);
+  }
+
+  function layout() {
+    var n = cards.length;
+    var w = cards[0].offsetWidth || 112;
+
+    cards.forEach(function (el, i) {
+      if (!open) {                       // collapsed: tucked behind the launcher
+        set(el, 0, 4, 0, .34);
+        el.style.zIndex = n - i;
+        return;
+      }
+      if (i === picked) {                // picked: squared up, front and centre
+        var hr = launch.getBoundingClientRect();
+        var vw = window.innerWidth, vh = window.innerHeight, pad = 14;
+        var sc = Math.min((vw - pad * 2) / w, (vh * .62) / (w * 1.4), 2.1);
+        var sw = w * sc, sh = w * 1.4 * sc;
+
+        var cx = hr.right - w / 2;                    // card centre, px from left
+        var slide = 0;
+        if (cx > vw - sw / 2 - pad) slide = (vw - sw / 2 - pad) - cx;
+        if (cx + slide < sw / 2 + pad) slide = (sw / 2 + pad) - cx;
+
+        var lift = Math.max(w * .35, Math.min(w * 1.15, hr.bottom - sh - pad - 46));
+
+        set(el, 0, lift, slide, sc);
+        el.style.zIndex = 60;
+        cap.style.bottom = (lift + sh + 12) + "px";
+        return;
+      }
+
+      var t = n === 1 ? .5 : i / (n - 1);        // 0 → 1 across the fan
+      var rot = -8 - t * 40;                     // splays up and to the left
+      set(el, rot, w * .58 + t * 6, 0, picked === -1 ? 1 : .88);
+      el.style.zIndex = 10 + i;
+    });
+  }
+
+  function setOpen(v) {
+    open = v;
+    picked = -1;
+    wrapEl.classList.toggle("open", v);
+    root.querySelector(".launch").setAttribute("aria-expanded", String(v));
+    launch.setAttribute("aria-label", v ? "Close the photo deck" : "Open the photo deck");
+    cards.forEach(function (el, i) {
+      el.style.transitionDelay = (v ? i * 80 : (cards.length - 1 - i) * 55) + "ms";
+      el.querySelector(".flip").style.transitionDelay = (v ? i * 80 + 120 : 0) + "ms";
+      el.classList.toggle("up", v);
+    });
+    cap.classList.remove("on");
+    layout();
+  }
+
+  function pick(i) {
+    picked = (picked === i) ? -1 : i;
+    if (picked === -1) {
+      cap.classList.remove("on");
+    } else {
+      capH.textContent = HAND[picked].title;
+      capP.textContent = HAND[picked].body;
+      cap.classList.add("on");
+    }
+    layout();
+  }
+
+  launch.addEventListener("click", function () { setOpen(!open); });
+  scrim.addEventListener("click", function () { setOpen(false); });
+  document.addEventListener("keydown", function (e) {
+    if (e.key !== "Escape" || !open) return;
+    if (picked !== -1) { pick(picked); } else { setOpen(false); launch.focus(); }
+  });
+  window.addEventListener("resize", layout);
+
+  layout();
+})();
+
+
+</script>
+
 </body>
 </html>
