@@ -173,6 +173,32 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .dropdown a::after{display:none}
 .dropdown a:hover{color:#fff;padding-left:33px;background:rgba(255,255,255,.045)}
 .dropdown a.is-current{color:#fff}
+
+/* cases fly out sideways from Portfolio instead of padding the list */
+.dd-has{position:relative}
+.dd-has > a{display:flex;align-items:center;justify-content:space-between;gap:12px}
+.dd-arrow{font-style:normal;font-size:15px;line-height:1;opacity:.45;transition:opacity .35s var(--ease),transform .35s var(--ease)}
+.dd-has:hover > a .dd-arrow,.dd-has:focus-within > a .dd-arrow{opacity:1;transform:translateX(-3px)}
+.subdrop{
+  position:absolute;top:-10px;right:100%;margin-right:10px;min-width:222px;padding:10px 0;z-index:30;
+  background:rgba(11,11,16,.97);backdrop-filter:blur(18px);
+  border:1px solid var(--line-soft);box-shadow:0 26px 60px rgba(0,0,0,.55);
+  opacity:0;visibility:hidden;transform:translateX(10px);
+  transition:opacity .35s var(--ease),transform .45s var(--ease-out),visibility .35s;
+}
+/* keeps the flyout open while the pointer crosses the gap */
+.subdrop::after{content:"";position:absolute;top:0;bottom:0;left:100%;width:14px}
+.dd-has:hover .subdrop,.dd-has:focus-within .subdrop{opacity:1;visibility:visible;transform:none}
+.subdrop__head{display:block;padding:6px 26px 10px;font-size:9.5px;letter-spacing:.24em;
+  text-transform:uppercase;color:var(--muted-2)}
+@media(max-width:1080px){.subdrop{position:static;opacity:1;visibility:visible;transform:none;
+  border:0;box-shadow:none;background:none;padding:0;margin:0}}
+
+/* mobile: nested one level under Portfolio */
+/* the mobile menu is centred, so nest by scale rather than indent */
+.menu__sub2{list-style:none;margin:4px 0 12px;padding:0}
+.menu__list .menu__sub2 a{font-size:clamp(13px,2vw,16px);line-height:2.1;opacity:.55;letter-spacing:.08em}
+.menu__list .menu__sub2 a:hover{opacity:1}
 .dropdown a.is-current::before{content:"";display:inline-block;width:14px;height:1px;background:#fff;vertical-align:middle;margin-right:10px}
 .hdr .btn{height:44px;padding:0 30px}
 @media(max-width:1080px){.nav{display:none}.hdr .btn{display:none}}
@@ -732,11 +758,17 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <a href="about-me.html">About Me</a>
         <a href="about-us.html">About Us</a>
         <a href="gallery.html">Gallery</a>
-        <a href="portfolio.html">Portfolio</a>
-        <a href="esafiri.html" class="is-current">Case: E-Safiri</a>
-        <a href="wedding.html">Case: Weddings</a>
-        <a href="sga.html">Case: SGA Security</a>
-        <a href="gtc.html">Case: Nairobi GTC</a>
+        <div class="dd-has">
+          <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
+          <div class="subdrop">
+            <span class="subdrop__head">Cases</span>
+            <a href="esafiri.html" class="is-current">E-Safiri</a>
+            <a href="wedding.html">Weddings</a>
+            <a href="sga.html">SGA Security</a>
+            <a href="gtc.html">Nairobi GTC</a>
+            <a href="laundry.html">Laundry Link Up</a>
+          </div>
+        </div>
       </div>
     </div>
     <a href="blog.html">Blog</a>
@@ -755,11 +787,15 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="about-me.html" data-close>About Me</a></li>
         <li><a href="about-us.html" data-close>About Us</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
-        <li><a href="portfolio.html" data-close>Portfolio</a></li>
-        <li><a href="esafiri.html" data-close>Case: E-Safiri</a></li>
-        <li><a href="wedding.html" data-close>Case: Weddings</a></li>
-        <li><a href="sga.html" data-close>Case: SGA Security</a></li>
-        <li><a href="gtc.html" data-close>Case: Nairobi GTC</a></li>
+        <li><a href="portfolio.html" data-close>Portfolio</a>
+          <ul class="menu__sub2">
+            <li><a href="esafiri.html" data-close>E-Safiri</a></li>
+            <li><a href="wedding.html" data-close>Weddings</a></li>
+            <li><a href="sga.html" data-close>SGA Security</a></li>
+            <li><a href="gtc.html" data-close>Nairobi GTC</a></li>
+            <li><a href="laundry.html" data-close>Laundry Link Up</a></li>
+          </ul>
+        </li>
       </ul>
     </li>
     <li><a href="blog.html" data-close>Blog</a></li>
