@@ -609,7 +609,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       <button class="nav__toggle" aria-expanded="false" aria-haspopup="true">Pages <span class="caret">▼</span></button>
       <div class="dropdown">
         <a href="about-me.html">About Me</a>
-        <a href="about-us.html">About Us</a>
+        <a href="flow-tell.html">Flow &amp; Tell</a>
         <a href="gallery.html">Gallery</a>
         <div class="dd-has">
           <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
@@ -638,7 +638,7 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
       <button class="menu__sub-toggle" data-sub>Pages <span class="caret">▼</span></button>
       <ul class="menu__sub">
         <li><a href="about-me.html" data-close>About Me</a></li>
-        <li><a href="about-us.html" data-close>About Us</a></li>
+        <li><a href="flow-tell.html" data-close>Flow &amp; Tell</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a>
           <ul class="menu__sub2">
@@ -1190,6 +1190,19 @@ $('#logoTrack').innerHTML = [...CLIENTS, ...CLIENTS].map(([slug,name],i)=>
     <p class="card__price">from <b>${s.price}</b></p>`;
   track.appendChild(el);
 });
+
+/* Cards sitting off to the right of the scroller never intersect the viewport,
+   so their curtain would stay shut until the drift eventually carried them in.
+   Reveal the whole row as soon as the row itself is on screen. */
+(function revealRow(){
+  const row = $('#svcScroller');
+  if(!row) return;
+  new IntersectionObserver((es,ob)=>es.forEach(e=>{
+    if(!e.isIntersecting) return;
+    $$('.rv-img', row).forEach(el=>el.classList.add('is-in'));
+    ob.disconnect();
+  }),{threshold:.12}).observe(row);
+})();
 
 /* Slow, endless drift shared by the services row and the client logos.
    Each list is rendered twice, so when the scroller passes the halfway mark we

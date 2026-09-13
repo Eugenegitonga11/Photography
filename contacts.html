@@ -666,7 +666,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       <button class="nav__toggle" aria-expanded="false" aria-haspopup="true">Pages <span class="caret">&#9660;</span></button>
       <div class="dropdown">
         <a href="about-me.html">About Me</a>
-        <a href="about-us.html">About Us</a>
+        <a href="flow-tell.html">Flow &amp; Tell</a>
         <a href="gallery.html">Gallery</a>
         <div class="dd-has">
           <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
@@ -695,7 +695,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
       <button class="menu__sub-toggle" data-sub>Pages <span class="caret">&#9660;</span></button>
       <ul class="menu__sub">
         <li><a href="about-me.html" data-close>About Me</a></li>
-        <li><a href="about-us.html" data-close>About Us</a></li>
+        <li><a href="flow-tell.html" data-close>Flow &amp; Tell</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a>
           <ul class="menu__sub2">
@@ -843,7 +843,7 @@ const io = new IntersectionObserver(es=>es.forEach(e=>{
   e.target.classList.add('is-in');
   io.unobserve(e.target);
 }),{threshold:.14, rootMargin:'0px 0px -6% 0px'});
-const observe = ()=> $$('[data-reveal], h1 .line, h2 .line').forEach(el=>io.observe(el));
+const observe = ()=> $$('[data-reveal], [data-reveal-img], h1 .line, h2 .line').forEach(el=>io.observe(el));
 
 /* boot on window.load, but never wait longer than 2.2s — a slow image
    must not leave the visitor staring at the preloader */
