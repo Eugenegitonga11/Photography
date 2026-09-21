@@ -2,14 +2,12 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Flow &amp; Tell — Behind The Lyrics | Ronny Onkeo</title>
 <meta name="description" content="Flow &amp; Tell: a single-format interview show where Kenyan and East African artists break down the writing of one song. 48 episodes on @podvise.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="flowtell/ft-hero-1920.jpg"
-      imagesrcset="flowtell/ft-hero-1280.jpg 1280w, flowtell/ft-hero-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
    RONNY — tokens
@@ -725,111 +723,164 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 .backstage{text-align:center}
 .reel__sub{color:var(--muted);font-size:14px;letter-spacing:.02em;margin:14px 0 0}
 
+/* a YouTube Short is vertical, so the frame flips shape when one is playing */
+.modal__box.is-video{width:auto;height:min(84vh,860px);aspect-ratio:9/16;padding:0;border:0;background:#000;overflow:hidden}
+.modal__box.is-video.is-wide{width:min(1040px,100%);height:auto;aspect-ratio:16/9}
+.modal__box.is-video .modal__ph{display:none}
+.modal__frame{display:none;width:100%;height:100%}
+.modal__box.is-video .modal__frame{display:block}
+.modal__frame iframe{width:100%;height:100%;border:0;display:block}
+.modal__cap{position:absolute;left:24px;right:24px;bottom:22px;text-align:center;color:var(--muted);
+  font-size:12.5px;letter-spacing:.05em;line-height:1.6;opacity:0;transition:opacity .5s var(--ease);margin:0}
+.modal.has-video .modal__cap{opacity:1}
+@media(max-width:640px){.modal__box.is-video{height:auto;width:100%;max-height:70vh}.modal__cap{bottom:14px;font-size:11.5px}}
 
-/* ---------- hero slat wipe ----------
-   The next frame is laid over the current one as vertical slats. Each slat
-   slides in on its own delay, alternating from top and bottom, so the seam
-   between the two images reads as a ragged curtain rather than a straight edge. */
-.slats{position:absolute;inset:0;display:flex;overflow:hidden}   /* under the veil, so the incoming frame is toned to match */
-/* the column is uncovered in place — the photograph itself never moves,
-   so the new frame stays aligned across every slat as it arrives */
-.slat{position:relative;flex:1 1 0;overflow:hidden;
-  clip-path:inset(100% 0 0 0);
-  transition:clip-path 1s cubic-bezier(.76,0,.24,1);
-  transition-delay:calc(var(--k,0) * 55ms)}
-.slat:nth-child(even){clip-path:inset(0 0 100% 0)}
-.slats.is-on .slat{clip-path:inset(0 0 0 0)}
-.slats.no-anim .slat{transition:none}
-.slats.no-anim .slat:nth-child(odd){clip-path:inset(100% 0 0 0)}
-/* each slat shows its own column of one full-bleed image */
-.slat img{position:absolute;top:0;left:calc(-100% * var(--i));
-  width:calc(100% * var(--n));height:100%;max-width:none;object-fit:cover;display:block}
-@media (prefers-reduced-motion:reduce){.slat{transition:none}}
+/* ============================================================
+   Flow & Tell — pinned scroll sequence
+   Structure borrowed from the motion study, re-themed to the site:
+   dark stage, Poppins, the site's blue accent instead of orange.
+   ============================================================ */
+/* overflow-x:hidden on body turns it into a scroll container, and a sticky
+   element then pins to body — which never scrolls — so the stage would slide
+   away. clip trims the same overflow without creating a scroll container. */
+body{overflow-x:clip}
 
-/* ---------- Flow & Tell ---------- */
-:root{--ft:#3d6fe8}
-.ft-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:22px;text-align:center;margin-top:46px}
-.ft-stats b{display:block;font-size:clamp(30px,4vw,52px);font-weight:600;color:var(--blue);line-height:1}
-.ft-stats span{display:block;font-size:11px;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-top:12px}
-@media(max-width:640px){.ft-stats{grid-template-columns:1fr 1fr;gap:32px 16px}}
-
-.guests{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-
-
-/* scattered polaroid deck — dealt out like a hand of cards on scroll */
-.deck{display:flex;flex-wrap:wrap;justify-content:center;gap:26px 10px;margin-top:52px;padding:18px 0;perspective:1100px}
-.pcard{
-  position:relative;width:clamp(150px,17vw,232px);aspect-ratio:5/7;flex:0 0 auto;
-  background:#fff;padding:7px 7px 0;border-radius:10px;
-  box-shadow:0 18px 36px rgba(0,0,0,.55),0 0 0 1px rgba(255,255,255,.1);
-  cursor:zoom-in;opacity:0;transform-style:preserve-3d;
-  /* start life on the stack: offset to the dealer's corner, tipped and small */
-  transform:translate(var(--dx,0px),var(--dy,0px)) rotate(-16deg) scale(.52);
+:root{
+  --sheet:#101017;
+  --sheet-2:#15161f;
+  --r-lg:26px; --r-md:16px; --r-sm:10px;
+  --lift:0 28px 64px -28px rgba(0,0,0,.85);
+  --lift-sm:0 14px 32px -16px rgba(0,0,0,.8);
 }
-.deck.is-dealt .pcard{
-  opacity:1;transform:rotate(var(--r,0deg)) translateY(0) scale(1);
-  transition:transform .8s cubic-bezier(.18,.86,.28,1),opacity .22s linear;
-  transition-delay:calc(var(--i,0) * 105ms);
+.sheet{background:var(--sheet);border:1px solid rgba(255,255,255,.055);border-radius:var(--r-lg);box-shadow:var(--lift)}
+.tint{color:var(--blue)}
+
+/* ---------- hero ---------- */
+.ft-hero{padding:120px 0 30px}
+.ft-hero__sheet{padding:clamp(26px,3.4vw,54px);overflow:hidden}
+.ft-grid{display:grid;grid-template-columns:1.02fr .98fr;gap:clamp(26px,4vw,60px);align-items:center}
+.ft-hero h1{font-size:clamp(38px,5.4vw,74px);line-height:1.02;letter-spacing:-.035em;margin:18px 0 0;font-weight:700}
+.ft-hero .lede{color:var(--muted);font-size:15.5px;line-height:1.85;margin:22px 0 0;max-width:46ch}
+.ft-cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.ft-stats{display:grid;gap:16px;margin-top:34px;padding-top:26px;border-top:1px solid rgba(255,255,255,.08)}
+.ft-stat{display:flex;gap:14px;align-items:center}
+.ft-stat i{width:34px;height:34px;border-radius:10px;flex:0 0 auto;display:grid;place-items:center;
+  background:rgba(138,172,231,.12);color:var(--blue);font-style:normal;font-size:14px}
+.ft-stat b{display:block;font-size:15px;font-weight:600}
+.ft-stat small{display:block;color:var(--muted-2);font-size:11.5px;letter-spacing:.06em;margin-top:2px}
+
+/* a loose fan of stills, absolutely placed */
+.collage{position:relative;height:clamp(320px,38vw,430px)}
+.collage .tile{position:absolute;border-radius:var(--r-md);overflow:hidden;box-shadow:var(--lift);
+  border:1px solid rgba(255,255,255,.1);will-change:transform}
+.collage .tile img{width:100%;height:100%;object-fit:cover;display:block}
+
+/* ---------- the pinned sequence ---------- */
+.sequence{position:relative}
+.stage{position:sticky;top:0;height:100svh;display:grid;place-items:center;padding:clamp(12px,3vh,30px) 0}
+.panel{position:absolute;inset:0;margin:auto;width:min(100% - 40px,var(--wrap));height:min(100%,760px);
+  display:flex;flex-direction:column;justify-content:center;padding:clamp(24px,3.6vw,50px);
+  opacity:0;pointer-events:none;overflow:hidden;will-change:transform,opacity,filter}
+.panel.live{pointer-events:auto}
+.panel h2{font-size:clamp(26px,3.6vw,46px);line-height:1.1;letter-spacing:-.02em;text-align:center;margin:0;font-weight:700}
+.panel .sub{color:var(--muted);font-size:14.5px;line-height:1.8;text-align:center;max-width:56ch;margin:18px auto 0}
+/* with no JS the panels simply stack and read as normal sections */
+.no-seq .stage{position:static;height:auto;display:block}
+.no-seq .panel{position:relative;inset:auto;opacity:1;pointer-events:auto;height:auto;margin:0 auto 22px}
+
+/* panel 1 — the wall of guests */
+.tilewall{margin-top:30px;display:flex;flex-wrap:wrap;justify-content:center;gap:12px}
+.tilewall .cell{position:relative;flex:0 0 calc((100% - 60px) / 6);aspect-ratio:1/1.18;border-radius:var(--r-md);overflow:hidden;
+  border:1px solid rgba(255,255,255,.08);will-change:transform,opacity}
+.tilewall .cell img{width:100%;height:100%;object-fit:cover;display:block}
+.tilewall .cell b{position:absolute;left:0;right:0;bottom:0;padding:16px 8px 7px;font-size:9.5px;font-weight:500;
+  letter-spacing:.04em;text-align:center;color:#eef0f5;background:linear-gradient(to top,rgba(6,7,11,.9),transparent)}
+
+/* panel 2 — the episode */
+.split{display:grid;grid-template-columns:1fr 1.02fr;gap:clamp(22px,4vw,54px);align-items:center}
+.split h2,.split .sub{text-align:left;margin-inline:0}
+.mock{position:relative;aspect-ratio:16/10;border-radius:20px;overflow:visible}
+.mock__shot{position:absolute;inset:0;border-radius:20px;overflow:hidden;border:1px solid rgba(255,255,255,.1);box-shadow:var(--lift)}
+.mock__shot img{width:100%;height:100%;object-fit:cover;display:block}
+.mock .play{position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:58px;height:58px;border-radius:99px;
+  background:#fff;color:#0a0c12;display:grid;place-items:center;font-size:15px;z-index:3;
+  box-shadow:0 18px 40px -12px rgba(0,0,0,.9);transition:transform .4s var(--ease)}
+.mock .play:hover{transform:translate(-50%,-50%) scale(1.09)}
+.mock .chip{position:absolute;z-index:4;background:var(--sheet-2);border:1px solid rgba(255,255,255,.1);
+  border-radius:12px;box-shadow:var(--lift-sm);padding:9px 12px;font-size:10.5px;font-weight:500;
+  display:flex;gap:8px;align-items:center;white-space:nowrap;will-change:transform,opacity}
+.mock .chip i{width:18px;height:18px;border-radius:6px;background:rgba(138,172,231,.2);display:block;flex:0 0 auto}
+.bullets{margin-top:28px;padding-top:22px;border-top:1px solid rgba(255,255,255,.08);
+  display:grid;grid-template-columns:repeat(3,1fr);gap:16px}
+.bullets div{display:flex;gap:10px;font-size:11.5px;font-weight:500;color:#c9cdd7;line-height:1.45}
+.bullets i{width:18px;height:18px;border-radius:6px;background:rgba(138,172,231,.18);flex:0 0 auto}
+
+/* panel 3 — the crew, fanned on an arc */
+.arc{position:relative;height:min(44vh,320px);margin-top:30px}
+.crd{position:absolute;left:50%;top:0;width:clamp(122px,15vw,170px);padding:15px;border-radius:18px;
+  background:var(--sheet-2);border:1px solid rgba(255,255,255,.08);box-shadow:var(--lift);
+  text-align:center;will-change:transform,opacity}
+.crd .av{width:58px;height:58px;border-radius:99px;margin:0 auto 11px;overflow:hidden;display:grid;place-items:center;
+  background:linear-gradient(150deg,#1b1f2b,#0e1016);border:1px solid rgba(255,255,255,.12);font-weight:700;color:#fff}
+.crd .av img{width:100%;height:100%;object-fit:cover}
+.crd b{display:block;font-size:13px;font-weight:600}
+.crd small{display:block;color:var(--muted-2);font-size:10.5px;margin-top:3px;letter-spacing:.08em;text-transform:uppercase}
+.dot{position:absolute;border-radius:99px;background:var(--blue);opacity:.5}
+
+/* panel 4 — the facts */
+.bento{margin-top:30px;display:grid;grid-template-columns:repeat(4,1fr);grid-auto-rows:minmax(118px,auto);gap:14px}
+.box{background:var(--sheet-2);border:1px solid rgba(255,255,255,.07);border-radius:var(--r-md);
+  padding:22px;display:flex;flex-direction:column;justify-content:flex-end;position:relative;overflow:hidden;
+  will-change:transform,opacity}
+.box .lbl{font-size:9.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.box h3{font-size:16px;font-weight:600;margin:10px 0 0;line-height:1.35}
+.box small{color:var(--muted-2);font-size:11.5px;margin-top:8px}
+.b1{grid-column:span 2;grid-row:span 2}
+.b2{grid-column:span 2}
+.b3,.b4{grid-column:span 1}
+.b1 .big{font-size:clamp(44px,6vw,86px);font-weight:700;line-height:.95;letter-spacing:-.04em;color:#fff;margin-top:auto}
+
+/* panel 5 — tags and episodes */
+.rings{position:absolute;inset:0;pointer-events:none;display:grid;place-items:center}
+.rings span{position:absolute;border:1px solid rgba(138,172,231,.16);border-radius:50%}
+.tags{display:flex;flex-wrap:wrap;justify-content:center;gap:9px;margin-top:22px}
+.tag{padding:8px 15px;border:1px solid rgba(255,255,255,.14);border-radius:40px;font-size:12px;color:#b9bec9;
+  will-change:transform,opacity}
+.tag.on{background:#fff;color:#0a0c12;border-color:#fff}
+.genre{display:grid;grid-template-columns:1.4fr .6fr;gap:24px;margin-top:26px;align-items:center}
+.rows{display:grid;gap:9px}
+.row{display:flex;align-items:center;justify-content:space-between;gap:16px;padding:13px 16px;
+  background:var(--sheet-2);border:1px solid rgba(255,255,255,.07);border-radius:13px;cursor:pointer;
+  will-change:transform,opacity;transition:border-color .35s,background .35s}
+.row:hover{background:#1a1c26;border-color:rgba(255,255,255,.2)}
+.row b{font-size:13.5px;font-weight:600;display:block}
+.row small{display:block;color:var(--muted-2);font-size:11px;margin-top:3px}
+.row .go{width:30px;height:30px;border-radius:99px;background:rgba(255,255,255,.08);display:grid;place-items:center;
+  font-size:10px;flex:0 0 auto}
+.nowplay{position:relative;border-radius:18px;overflow:hidden;aspect-ratio:4/5;max-height:min(46vh,380px);width:100%;justify-self:center;border:1px solid rgba(255,255,255,.1);
+  box-shadow:var(--lift);will-change:transform,opacity}
+.nowplay img{width:100%;height:100%;object-fit:cover;transition:opacity .35s var(--ease)}
+.nowplay img.is-swapping{opacity:0}
+.row.is-on{border-color:rgba(138,172,231,.5);background:#171a25}
+.nowplay .bar{position:absolute;left:14px;right:14px;bottom:14px;height:4px;border-radius:99px;background:rgba(255,255,255,.25)}
+.nowplay .bar i{position:absolute;left:0;top:0;bottom:0;right:96%;background:#fff;border-radius:99px;display:block}
+
+.scrollhint{position:fixed;left:50%;bottom:22px;transform:translateX(-50%);z-index:60;
+  font-size:10.5px;letter-spacing:.22em;text-transform:uppercase;color:var(--muted);pointer-events:none}
+
+@media(max-width:900px){
+  .ft-grid{grid-template-columns:1fr;gap:34px}
+  .collage{height:330px}
+  .panel{height:auto;max-height:100%;overflow-y:auto}
+  .split,.genre{grid-template-columns:1fr;gap:26px}
+  .tilewall .cell{flex-basis:calc((100% - 24px) / 3)}
+  .bento{grid-template-columns:repeat(2,1fr)}
+  .b1,.b2{grid-column:span 2}
+  .b1{grid-row:auto}
+  .bullets{grid-template-columns:1fr}
+  .arc{height:400px}
+  .nowplay{max-width:240px;margin:0 auto}
 }
-/* picked up out of the hand: straightens, lifts, and tips toward the cursor.
-   Needs to out-rank .deck.is-dealt .pcard, hence the longer selector. */
-.deck.is-dealt .pcard:hover,.deck.is-dealt .pcard:focus-visible{
-  transform:translateY(-16px) scale(1.06) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
-  z-index:5;transition-delay:0ms;transition-duration:.32s;
-  box-shadow:0 34px 64px rgba(0,0,0,.7),0 0 0 1px rgba(255,255,255,.26)}
-.deck.is-dealt .pcard:hover .pcard__cap{letter-spacing:.06em}
-.pcard__cap{transition:letter-spacing .32s var(--ease)}
-.pcard img{width:100%;height:calc(100% - 34px);object-fit:cover;border-radius:5px;display:block;background:#111}
-.pcard__no{position:absolute;left:14px;top:12px;z-index:2;line-height:1;
-  font-size:13px;font-weight:700;letter-spacing:-.03em;color:#fff;text-shadow:0 1px 6px rgba(0,0,0,.9)}
-.pcard__no i{display:block;font-style:normal;font-size:8.5px;font-weight:500;color:var(--blue);margin-top:3px;letter-spacing:.06em}
-.pcard__cap{display:block;height:34px;line-height:34px;text-align:center;color:#14161c;
-  font-size:11.5px;font-weight:500;letter-spacing:.02em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;padding:0 4px}
-@media (prefers-reduced-motion:reduce){
-  .pcard{opacity:1;transform:rotate(var(--r,0deg))}
-  .deck.is-dealt .pcard{transition:none}
-}
-
-/* the three who make it — Ronny has a portrait, the others sit face-down for now */
-/* crew cards follow the playing-card form: photo to the edge, label mirrored corner to corner */
-.deck--crew{margin-top:44px;gap:0}
-.deck--crew .pcard{padding:7px;margin-left:clamp(-30px,-1.6vw,-12px);width:clamp(168px,20vw,266px)}
-.deck--crew .pcard:first-child{margin-left:0}
-.deck--crew .pcard img,.deck--crew .pcard .pcard__back{height:100%;border-radius:6px}
-.deck--crew .pcard__cap{display:none}
-.pcard__no--alt{top:auto;left:auto;bottom:13px;right:15px;transform:rotate(180deg);text-align:left}
-.deck--crew .pcard__no{font-size:14px}
-.deck--crew .pcard__no i{font-size:10px;letter-spacing:.04em;margin-top:4px;white-space:nowrap}
-.pcard__back{display:flex;align-items:center;justify-content:center;height:calc(100% - 34px);border-radius:5px;
-  background:
-    repeating-linear-gradient(45deg,transparent 0 7px,rgba(138,172,231,.42) 7px 8px),
-    repeating-linear-gradient(-45deg,transparent 0 7px,rgba(138,172,231,.42) 7px 8px),
-    linear-gradient(155deg,#171a22,#0c0e13)}
-.pcard--back{cursor:default}
-.pcard__back b{font-size:clamp(26px,3vw,40px);font-weight:700;letter-spacing:-.03em;color:#fff;opacity:.9}
-
-/* hover a name, the player below loads that episode */
-.scene .ep-head{text-align:center;margin-top:58px}
-.scene .reel{margin-top:26px}
-#epThumb{transition:opacity .45s var(--ease)}
-#epThumb.is-swapping{opacity:0}
-.guests{display:flex;flex-wrap:wrap;gap:10px;margin-top:34px}
-.guests button{position:relative;padding:9px 18px 9px 30px;border:1px solid rgba(255,255,255,.16);border-radius:40px;
-  font-family:inherit;font-size:13px;color:#c9cdd7;cursor:pointer;background:none;
-  transition:background .35s var(--ease),color .35s var(--ease),border-color .35s var(--ease)}
-.guests button::before{content:"";position:absolute;left:15px;top:50%;width:6px;height:6px;border-radius:50%;
-  background:var(--blue);transform:translateY(-50%) scale(0);transition:transform .35s var(--ease-out)}
-.guests button:hover,.guests button:focus-visible{color:#fff;border-color:rgba(255,255,255,.45);outline:none}
-.guests button.is-on{background:#fff;color:#0a0c12;border-color:#fff}
-.guests button.is-on::before{transform:translateY(-50%) scale(1);background:#0a0c12}
-
-.ep{display:grid;grid-template-columns:76px 1fr auto;gap:22px;align-items:baseline;
-  padding:20px 0;border-bottom:1px solid rgba(255,255,255,.09)}
-.ep:first-child{border-top:1px solid rgba(255,255,255,.09)}
-.ep b{font-size:clamp(16px,1.7vw,20px);font-weight:600}
-.ep span{font-size:11px;letter-spacing:.2em;color:var(--blue)}
-.ep em{font-style:normal;font-size:12px;letter-spacing:.14em;text-transform:uppercase;color:var(--muted-2)}
-@media(max-width:620px){.ep{grid-template-columns:54px 1fr;gap:12px}.ep em{grid-column:2}}
 </style>
 </head>
 <body>
@@ -881,7 +932,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
           <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
           <div class="subdrop">
             <span class="subdrop__head">Cases</span>
-            <a href="esafiri.html" class="is-current">E-Safiri</a>
+            <a href="esafiri.html">E-Safiri</a>
             <a href="wedding.html">Weddings</a>
             <a href="sga.html">SGA Security</a>
             <a href="gtc.html">Nairobi GTC</a>
@@ -924,183 +975,106 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 </div>
 
 <!-- ===================== HERO ===================== -->
-<section class="cs-hero" id="csHero">
-  <img src="flowtell/ft-hero-1920.jpg" srcset="flowtell/ft-hero-1280.jpg 1280w, flowtell/ft-hero-1920.jpg 1920w"
-       sizes="100vw" fetchpriority="high" alt="The Mith and Navio on the Flow &amp; Tell set">
-  <div class="slats" id="slats" aria-hidden="true"></div>
-  <div class="cs-hero__veil"></div>
-  <div class="radar cs-hero__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
-  <div class="cs-hero__in">
-    <span class="eyebrow" data-reveal>Behind The Lyrics &middot; @podvise</span>
-    <h1 class="bigtype"><span class="line"><span style="--d:220ms">FLOW<span class="hollow">&amp;</span>TELL</span></span></h1>
-    <p class="cs-hero__sub" data-reveal style="--d:520ms">One artist. One song. The whole story of how it got written.</p>
-    <div class="cs-hero__facts" data-reveal style="--d:640ms">
-      <span>Episodes <b>48</b></span>
-      <span>Run time <b>8&ndash;16 Min</b></span>
-      <span>Since <b>2024</b></span>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== INTRO ===================== -->
-<section class="sec">
-  <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>The Show</span>
-    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)">
-      <span class="line"><span>Songwriting craft,</span></span>
-      <span class="line"><span style="--d:120ms">taken seriously.</span></span>
-    </h2>
-    <p class="cs-lead" data-reveal style="--d:180ms;margin-top:26px">Flow &amp; Tell is a single-format interview show: an artist sits down and breaks open the writing of one specific song the first line, the dead ends, the version nobody heard.</p>
-    <p class="cs-body" data-reveal style="--d:260ms;margin-top:26px">Forty-eight episodes across roughly two years, almost all of them between eight and sixteen minutes. No panel, no gossip, no clip-farming. In a market where most music content is fragments, this is the long-form conversation about how the work actually gets made.</p>
-    <dl class="ft-stats" data-reveal style="--d:320ms">
-      <div><b>48</b><span>Episodes</span></div>
-      <div><b>2</b><span>Years running</span></div>
-      <div><b>8&ndash;16</b><span>Minutes each</span></div>
-      <div><b>1</b><span>Song per episode</span></div>
-    </dl>
-  </div>
-</section>
-
-<!-- ===================== THE DECK ===================== -->
-<section class="sec sec--tight">
-  <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>In The Chair</span>
-    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Who has sat down with us.</span></span></h2>
-  </div>
+<section class="ft-hero">
   <div class="wrap">
-    <div class="deck" id="deck">
-      <figure class="pcard" data-full="flowtell/ft-godlvl.jpg" style="--r:-4deg;--i:0">
-        <span class="pcard__no">01<i>ep 048</i></span>
-        <img src="flowtell/ft-godlvl.jpg" alt="The Mith &amp; Navio on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">The Mith &amp; Navio</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-njerae.jpg" style="--r:3deg;--i:1">
-        <span class="pcard__no">02<i>ep 017</i></span>
-        <img src="flowtell/ft-njerae.jpg" alt="Njerae on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Njerae</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-charisma.jpg" style="--r:-2.5deg;--i:2">
-        <span class="pcard__no">03</span>
-        <img src="flowtell/ft-charisma.jpg" alt="Charisma on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Charisma</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-mutoriah.jpg" style="--r:4deg;--i:3">
-        <span class="pcard__no">04</span>
-        <img src="flowtell/ft-mutoriah.jpg" alt="Mutoriah on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Mutoriah</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-wanavokali.jpg" style="--r:-3deg;--i:4">
-        <span class="pcard__no">05</span>
-        <img src="flowtell/ft-wanavokali.jpg" alt="Wanavokali on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Wanavokali</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-watendawili.jpg" style="--r:2.5deg;--i:5">
-        <span class="pcard__no">06</span>
-        <img src="flowtell/ft-watendawili.jpg" alt="Watendawili on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Watendawili</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-alisha-popat.jpg" style="--r:-3.5deg;--i:6">
-        <span class="pcard__no">07</span>
-        <img src="flowtell/ft-alisha-popat.jpg" alt="Alisha Popat on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Alisha Popat</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-bridget-blue.jpg" style="--r:3deg;--i:7">
-        <span class="pcard__no">08</span>
-        <img src="flowtell/ft-bridget-blue.jpg" alt="Bridget Blue on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Bridget Blue</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-matt-ngesa.jpg" style="--r:-2deg;--i:8">
-        <span class="pcard__no">09<i>ep 018</i></span>
-        <img src="flowtell/ft-matt-ngesa.jpg" alt="Matt Ngesa on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Matt Ngesa</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-vijana-barubaru.jpg" style="--r:3.5deg;--i:9">
-        <span class="pcard__no">10</span>
-        <img src="flowtell/ft-vijana-barubaru.jpg" alt="Vijana Barubaru on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">Vijana Barubaru</span>
-      </figure>
-      <figure class="pcard" data-full="flowtell/ft-nubia.jpg" style="--r:-3deg;--i:10">
-        <span class="pcard__no">11</span>
-        <img src="flowtell/ft-nubia.jpg" alt="We Are Nubia on Flow &amp; Tell" loading="lazy" draggable="false">
-        <span class="pcard__cap">We Are Nubia</span>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== THE CREW ===================== -->
-<section class="sec sec--tight">
-  <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>The Crew</span>
-    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Who makes it.</span></span></h2>
-  </div>
-  <div class="wrap">
-    <div class="deck deck--crew" id="deckCrew">
-      <figure class="pcard" data-full="about-ronny.jpg" style="--r:-9deg;--i:0">
-        <span class="pcard__no">01<i>Ronny Onkeo</i></span>
-        <img src="about-ronny.jpg" alt="Ronny Onkeo" loading="lazy" draggable="false">
-        <span class="pcard__no pcard__no--alt">01<i>Ronny Onkeo</i></span>
-      </figure>
-      <figure class="pcard pcard--back" style="--r:5deg;--i:1">
-        <span class="pcard__no">02<i>Kevin Kengei</i></span>
-        <span class="pcard__back"><b>KK</b></span>
-        <span class="pcard__no pcard__no--alt">02<i>Kevin Kengei</i></span>
-      </figure>
-      <figure class="pcard pcard--back" style="--r:-6deg;--i:2">
-        <span class="pcard__no">03<i>Joy Gichobi</i></span>
-        <span class="pcard__back"><b>JG</b></span>
-        <span class="pcard__no pcard__no--alt">03<i>Joy Gichobi</i></span>
-      </figure>
-    </div>
-  </div>
-</section>
-
-<!-- ===================== THE SCENE + PLAYER ===================== -->
-<section class="sec sec--tight scene">
-  <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>The Scene</span>
-    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Kenyan music, close up.</span></span></h2>
-    <p class="cs-body" data-reveal style="--d:150ms;margin-top:22px">Afro-pop, drill, alt&eacute; and singer-songwriter work, in Swahili and English and lately a push across the region. Hover a name to load the episode.</p>
-    <div class="guests" id="guests" data-reveal style="--d:220ms"></div>
-  </div>
-
-  <div class="wrap">
-    <div class="ep-head">
-      <span class="eyebrow fade-swap" id="epNo">Episode 048</span>
-      <h3 class="h-lg fade-swap" id="epTitle" style="max-width:none;font-size:clamp(24px,3.4vw,46px)">Coast 2 Coast</h3>
-      <p class="reel__sub fade-swap" id="epSub">The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo &middot; Kampala &times; Nairobi</p>
-    </div>
-    <div class="reel rv-img" data-reveal-img style="--d:150ms">
-      <img id="epThumb" src="https://img.youtube.com/vi/7ZUtsDJWQcE/maxresdefault.jpg" alt="Coast 2 Coast — Flow &amp; Tell EP 048" loading="lazy">
-      <div class="play">
-        <svg class="play__ring" viewBox="0 0 150 150" aria-hidden="true">
-          <defs><path id="circPath3" d="M75,75 m-60,0 a60,60 0 1,1 120,0 a60,60 0 1,1 -120,0"/></defs>
-          <text><textPath href="#circPath3" startOffset="0" textLength="377" lengthAdjust="spacing">Behind the lyrics &middot; Flow &amp; Tell &middot;</textPath></text>
-        </svg>
-        <span class="play__pulse"></span><span class="play__pulse"></span>
-        <button class="play__btn" id="epPlay" data-modal data-video="7ZUtsDJWQcE"
-                data-caption="Behind The Lyrics: Coast 2 Coast — The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo · Flow &amp; Tell EP 048"
-                aria-label="Play the episode">
-          <svg viewBox="0 0 14 16"><path d="M0 0l14 8-14 8z"/></svg>
-        </button>
+    <div class="sheet ft-hero__sheet">
+      <div class="ft-grid">
+        <div>
+          <span class="eyebrow" data-reveal>Behind The Lyrics &middot; @podvise</span>
+          <h1>
+            <span class="line"><span>One artist.</span></span>
+            <span class="line"><span style="--d:110ms">One song. <em class="tint" style="font-style:normal">Flow &amp; Tell</em>.</span></span>
+          </h1>
+          <p class="lede" data-reveal style="--d:200ms">A single-format interview show where the writing of one specific song gets taken apart — the first line, the dead ends, the version nobody heard.</p>
+          <div class="ft-cta" data-reveal style="--d:280ms">
+            <a href="https://www.youtube.com/@podvise" target="_blank" rel="noopener" class="btn"><span>Watch on YouTube</span></a>
+            <button class="btn" data-modal data-video="7ZUtsDJWQcE" data-caption="Behind The Lyrics: Coast 2 Coast — The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo · Flow &amp; Tell EP 048"><span>Play EP 048</span></button>
+          </div>
+          <div class="ft-stats">
+            <div class="ft-stat" data-reveal style="--d:340ms">
+              <i>&#9654;</i><span><b><span id="epCount">0</span> episodes</b><small>and counting</small></span>
+            </div>
+            <div class="ft-stat" data-reveal style="--d:400ms">
+              <i>&#9201;</i><span><b>8&ndash;16 minutes</b><small>No panel, no gossip, no clip-farming</small></span>
+            </div>
+            <div class="ft-stat" data-reveal style="--d:460ms">
+              <i>&#9834;</i><span><b>Nairobi to the region</b><small>Afro-pop, drill, alt&eacute;, singer-songwriter</small></span>
+            </div>
+          </div>
+        </div>
+        <div class="collage" id="collage"></div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ===================== SELECTED EPISODES ===================== -->
-<section class="sec sec--tight">
-  <div class="wrap wrap--narrow">
-    <span class="eyebrow" data-reveal>Selected</span>
-    <h2 class="h-lg" style="font-size:clamp(26px,2.6vw,35px)"><span class="line"><span>Where to start.</span></span></h2>
-    <div style="margin-top:40px">
-      <div class="ep" data-reveal><span>EP 048</span><b>The Mith &amp; Navio &mdash; Coast 2 Coast</b><em>Uganda &times; Kenya</em></div>
-      <div class="ep" data-reveal style="--d:90ms"><span>EP 030</span><b>Wanavokali</b><em>Band session</em></div>
-      <div class="ep" data-reveal style="--d:180ms"><span>EP 018</span><b>Matt Ngesa</b><em>Singer-songwriter</em></div>
-      <div class="ep" data-reveal style="--d:270ms"><span>EP 017</span><b>Njerae</b><em>Afro-pop</em></div>
-    </div>
+<!-- ===================== PINNED SEQUENCE ===================== -->
+<div class="sequence" id="sequence">
+  <div class="stage">
+
+    <!-- PANEL 1 -->
+    <section class="panel sheet" data-panel>
+      <h2>Eleven have sat<br>in <span class="tint">the chair</span></h2>
+      <div class="tilewall" id="tilewall"></div>
+    </section>
+
+    <!-- PANEL 2 -->
+    <section class="panel sheet" data-panel>
+      <div class="split">
+        <div class="mock" data-mock>
+          <div class="mock__shot"><img src="flowtell/ft-hero-1920.jpg" alt="Coast 2 Coast — Flow &amp; Tell EP 048" loading="lazy"></div>
+          <button class="play" data-modal data-video="7ZUtsDJWQcE" data-caption="Behind The Lyrics: Coast 2 Coast — The Mith &amp; Navio ft. BigTril &amp; Dagg Mizzo · Flow &amp; Tell EP 048" aria-label="Play episode 048">&#9654;</button>
+          <span class="chip" style="left:-22px;bottom:22%"><i></i>The Mith &amp; Navio</span>
+          <span class="chip" style="right:-18px;top:14%"><i></i>Kampala &times; Nairobi</span>
+        </div>
+        <div>
+          <h2>Coast 2 Coast<span class="tint">.</span></h2>
+          <p class="sub">Episode 048 takes the show across the border — The Mith and Navio with BigTril and Dagg Mizzo, pulling one record apart line by line.</p>
+          <div class="ft-cta"><button class="btn" data-modal data-video="7ZUtsDJWQcE" data-caption="Behind The Lyrics: Coast 2 Coast · Flow &amp; Tell EP 048"><span>Watch the episode</span></button></div>
+          <div class="bullets">
+            <div><i></i>One song per episode</div>
+            <div><i></i>The writer does the talking</div>
+            <div><i></i>Craft over gossip</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- PANEL 3 -->
+    <section class="panel sheet" data-panel>
+      <h2>Who makes it</h2>
+      <p class="sub">A small crew, one camera set-up, and enough time for the artist to actually think.</p>
+      <div class="arc" id="arc"></div>
+    </section>
+
+    <!-- PANEL 4 -->
+    <section class="panel sheet" data-panel>
+      <h2>A genuine niche</h2>
+      <p class="sub">Long-form songwriting conversations, in a market where nearly all music content is clips and gossip.</p>
+      <div class="bento">
+        <div class="box b1"><span class="lbl">@podvise</span><h3>Episodes published</h3><span class="big">48</span></div>
+        <div class="box b2"><span class="lbl">Format</span><h3>One artist, one song, start to finish</h3><small>8&ndash;16 minutes, almost every time</small></div>
+        <div class="box b3"><span class="lbl">Language</span><h3>Swahili &amp; English</h3></div>
+        <div class="box b4"><span class="lbl">Reach</span><h3>Kenya &rarr; East Africa</h3></div>
+      </div>
+    </section>
+
+    <!-- PANEL 5 -->
+    <section class="panel sheet" data-panel>
+      <div class="rings" id="rings"></div>
+      <h2>Pick a <span class="tint">sound</span></h2>
+      <div class="tags">
+        <span class="tag on">#afro-pop</span><span class="tag">#drill</span><span class="tag">#alt&eacute;</span>
+        <span class="tag">#singer-songwriter</span><span class="tag">#swahili</span><span class="tag">#english</span>
+      </div>
+      <div class="genre">
+        <div class="rows" id="rows"></div>
+        <div class="nowplay"><img src="flowtell/ft-njerae.jpg" alt="Njerae on Flow &amp; Tell" loading="lazy"><span class="bar"><i></i></span></div>
+      </div>
+    </section>
+
   </div>
-</section>
+</div>
 
 <!-- ===================== OUTRO ===================== -->
 <section class="sec sec--tight cs-out">
@@ -1111,27 +1085,16 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   </div>
 </section>
 
+<div class="scrollhint" id="hint">Scroll &darr;</div>
+
 <!-- ===================== VIDEO MODAL ===================== -->
 <div class="modal" id="modal">
   <button class="modal__close" id="modalClose" aria-label="Close"></button>
   <div class="modal__box" id="modalBox">
-    <div class="modal__ph">
-      <div class="filmstrip" style="justify-content:center"><i></i><i></i><i></i><i></i><i></i></div>
-      <h3 class="h-md" style="margin-top:22px">Episode</h3>
-      <p>Add <code>data-video="YOUTUBE_ID"</code> to any play button and it opens here.</p>
-    </div>
+    <div class="modal__ph"><h3 class="h-md">Episode</h3><p>Pick an episode to play it here.</p></div>
     <div class="modal__frame" id="modalFrame"></div>
   </div>
   <p class="modal__cap" id="modalCap"></p>
-</div>
-
-<!-- ===================== LIGHTBOX ===================== -->
-<div class="lb" id="lb" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button class="lb__close" id="lbClose" aria-label="Close viewer"></button>
-  <button class="lb__nav lb__nav--prev" data-lb="-1" aria-label="Previous photo"><svg viewBox="0 0 12 12"><path d="M8 1L3 6l5 5"/></svg></button>
-  <div class="lb__stage"><img id="lbImg" alt=""></div>
-  <button class="lb__nav lb__nav--next" data-lb="1" aria-label="Next photo"><svg viewBox="0 0 12 12"><path d="M4 1l5 5-5 5"/></svg></button>
-  <div class="lb__count" id="lbCount"></div>
 </div>
 
 <!-- ===================== FOOTER ===================== -->
@@ -1187,19 +1150,105 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   </div>
 </footer>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/ScrollTrigger.min.js"></script>
 <script>
-
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $  = (s,c=document) => c.querySelector(s);
 const $$ = (s,c=document) => [...c.querySelectorAll(s)];
 
-/* ---------- never show a broken image ---------- */
-const FALLBACK = 'linear-gradient(135deg,#171922 0%,#0e1018 50%,#1c1f2b 100%)';
-document.querySelectorAll('img').forEach(img=>{
-  img.addEventListener('error', ()=>{ img.style.opacity = 0; if(img.parentElement) img.parentElement.style.background = FALLBACK; }, {once:true});
+const GUESTS = [
+  ['ft-godlvl','The Mith & Navio'], ['ft-njerae','Njerae'], ['ft-charisma','Charisma'],
+  ['ft-mutoriah','Mutoriah'], ['ft-wanavokali','Wanavokali'], ['ft-watendawili','Watendawili'],
+  ['ft-alisha-popat','Alisha Popat'], ['ft-bridget-blue','Bridget Blue'], ['ft-matt-ngesa','Matt Ngesa'],
+  ['ft-vijana-barubaru','Vijana Barubaru'], ['ft-nubia','We Are Nubia']
+];
+const CREW = [
+  ['Ronny Onkeo','flowtell/ft-crew-ronny.jpg','RO'],
+  ['Kevin Kengei', null, 'KK'],
+  ['Joy Gichobi',  null, 'JG']
+];
+const EPISODES = [
+  ['The Mith & Navio','Coast 2 Coast · EP 048','7ZUtsDJWQcE','ft-godlvl'],
+  ['Njerae','Behind The Lyrics · EP 017','Syw8c_-OQ30','ft-njerae'],
+  ['Matt Ngesa','Behind The Lyrics · EP 018','iabCSQPNa0s','ft-matt-ngesa'],
+  ['Wanavokali','Behind The Lyrics','QRPuhY9ac8w','ft-wanavokali']
+];
+
+/* ---------- build the repeated bits ---------- */
+const FAN = [
+  {x:'2%',  y:'8%',  w:'30%', h:'46%', r:-11, z:2, i:1},
+  {x:'30%', y:'0%',  w:'34%', h:'54%', r:-3,  z:4, i:0},
+  {x:'64%', y:'10%', w:'31%', h:'47%', r:8,   z:3, i:2},
+  {x:'6%',  y:'54%', w:'29%', h:'42%', r:-7,  z:3, i:5},
+  {x:'36%', y:'58%', w:'32%', h:'40%', r:4,   z:5, i:7},
+  {x:'68%', y:'56%', w:'27%', h:'38%', r:12,  z:2, i:8}
+];
+const collage = $('#collage');
+FAN.forEach(t=>{
+  const el = document.createElement('div');
+  el.className = 'tile';
+  el.style.cssText = `left:${t.x};top:${t.y};width:${t.w};height:${t.h};z-index:${t.z}`;
+  el.dataset.rot = t.r;
+  el.innerHTML = `<img src="flowtell/${GUESTS[t.i][0]}.jpg" alt="${GUESTS[t.i][1]} on Flow & Tell" loading="lazy" draggable="false">`;
+  collage.appendChild(el);
 });
 
-/* ---------- reveal ---------- */
+const wall = $('#tilewall');
+GUESTS.forEach(([slug,name])=>{
+  const c = document.createElement('div');
+  c.className = 'cell';
+  c.innerHTML = `<img src="flowtell/${slug}.jpg" alt="${name} on Flow & Tell" loading="lazy" draggable="false"><b>${name}</b>`;
+  wall.appendChild(c);
+});
+
+const arc = $('#arc');
+CREW.forEach(([name,img,initials])=>{
+  const el = document.createElement('div');
+  el.className = 'crd';
+  el.innerHTML = `<span class="av">${img ? `<img src="${img}" alt="${name}" loading="lazy">` : initials}</span>`
+               + `<b>${name}</b><small>Flow &amp; Tell</small>`;
+  arc.appendChild(el);
+});
+[['6%','14%',9],['90%','24%',11],['16%','80%',7],['80%','86%',10],['48%','6%',6]].forEach(([l,t,s])=>{
+  const d = document.createElement('span');
+  d.className = 'dot';
+  d.style.cssText = `left:${l};top:${t};width:${s}px;height:${s}px`;
+  arc.appendChild(d);
+});
+
+$('#rows').innerHTML = EPISODES.map(([who,ep,id,img],i)=>
+  `<div class="row${i===1 ? ' is-on' : ''}" data-modal data-video="${id}" data-img="${img}" data-caption="${who} — ${ep} · Flow &amp; Tell">
+     <b>${who}<small>${ep}</small></b><span class="go">&#9654;</span>
+   </div>`).join('');
+
+/* hovering a row swaps the portrait beside the list */
+(function nowPlaying(){
+  const pic = $('.nowplay img'); let t;
+  $$('#rows .row').forEach(r=>r.addEventListener('pointerenter', ()=>{
+    if(r.classList.contains('is-on')) return;
+    $$('#rows .row').forEach(x=>x.classList.toggle('is-on', x === r));
+    clearTimeout(t); pic.classList.add('is-swapping');
+    t = setTimeout(()=>{ pic.src = `flowtell/${r.dataset.img}.jpg`; pic.alt = r.querySelector('b').firstChild.textContent + ' on Flow & Tell'; pic.classList.remove('is-swapping'); }, 220);
+  }));
+})();
+
+const rings = $('#rings');
+[260,420,600,800].forEach(d=>{
+  const s = document.createElement('span');
+  s.style.cssText = `width:${d}px;height:${d}px`;
+  rings.appendChild(s);
+});
+
+/* ---------- never show a broken image ---------- */
+document.querySelectorAll('img').forEach(img=>{
+  img.addEventListener('error', ()=>{
+    img.style.opacity = 0;
+    if(img.parentElement) img.parentElement.style.background = 'linear-gradient(135deg,#171922,#0e1018 50%,#1c1f2b)';
+  }, {once:true});
+});
+
+/* ---------- reveal + boot ---------- */
 const io = new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting) return;
   e.target.classList.add('is-in');
@@ -1211,40 +1260,50 @@ let booted = false;
 function boot(){
   if(booted) return; booted = true;
   $('#preload').classList.add('is-done');
-  $('#csHero').classList.add('is-ready');
+  document.body.classList.add('is-ready');
   observe();
+  count();
 }
 window.addEventListener('load', ()=>setTimeout(boot, reduce ? 100 : 1450));
 setTimeout(boot, reduce ? 200 : 2200);
 
-/* ---------- lightbox over the frames ---------- */
-const frames = $$('.pcard[data-full]');   // face-down crew cards have no photo to open
-const lb = $('#lb'), lbImg = $('#lbImg'), lbCount = $('#lbCount');
-let lbI = 0;
-function openLb(i){
-  lbI = (i + frames.length) % frames.length;
-  const f = frames[lbI];
-  lbImg.src = f.dataset.full;
-  lbImg.alt = f.querySelector('img').alt;
-  lbCount.textContent = `${lbI + 1} / ${frames.length}`;
-  lb.classList.add('is-open');
-  document.body.classList.add('is-locked');
-  $('#lbClose').focus();
+/* episodes tick up to 48 once */
+function count(){
+  const el = $('#epCount');
+  if(!el) return;
+  if(reduce){ el.textContent = '48'; return; }
+  const t0 = performance.now(), dur = 1600;
+  (function step(now){
+    const p = Math.min((now - t0) / dur, 1);
+    el.textContent = Math.round(48 * (1 - Math.pow(1 - p, 3)));
+    if(p < 1) requestAnimationFrame(step);
+  })(t0);
 }
-const closeLb = ()=>{ lb.classList.remove('is-open'); document.body.classList.remove('is-locked'); };
 
-$('#lbClose').addEventListener('click', closeLb);
-lb.addEventListener('click', e=>{ if(e.target === lb || e.target.classList.contains('lb__stage')) closeLb(); });
-frames.forEach((f,i)=>f.addEventListener('click', ()=>openLb(i)));
-$$('[data-lb]').forEach(b=>b.addEventListener('click', e=>{ e.stopPropagation(); openLb(lbI + +b.dataset.lb); }));
-addEventListener('keydown', e=>{
-  if(!lb.classList.contains('is-open')) return;
-  if(e.key === 'Escape') closeLb();
-  if(e.key === 'ArrowRight') openLb(lbI + 1);
-  if(e.key === 'ArrowLeft')  openLb(lbI - 1);
-});
+/* ---------- video modal ---------- */
+const modal = $('#modal'), modalBox = $('#modalBox'), modalFrame = $('#modalFrame');
+$$('[data-modal]').forEach(b=>b.addEventListener('click',()=>{
+  const id = b.dataset.video;
+  if(id){
+    modalBox.classList.add('is-video','is-wide');
+    modalFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1"
+        title="Flow &amp; Tell episode" allow="autoplay; encrypted-media; picture-in-picture"
+        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
+    $('#modalCap').textContent = b.dataset.caption || '';
+    modal.classList.add('has-video');
+  }
+  modal.classList.add('is-open'); document.body.classList.add('is-locked');
+}));
+const closeModal = ()=>{
+  modal.classList.remove('is-open','has-video');
+  document.body.classList.remove('is-locked');
+  setTimeout(()=>{ modalFrame.innerHTML = ''; modalBox.classList.remove('is-video','is-wide'); }, 400);
+};
+$('#modalClose').addEventListener('click', closeModal);
+modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
+addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
 
-/* ---------- header, menu, dropdown ---------- */
+/* ---------- header, menu, dropdown, newsletter, cursor ---------- */
 const hdr = $('#hdr');
 let lastY = 0;
 addEventListener('scroll', ()=>{
@@ -1271,234 +1330,152 @@ $$('[data-nav-has]').forEach(item=>{
 $$('[data-sub]').forEach(btn=>btn.addEventListener('click', ()=>{
   btn.classList.toggle('is-open'); btn.nextElementSibling.classList.toggle('is-open');
 }));
-
-/* ---------- newsletter ---------- */
 $('#subBtn').addEventListener('click', ()=>{
   const v = $('#subEmail').value.trim(), msg = $('#subMsg');
   if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v)){ msg.style.color = '#e6a5a5'; msg.textContent = 'Enter a valid email address to subscribe.'; return; }
   msg.style.color = '#a9e0c0'; msg.textContent = 'Subscribed. Look out for the next studio letter.';
   $('#subEmail').value = '';
 });
-
-/* ---------- parallax + cursor ---------- */
-const par = $$('[data-parallax]');
-const drift = $$('.frame--wide');          // photo drifts inside its own crop as you scroll
-let ticking = false;
-function parallax(){
-  const h = innerHeight;
-  par.forEach(el=>{
-    const r = el.getBoundingClientRect();
-    if(r.bottom < -200 || r.top > h + 200) return;
-    el.style.setProperty('translate', `0 ${((r.top + r.height/2 - h/2) * parseFloat(el.dataset.parallax)).toFixed(1)}px`);
-  });
-  drift.forEach(f=>{
-    const r = f.getBoundingClientRect();
-    if(r.bottom < -100 || r.top > h + 100) return;
-    const img = f.querySelector('img');
-    /* -1 above the fold … +1 below it, mapped to a few percent of travel */
-    const k = (r.top + r.height/2 - h/2) / (h/2 + r.height/2);
-    if(img) img.style.setProperty('translate', `0 ${(k * 4.5).toFixed(2)}%`);
-  });
-  ticking = false;
-}
 if(!reduce){
-  addEventListener('scroll', ()=>{ if(!ticking){ ticking = true; requestAnimationFrame(parallax); } }, {passive:true});
-  parallax();
   const cur = $('#cursor'), dot = $('#cursorDot');
   let cx = innerWidth/2, cy = innerHeight/2, tx = cx, ty = cy;
   addEventListener('pointermove', e=>{ tx = e.clientX; ty = e.clientY; dot.style.transform = `translate(${tx}px,${ty}px)`; });
   (function loop(){ cx += (tx-cx)*.16; cy += (ty-cy)*.16; cur.style.transform = `translate(${cx}px,${cy}px)`; requestAnimationFrame(loop); })();
   document.addEventListener('pointerover', e=>{
-    cur.classList.toggle('is-big', !!e.target.closest('a, button, .frame'));
+    cur.classList.toggle('is-big', !!e.target.closest('a, button, .row, .cell, .crd'));
   });
 }
 
 
+/* ============================================================
+   The pinned crossfade sequence.
+   Each panel fades/blurs/scales in, holds while its own content
+   animates, then dissolves under the next one. All scrubbed to
+   scroll position, so it reads as one continuous move.
+   ============================================================ */
+(function sequence(){
+  const G = window.gsap;
+  const seq = document.getElementById('sequence');
+  const panels = $$('[data-panel]');
 
+  /* no GSAP (blocked CDN, old browser) or reduced motion → the panels
+     simply stack and read as ordinary sections */
+  if(!G || !window.ScrollTrigger || reduce){
+    document.body.classList.add('no-seq');
+    panels.forEach(p=>p.classList.add('live'));
+    $$('.collage .tile').forEach(t=>t.style.transform = `rotate(${t.dataset.rot}deg)`);
+    const hint = $('#hint'); if(hint) hint.style.display = 'none';
+    return;
+  }
+  G.registerPlugin(window.ScrollTrigger);
 
-/* ---------- hero: automatic slat slideshow ---------- */
-(function heroSlats(){
-  const hero = $('#csHero'), base = hero.querySelector('img'), wrap = $('#slats');
-  const SHOTS = [
-    { src:'flowtell/ft-hero-1920.jpg',         set:'flowtell/ft-hero-1280.jpg 1280w, flowtell/ft-hero-1920.jpg 1920w',                 alt:'The Mith and Navio on the Flow & Tell set' },
-    { src:'flowtell/ft-hero-bridget-1920.jpg', set:'flowtell/ft-hero-bridget-1280.jpg 1280w, flowtell/ft-hero-bridget-1920.jpg 1920w', alt:'Bridget Blue on the Flow & Tell set' },
-    { src:'flowtell/ft-hero-matt-1920.jpg',    set:'flowtell/ft-hero-matt-1280.jpg 1280w, flowtell/ft-hero-matt-1920.jpg 1920w',       alt:'Matt Ngesa on the Flow & Tell set' }
-  ];
-  const N = window.matchMedia('(max-width:640px)').matches ? 9 : 16;
-  const HOLD = 5200, SWEEP = 1700;
-  let at = 0, busy = false;
+  const ease = 'power3.out';
+  const SEG = 100;
+  const N = panels.length;
+  seq.style.height = (N * 105) + 'svh';
 
-  /* a fixed scatter of delays — left-to-right would look like a blind, not a curtain */
-  const ORDER = [0,6,2,9,4,1,7,3,11,5,13,8,15,10,14,12];
-  const slats = Array.from({length:N}, (_,i)=>{
-    const d = document.createElement('div');
-    d.className = 'slat';
-    d.style.setProperty('--i', i);
-    d.style.setProperty('--n', N);
-    d.style.setProperty('--k', ORDER[i % ORDER.length] % N);
-    d.innerHTML = '<img alt="" draggable="false">';
-    wrap.appendChild(d);
-    return d.querySelector('img');
+  /* hero collage settles into its fan, then drifts on scroll */
+  const tiles = $$('.collage .tile');
+  tiles.forEach((t,i)=>{
+    G.set(t, {rotate:t.dataset.rot, transformOrigin:'50% 50%'});
+    G.from(t, {y:60, opacity:0, scale:.86, rotate:0, duration:.9,
+               delay:1.6 + i*.09, ease:'power3.out'});
+    G.to(t, {yPercent:(i % 2 ? -14 : 10), ease:'none',
+             scrollTrigger:{trigger:'.ft-hero', start:'top top', end:'bottom top', scrub:.6}});
   });
 
-  SHOTS.forEach(s=>{ const p = new Image(); p.src = s.src; });   // warm the cache
+  window.ScrollTrigger.create({start:200, onToggle:s=>G.to('#hint',{opacity:s.isActive?0:1,duration:.4})});
 
-  function paint(shot){
-    slats.forEach(img=>{ img.src = shot.src; img.srcset = shot.set; img.sizes = '100vw'; });
-  }
+  const master = G.timeline({scrollTrigger:{trigger:seq, start:'top top', end:'bottom bottom', scrub:.85}});
+  master.to({}, {duration:N * SEG});                 // reserve the runway
 
-  function advance(){
-    if(busy || document.hidden) return;
-    busy = true;
-    const next = SHOTS[(at + 1) % SHOTS.length];
-    paint(next);
-    wrap.classList.remove('no-anim');
-    void wrap.offsetWidth;                       // commit the reset before animating
-    wrap.classList.add('is-on');
-    setTimeout(()=>{
-      base.src = next.src; base.srcset = next.set; base.alt = next.alt;
-      wrap.classList.add('no-anim');
-      wrap.classList.remove('is-on');
-      void wrap.offsetWidth;
-      at = (at + 1) % SHOTS.length;
-      busy = false;
-    }, SWEEP);
-  }
+  const activate = i => panels.forEach((p,n)=>p.classList.toggle('live', n === i));
+  activate(0);
 
-  if(reduce) return;
-  let timer = setInterval(advance, HOLD);
-  new IntersectionObserver(es=>es.forEach(e=>{    // no point animating off screen
-    clearInterval(timer);
-    if(e.isIntersecting) timer = setInterval(advance, HOLD);
-  }),{threshold:.25}).observe(hero);
+  panels.forEach((panel, i)=>{
+    const at = i * SEG, hold = at + SEG*.18;
+
+    master.fromTo(panel,
+      {opacity:0, scale:.93, yPercent:4, filter:'blur(18px)'},
+      {opacity:1, scale:1, yPercent:0, filter:'blur(0px)', duration:SEG*.26, ease:'power2.out',
+       onStart:()=>activate(i), onReverseComplete:()=>activate(Math.max(i-1,0))}, at);
+
+    master.to(panel,
+      {opacity:0, scale:1.06, yPercent:-3, filter:'blur(18px)', duration:SEG*.28, ease:'power2.in'},
+      at + SEG*.76);
+
+    const head = panel.querySelectorAll('h2, .sub');
+    master.fromTo(head, {y:26, opacity:0, filter:'blur(10px)'},
+      {y:0, opacity:1, filter:'blur(0px)', duration:SEG*.22, stagger:SEG*.05, ease}, hold - SEG*.06);
+
+    /* 1 — the guest wall bursts out of a tight cluster */
+    if(i === 0){
+      const cells = panel.querySelectorAll('.cell');
+      cells.forEach((cell,n)=>{
+        const dx = (wall.offsetWidth /2) - (cell.offsetLeft + cell.offsetWidth /2);
+        const dy = (wall.offsetHeight/2) - (cell.offsetTop  + cell.offsetHeight/2);
+        master.fromTo(cell,
+          {x:dx*.62, y:dy*.62, scale:.38, opacity:.25, rotate:(n%2?6:-6)},
+          {x:0, y:0, scale:1, opacity:1, rotate:0, duration:SEG*.5, ease:'power2.out'},
+          hold + n*1.4);
+      });
+    }
+
+    /* 2 — the episode slides in with its labels */
+    if(i === 1){
+      master.fromTo(panel.querySelector('[data-mock]'),
+        {x:-70, rotate:-6, opacity:0, filter:'blur(14px)'},
+        {x:0, rotate:0, opacity:1, filter:'blur(0px)', duration:SEG*.4, ease:'power3.out'}, hold);
+      master.fromTo(panel.querySelectorAll('.chip'),
+        {scale:.6, opacity:0, y:20},
+        {scale:1, opacity:1, y:0, duration:SEG*.28, stagger:SEG*.07, ease:'back.out(2)'}, hold + SEG*.2);
+      master.fromTo(panel.querySelectorAll('.ft-cta, .bullets div'),
+        {y:28, opacity:0, filter:'blur(9px)'},
+        {y:0, opacity:1, filter:'blur(0px)', duration:SEG*.22, stagger:SEG*.035, ease}, hold + SEG*.04);
+    }
+
+    /* 3 — the crew fans along an arc out of a centre stack */
+    if(i === 2){
+      const crds = panel.querySelectorAll('.crd');
+      const last = crds.length - 1;
+      const spread = Math.min(430, arc.offsetWidth * .66);   // fan fits whatever width the panel has
+      crds.forEach((c,n)=>{
+        const t = last ? (n/last) - .5 : 0;
+        master.fromTo(c,
+          {xPercent:-50, x:0, y:110, rotate:0, scale:.72, opacity:0, filter:'blur(12px)'},
+          {xPercent:-50, x:t*spread, y:40 + (t*t)*300, rotate:t*22, scale:1, opacity:1, filter:'blur(0px)',
+           duration:SEG*.46, ease:'power3.out'}, hold + n*3.2);
+      });
+      master.fromTo(panel.querySelectorAll('.dot'), {scale:0, opacity:0},
+        {scale:1, opacity:.5, duration:SEG*.3, stagger:SEG*.04, ease:'back.out(3)'}, hold + SEG*.1);
+      panel.querySelectorAll('.dot').forEach((d,n)=>
+        G.to(d,{y:(n%2?14:-14), duration:3+n*.3, repeat:-1, yoyo:true, ease:'sine.inOut'}));
+    }
+
+    /* 4 — the facts rise in */
+    if(i === 3){
+      master.fromTo(panel.querySelectorAll('.box'),
+        {y:52, opacity:0, scale:.94, filter:'blur(14px)'},
+        {y:0, opacity:1, scale:1, filter:'blur(0px)', duration:SEG*.3, stagger:SEG*.045, ease:'power3.out'}, hold);
+      master.fromTo(panel.querySelector('.big'), {textContent:0},
+        {textContent:48, duration:SEG*.22, ease:'power1.out', snap:{textContent:1}}, hold);
+    }
+
+    /* 5 — rings, tags, then the episode list */
+    if(i === 4){
+      master.fromTo(panel.querySelectorAll('.rings span'), {scale:.3, opacity:0},
+        {scale:1, opacity:1, duration:SEG*.45, stagger:SEG*.025, ease:'power2.out'}, hold - SEG*.1);
+      master.fromTo(panel.querySelectorAll('.tag'), {y:16, opacity:0, scale:.9},
+        {y:0, opacity:1, scale:1, duration:SEG*.22, stagger:SEG*.035, ease:'back.out(2)'}, hold + SEG*.06);
+      master.fromTo(panel.querySelectorAll('.row'), {x:-40, opacity:0, filter:'blur(10px)'},
+        {x:0, opacity:1, filter:'blur(0px)', duration:SEG*.24, stagger:SEG*.04, ease:'power3.out'}, hold + SEG*.04);
+      master.fromTo(panel.querySelector('.nowplay'), {x:60, rotate:5, opacity:0, filter:'blur(14px)'},
+        {x:0, rotate:0, opacity:1, filter:'blur(0px)', duration:SEG*.4, ease:'power3.out'}, hold + SEG*.12);
+      master.fromTo(panel.querySelector('.nowplay .bar i'), {right:'96%'},
+        {right:'38%', duration:SEG*.5, ease:'none'}, hold + SEG*.25);
+    }
+  });
 })();
-
-
-
-/* ---------- deal each hand when it scrolls into view ---------- */
-$$('.deck').forEach(deck=>{
-  const cards = $$('.pcard', deck);
-
-  /* The stack sits in the middle of the row itself, so the throw always happens
-     on screen. Measured from layout offsets, not getBoundingClientRect — the
-     cards already carry a transform, and rect would measure the shifted box. */
-  function stack(){
-    const cx = deck.offsetLeft + deck.offsetWidth / 2;
-    const cy = deck.offsetTop  + deck.offsetHeight / 2;
-    cards.forEach(c=>{
-      c.style.setProperty('--dx', Math.round(cx - (c.offsetLeft + c.offsetWidth  / 2)) + 'px');
-      c.style.setProperty('--dy', Math.round(cy - (c.offsetTop  + c.offsetHeight / 2)) + 'px');
-    });
-  }
-
-  stack();
-  addEventListener('resize', ()=>{ if(!deck.classList.contains('is-dealt')) stack(); });
-
-  new IntersectionObserver((es,ob)=>es.forEach(e=>{
-    if(!e.isIntersecting) return;
-    stack();
-    requestAnimationFrame(()=>requestAnimationFrame(()=>deck.classList.add('is-dealt')));
-    ob.disconnect();
-  }),{threshold:0, rootMargin:'0px 0px -18% 0px'}).observe(deck);
-
-  /* the card tips toward the cursor while it is picked up */
-  if(reduce || matchMedia('(hover:none)').matches) return;
-  cards.forEach(c=>{
-    c.addEventListener('pointermove', e=>{
-      const r = c.getBoundingClientRect();
-      const px = (e.clientX - r.left) / r.width  - .5;
-      const py = (e.clientY - r.top)  / r.height - .5;
-      c.style.setProperty('--ry', (px *  14).toFixed(2) + 'deg');
-      c.style.setProperty('--rx', (py * -14).toFixed(2) + 'deg');
-    });
-    c.addEventListener('pointerleave', ()=>{
-      c.style.setProperty('--ry', '0deg');
-      c.style.setProperty('--rx', '0deg');
-    });
-  });
-});
-
-/* ---------- the scene: hovering a name loads that episode below ---------- */
-(function scene(){
-  const EPISODES = [
-    { name:'The Mith &amp; Navio', id:'7ZUtsDJWQcE', no:'Episode 048', title:'Coast 2 Coast',
-      sub:'ft. BigTril &amp; Dagg Mizzo &middot; Kampala &times; Nairobi', lead:true },
-    { name:'Njerae',           id:'Syw8c_-OQ30' },
-    { name:'Brandy Maina',     id:'ZgkzmjjUL8M' },
-    { name:'Vallerie Muthoni', id:'x7JSMApqJnY' },
-    { name:'Mutoriah',         id:'HTbtLp2ju8g' },
-    { name:'Watendawili',      id:'_9m08Ke2HxU' },
-    { name:'Wanavokali',       id:'QRPuhY9ac8w' },
-    { name:'Charisma',         id:'B1DzB4p84uQ' },
-    { name:'Bridget Blue',     id:'jmW52utJpyw' },
-    { name:'Matt Ngesa',       id:'iabCSQPNa0s' },
-    { name:'Vijana Barubaru',  id:'ujVW5YYDrp4' },
-    { name:'We Are Nubia',     id:'6ePoDVamlRs' }
-  ];
-  const list = $('#guests'), thumb = $('#epThumb'), play = $('#epPlay');
-  const elNo = $('#epNo'), elTitle = $('#epTitle'), elSub = $('#epSub');
-  if(!list) return;
-
-  const plain = t => t.replace(/&amp;/g,'&').replace(/&middot;/g,'·').replace(/&times;/g,'×');
-  let at = 0, hoverTimer;
-
-  list.innerHTML = EPISODES.map((e,i)=>
-    `<button type="button" data-i="${i}"${i===0 ? ' class="is-on"' : ''}>${e.name}</button>`).join('');
-  const pills = $$('button', list);
-
-  EPISODES.forEach(e=>{ const p = new Image(); p.src = `https://img.youtube.com/vi/${e.id}/hqdefault.jpg`; });
-
-  function show(i){
-    if(i === at) return;
-    at = i;
-    const e = EPISODES[i];
-    pills.forEach((b,n)=>b.classList.toggle('is-on', n === i));
-
-    thumb.classList.add('is-swapping');
-    setTimeout(()=>{
-      thumb.src = `https://img.youtube.com/vi/${e.id}/maxresdefault.jpg`;
-      thumb.alt = `${plain(e.name)} on Flow & Tell`;
-      thumb.classList.remove('is-swapping');
-    }, 260);
-
-    elNo.textContent    = e.no    || 'Behind The Lyrics';
-    elTitle.innerHTML   = e.title || e.name;
-    elSub.innerHTML     = e.sub   || 'Breaking down the writing of one song';
-    play.dataset.video  = e.id;
-    play.dataset.caption = `Behind The Lyrics — ${plain(e.title || e.name)} · Flow & Tell`;
-    play.setAttribute('aria-label', `Play: ${plain(e.title || e.name)}`);
-  }
-
-  pills.forEach((b,i)=>{
-    b.addEventListener('pointerenter', ()=>{ clearTimeout(hoverTimer); hoverTimer = setTimeout(()=>show(i), 90); });
-    b.addEventListener('focus', ()=>show(i));
-    b.addEventListener('click', ()=>{ show(i); });      // touch: tap to load, then press play
-  });
-  list.addEventListener('pointerleave', ()=>clearTimeout(hoverTimer));
-})();
-
-/* ---------- video modal ---------- */
-const modal = $('#modal'), modalBox = $('#modalBox'), modalFrame = $('#modalFrame');
-$$('[data-modal]').forEach(b=>b.addEventListener('click',()=>{
-  const id = b.dataset.video;
-  if(id){
-    modalBox.classList.add('is-video','is-wide');
-    modalFrame.innerHTML = `<iframe src="https://www.youtube-nocookie.com/embed/${id}?autoplay=1&rel=0&playsinline=1&modestbranding=1"
-        title="${b.getAttribute('aria-label') || 'Video'}" allow="autoplay; encrypted-media; picture-in-picture"
-        referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>`;
-    $('#modalCap').textContent = b.dataset.caption || '';
-    modal.classList.add('has-video');
-  }
-  modal.classList.add('is-open'); document.body.classList.add('is-locked');
-}));
-const closeModal = ()=>{
-  modal.classList.remove('is-open','has-video');
-  document.body.classList.remove('is-locked');
-  setTimeout(()=>{ modalFrame.innerHTML = ''; modalBox.classList.remove('is-video','is-wide'); }, 400);
-};
-$('#modalClose').addEventListener('click', closeModal);
-modal.addEventListener('click', e=>{ if(e.target === modal) closeModal(); });
-addEventListener('keydown', e=>{ if(e.key === 'Escape') closeModal(); });
 
 </script>
 </body>
