@@ -3,7 +3,11 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Contacts — Ronny Photography</title>
+<title>Contact — Ronny Onkeo</title>
+<link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
+<link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="theme-color" content="#0b0b10">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
@@ -739,8 +743,8 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="pbanner__veil"></div>
   <div class="radar pbanner__radar" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
   <div class="pbanner__inner">
-    <h1 class="h-xl"><span class="line"><span style="--d:200ms">Contacts</span></span></h1>
-    <p class="crumb" data-reveal style="--d:460ms"><a href="index.html">Home</a><i>&middot;</i><b>Contacts</b></p>
+    <h1 class="h-xl"><span class="line"><span style="--d:200ms">Contact</span></span></h1>
+    <p class="crumb" data-reveal style="--d:460ms"><a href="index.html">Home</a><i>&middot;</i><b>Contact</b></p>
   </div>
 </section>
 
@@ -751,16 +755,16 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
     <div class="ct__grid">
 
       <div>
-        <h2><span class="line"><span>Send Us A Message</span></span></h2>
-        <p class="ct__lead" data-reveal style="--d:160ms">Pariatur voluptate occaecat nostrud est exercitation. Culpa culpa laboris excepteur officia ullamco sunt nisi velit culpa.</p>
+        <h2><span class="line"><span>Send Me A Message</span></span></h2>
+        <p class="ct__lead" data-reveal style="--d:160ms">Tell me what you are planning &mdash; the date, the place, and roughly what you need. Your message opens in WhatsApp so it reaches me straight away. I reply to every message, usually within a day.</p>
         <div data-reveal style="--d:260ms">
           <div class="ct__row">
             <input class="field" id="cName" type="text" placeholder="Name *" aria-label="Your name">
             <input class="field" id="cMail" type="email" placeholder="Email *" aria-label="Your email">
             <input class="field" id="cTel" type="tel" placeholder="Phone" aria-label="Your phone">
           </div>
-          <textarea class="field" id="cMsg" placeholder="Comment" aria-label="Your message"></textarea>
-          <button class="btn" id="cSend"><span>Send</span></button>
+          <textarea class="field" id="cMsg" placeholder="What are you planning?" aria-label="Your message"></textarea>
+          <button class="btn" id="cSend"><span>Send On WhatsApp</span></button>
           <p class="ct__msg" id="cOut" role="status"></p>
         </div>
       </div>
@@ -879,14 +883,28 @@ setTimeout(boot, reduce ? 200 : 2200);
 
 /* ---------- message form ---------- */
 const mail = v => /^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(v);
+/* The message is handed to WhatsApp — there is no server behind this form. */
+const WHATSAPP = '254705488046';
+
 $('#cSend').addEventListener('click', ()=>{
   const out = $('#cOut');
-  const n = $('#cName').value.trim(), m = $('#cMail').value.trim(), msg = $('#cMsg').value.trim();
-  if(!n){ out.style.color = '#e6a5a5'; out.textContent = 'Add your name so we know who is writing.'; return; }
-  if(!mail(m)){ out.style.color = '#e6a5a5'; out.textContent = 'That email address looks incomplete.'; return; }
-  if(!msg){ out.style.color = '#e6a5a5'; out.textContent = 'Add a comment so we know what you need.'; return; }
+  const n = $('#cName').value.trim(), m = $('#cMail').value.trim(),
+        tel = $('#cTel').value.trim(), msg = $('#cMsg').value.trim();
+  if(!n){ out.style.color = '#e6a5a5'; out.textContent = 'Add your name so I know who is writing.'; return; }
+  if(m && !mail(m)){ out.style.color = '#e6a5a5'; out.textContent = 'That email address looks incomplete.'; return; }
+  if(!msg){ out.style.color = '#e6a5a5'; out.textContent = 'Tell me what you are planning.'; return; }
+
+  const text =
+    `Hi Ronny,\n\n${msg}\n\n` +
+    `Name: ${n}` +
+    (tel ? `\nPhone: ${tel}` : '') +
+    (m   ? `\nEmail: ${m}`   : '') +
+    `\n\nSent from ronnyonkeo.co.ke`;
+
+  window.open(`https://wa.me/${WHATSAPP}?text=${encodeURIComponent(text)}`, '_blank', 'noopener');
+
   out.style.color = '#a9e0c0';
-  out.textContent = 'Message sent. We reply within 24 hours.';
+  out.textContent = 'Opening WhatsApp — press send there and it reaches me straight away.';
   $('#cName').value = $('#cMail').value = $('#cTel').value = $('#cMsg').value = '';
 });
 
