@@ -852,16 +852,40 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 <script>
 
 /* ---------- images: swap for your own in one place ---------- */
-/* Each batch is 9 photos laid out in the masonry pattern below. */
+/* Each batch is 9 photos laid out in the masonry pattern below.
+   Positions 3 and 6 span two columns, position 8 spans two rows —
+   so wide frames sit in 3 and 6, an upright one in 8. */
 const BATCHES = [
-  ['balloons','hat-girl','chair-portrait','umbrella-couple','two-women','wedding','rocks','yellow-suit','sneakers'],
-  ['studio-lights','city-walk','veil','denim','desert','rooftop','mirror','neon','flowers'],
-  ['backstage','runway','portrait-bw','beach','forest','窗','stairs','coffee','night']
-].map(list => list.map(seed => ({
-  src:   `https://picsum.photos/seed/broms-g-${encodeURIComponent(seed)}/1400/1100`,
-  thumb: `https://picsum.photos/seed/broms-g-${encodeURIComponent(seed)}/800/640`,
-  alt:   seed.replace(/-/g,' ')
-})));
+  [ ['wedding/wd-first-kiss.jpg',        'The first kiss beneath the veil'],
+    ['laundry/la-curtains.jpg',          'A portrait against the laundry curtains'],
+    ['esafiri/es-rider-road.jpg',        'An E-Safiri rider crossing Kisumu'],
+    ['gtc/gtc-tabbys-print.jpg',         'Street portraiture hung at the Nairobi GTC'],
+    ['flowtell/ft-njerae.jpg',           'Njerae on the Flow & Tell set'],
+    ['sma/sma-the-walk.jpg',             'The long walk to school in Turkana'],
+    ['sga/sga-cit-road.jpg',             'Cash in transit on the Nairobi expressway'],
+    ['laundry/la-emelyne.jpg',           'Emelyne at the dry cleaners'],
+    ['wedding/wd-bridesmaids.jpg',       'Bridesmaids gathered around the bride'] ],
+
+  [ ['esafiri/es-charging-station.jpg',  'The E-Safiri battery swap station'],
+    ['flowtell/ft-charisma.jpg',         'Charisma on the Flow & Tell set'],
+    ['sma/sma-assembly.jpg',             'Morning assembly at St. Peter\u2019s Lorugum'],
+    ['wedding/wd-processional.jpg',      'The processional down the garden aisle'],
+    ['sga/sga-k9.jpg',                   'An SGA K9 handler on patrol'],
+    ['gtc/gtc-wall.jpg',                 'The hang at the Nairobi GTC'],
+    ['sma/sma-play.jpg',                 'The field at break time'],
+    ['laundry/la-press-room.jpg',        'Iron in hand among the pressing machines'],
+    ['flowtell/ft-wanavokali.jpg',       'Wanavokali on the Flow & Tell set'] ],
+
+  [ ['wedding/wd-cake-cutting.jpg',      'Cutting the cake'],
+    ['sma/sma-lunch.jpg',                'Lunch in the shade'],
+    ['sga/sga-control-room.jpg',         'Operators at the SGA control room'],
+    ['gtc/gtc-matatu-print.jpg',         'The Jogoo Road print, hung large'],
+    ['wedding/wd-groomsmen.jpg',         'The groomsmen in navy'],
+    ['flowtell/ft-godlvl.jpg',           'The Mith and Navio on Flow & Tell'],
+    ['esafiri/es-team-hero.jpg',         'The E-Safiri team at Dunga Beach'],
+    ['sma/sma-flag.jpg',                 'Raising the flag'],
+    ['laundry/la-doorway.jpg',           'Framed in the green shopfront doorway'] ]
+].map(list => list.map(([src, alt]) => ({ src, thumb: src, alt })));
 
 /* [column start, column span, row start, row span] — mirrors the source layout */
 const LAYOUT = [[1, 1, 1, 1], [2, 1, 1, 1], [3, 2, 1, 2], [1, 1, 2, 1], [2, 1, 2, 1], [1, 2, 3, 2], [3, 1, 3, 1], [4, 1, 3, 2], [3, 1, 4, 1]];

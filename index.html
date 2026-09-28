@@ -445,13 +445,18 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   -webkit-mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent);
   mask-image:linear-gradient(90deg,transparent,#000 10%,#000 90%,transparent)}
 .logos::-webkit-scrollbar{display:none}
-.logos__track{display:flex;align-items:center;gap:clamp(34px,5.5vw,74px);width:max-content;
+.logos__track{display:flex;align-items:center;gap:clamp(16px,1.8vw,26px);width:max-content;
   padding:0 var(--pad)}
 .logos__track.is-dragging{cursor:grabbing}
-.logos li{list-style:none;flex:0 0 auto;display:grid;place-items:center}
-.logos img{height:clamp(34px,4.2vw,54px);width:auto;opacity:.58;-webkit-user-drag:none;user-select:none;
-  transition:opacity .45s var(--ease),transform .45s var(--ease)}
-.logos li:hover img{opacity:1;transform:scale(1.06)}
+/* brand colours need a light plate to read against the dark page —
+   several of these marks are dark ink and vanish on black */
+.logos li{list-style:none;flex:0 0 auto;display:grid;place-items:center;
+  background:#fff;border-radius:12px;padding:clamp(12px,1.4vw,18px) clamp(18px,2vw,26px);
+  opacity:.9;transition:opacity .45s var(--ease),transform .45s var(--ease)}
+.logos li:hover{opacity:1;transform:translateY(-4px)}
+/* a few marks are white artwork — they need the plate the other way round */
+.logos li.on-dark{background:#14161d;box-shadow:inset 0 0 0 1px rgba(255,255,255,.12)}
+.logos img{height:clamp(26px,3.1vw,40px);width:auto;-webkit-user-drag:none;user-select:none;display:block}
 @media (prefers-reduced-motion:reduce){
   .logos{-webkit-mask-image:none;mask-image:none}
   .logos{overflow-x:visible}
@@ -1197,8 +1202,9 @@ $$('[data-hero]').forEach(b=>{
    ============================================================ */
 const track = $('#svcTrack');
 /* rendered twice so the marquee loops without a seam */
+const WHITE_MARKS = ['logo-jumia','logo-afreenation','logo-uro-care'];   // white artwork
 $('#logoTrack').innerHTML = [...CLIENTS, ...CLIENTS].map(([slug,name],i)=>
-  `<li${i >= CLIENTS.length ? ' aria-hidden="true"' : ''}><img src="${LOGO_DIR}${slug}.png" alt="${i >= CLIENTS.length ? '' : name}" loading="lazy" draggable="false" width="300" height="96"></li>`).join('');
+  `<li class="${WHITE_MARKS.includes(slug) ? 'on-dark' : ''}"${i >= CLIENTS.length ? ' aria-hidden="true"' : ''}><img src="${LOGO_DIR}${slug}.png" alt="${i >= CLIENTS.length ? '' : name}" loading="lazy" draggable="false" width="300" height="96"></li>`).join('');
 
 /* rendered twice so the drift can loop without a visible jump */
 [...SERVICES, ...SERVICES].forEach((s,i)=>{
