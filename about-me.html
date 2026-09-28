@@ -136,7 +136,9 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .burger:hover i:nth-child(2){width:100%}
 .logo{display:flex;align-items:center;font-size:20px;letter-spacing:.3em;font-weight:500;margin-right:auto}
 .logo__o{
-  width:.72em;height:.72em;border-radius:50%;margin:0 .10em;position:relative;
+  /* the lens replaces a letter, so it has to carry the same advance:
+     its own width plus the .3em tracking the real letters get after them */
+  width:.70em;height:.70em;border-radius:50%;margin:0 .30em 0 .05em;position:relative;
   background:radial-gradient(circle at 50% 45%,#0c1220 0 38%,#7d8aa8 42%,#dfe6f5 55%,#4c5670 72%,#0c1220 100%);
   box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(180,200,255,.35);
 }
@@ -165,16 +167,21 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 }
 .dropdown::before{content:"";position:absolute;left:0;right:0;top:-20px;height:20px}
 .nav__has:hover .dropdown,.nav__has.is-open .dropdown{opacity:1;visibility:visible;transform:none}
-.dropdown a{
+.dropdown a,.dropdown .dd-parent{
   display:block;padding:11px 26px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;
   color:rgba(255,255,255,.7);transition:color .35s,padding-left .45s var(--ease),background .35s;
 }
 .dropdown a::after{display:none}
-.dropdown a:hover{color:#fff;padding-left:33px;background:rgba(255,255,255,.045)}
+.dropdown a:hover,.dd-has:hover > .dd-parent{color:#fff;padding-left:33px;background:rgba(255,255,255,.045)}
 .dropdown a.is-current{color:#fff}
 
 /* cases fly out sideways from Portfolio instead of padding the list */
 .dd-has{position:relative}
+/* Cinematography is a grouping, not a page — same look as its siblings */
+.dd-parent{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;
+  background:none;border:0;cursor:default;text-align:left}
+.menu__grp{display:block;opacity:.55;cursor:default}
+
 .dd-has > a{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .dd-arrow{font-style:normal;font-size:15px;line-height:1;opacity:.45;transition:opacity .35s var(--ease),transform .35s var(--ease)}
 .dd-has:hover > a .dd-arrow,.dd-has:focus-within > a .dd-arrow{opacity:1;transform:translateX(-3px)}
@@ -662,12 +669,19 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <div class="dd-has">
           <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
           <div class="subdrop">
-            <span class="subdrop__head">Cases</span>
-            <a href="esafiri.html">E-Safiri</a>
+            <span class="subdrop__head">Projects</span>
             <a href="wedding.html">Weddings</a>
             <a href="sga.html">SGA Security</a>
             <a href="gtc.html">Nairobi GTC</a>
             <a href="laundry.html">Laundry Link Up</a>
+          </div>
+        </div>
+        <div class="dd-has">
+          <button type="button" class="dd-parent">Cinematography <i class="dd-arrow">&lsaquo;</i></button>
+          <div class="subdrop">
+            <span class="subdrop__head">Films</span>
+            <a href="esafiri.html">E-Safiri</a>
+            <a href="sma.html">SMA &middot; Lorugum</a>
           </div>
         </div>
       </div>
@@ -690,11 +704,16 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a>
           <ul class="menu__sub2">
-            <li><a href="esafiri.html" data-close>E-Safiri</a></li>
             <li><a href="wedding.html" data-close>Weddings</a></li>
             <li><a href="sga.html" data-close>SGA Security</a></li>
             <li><a href="gtc.html" data-close>Nairobi GTC</a></li>
             <li><a href="laundry.html" data-close>Laundry Link Up</a></li>
+          </ul>
+        </li>
+        <li><span class="menu__grp">Cinematography</span>
+          <ul class="menu__sub2">
+            <li><a href="esafiri.html" data-close>E-Safiri</a></li>
+            <li><a href="sma.html" data-close>SMA &middot; Lorugum</a></li>
           </ul>
         </li>
       </ul>

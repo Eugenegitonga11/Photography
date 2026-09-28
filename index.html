@@ -136,7 +136,9 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .burger:hover i:nth-child(2){width:100%}
 .logo{display:flex;align-items:center;font-size:20px;letter-spacing:.3em;font-weight:500;margin-right:auto}
 .logo__o{
-  width:.72em;height:.72em;border-radius:50%;margin:0 .10em;position:relative;
+  /* the lens replaces a letter, so it has to carry the same advance:
+     its own width plus the .3em tracking the real letters get after them */
+  width:.70em;height:.70em;border-radius:50%;margin:0 .30em 0 .05em;position:relative;
   background:radial-gradient(circle at 50% 45%,#0c1220 0 38%,#7d8aa8 42%,#dfe6f5 55%,#4c5670 72%,#0c1220 100%);
   box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(180,200,255,.35);
 }
@@ -165,16 +167,21 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 }
 .dropdown::before{content:"";position:absolute;left:0;right:0;top:-20px;height:20px}
 .nav__has:hover .dropdown,.nav__has.is-open .dropdown{opacity:1;visibility:visible;transform:none}
-.dropdown a{
+.dropdown a,.dropdown .dd-parent{
   display:block;padding:11px 26px;font-size:11px;letter-spacing:.17em;text-transform:uppercase;
   color:rgba(255,255,255,.7);transition:color .35s,padding-left .45s var(--ease),background .35s;
 }
 .dropdown a::after{display:none}
-.dropdown a:hover{color:#fff;padding-left:33px;background:rgba(255,255,255,.045)}
+.dropdown a:hover,.dd-has:hover > .dd-parent{color:#fff;padding-left:33px;background:rgba(255,255,255,.045)}
 .dropdown a.is-current{color:#fff}
 
 /* cases fly out sideways from Portfolio instead of padding the list */
 .dd-has{position:relative}
+/* Cinematography is a grouping, not a page — same look as its siblings */
+.dd-parent{display:flex;align-items:center;justify-content:space-between;gap:12px;width:100%;
+  background:none;border:0;cursor:default;text-align:left}
+.menu__grp{display:block;opacity:.55;cursor:default}
+
 .dd-has > a{display:flex;align-items:center;justify-content:space-between;gap:12px}
 .dd-arrow{font-style:normal;font-size:15px;line-height:1;opacity:.45;transition:opacity .35s var(--ease),transform .35s var(--ease)}
 .dd-has:hover > a .dd-arrow,.dd-has:focus-within > a .dd-arrow{opacity:1;transform:translateX(-3px)}
@@ -417,11 +424,15 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .said__inner{position:relative;z-index:2}
 .said .p-body{max-width:66ch;margin-left:auto;margin-right:auto;text-align:center;font-size:14.5px;min-height:110px}
 .faces{display:flex;justify-content:center;align-items:center;gap:20px;margin-top:34px}
-.face{width:44px;height:44px;border-radius:50%;overflow:hidden;filter:grayscale(1);opacity:.35;
+.face{width:44px;height:44px;padding:0;border-radius:50%;overflow:hidden;filter:grayscale(1);opacity:.35;
   transition:width .55s var(--ease),height .55s var(--ease),opacity .55s,filter .55s,transform .55s var(--ease)}
-.face img{width:100%;height:100%;object-fit:cover}
 .face.d1{width:56px;height:56px;opacity:.6}
 .face.d0{width:76px;height:76px;opacity:1;filter:grayscale(0);box-shadow:0 0 0 1px rgba(255,255,255,.35),0 14px 40px rgba(0,0,0,.6)}
+.face__mono{width:100%;height:100%;display:grid;place-items:center;font-size:15px;font-weight:600;letter-spacing:.02em;
+  color:#e7eaf1;background:linear-gradient(150deg,#232734,#12141b)}
+.face.d0 .face__mono{font-size:22px}
+.face img{width:100%;height:100%;object-fit:cover;display:block}
+.said__name:empty,.said__role:empty{display:none}
 .said__name{margin-top:22px;font-size:14px;font-weight:500;letter-spacing:.02em}
 .said__role{color:var(--muted-2);font-size:12px;margin-top:5px;letter-spacing:.12em;text-transform:uppercase}
 
@@ -614,12 +625,19 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <div class="dd-has">
           <a href="portfolio.html">Portfolio <i class="dd-arrow">&lsaquo;</i></a>
           <div class="subdrop">
-            <span class="subdrop__head">Cases</span>
-            <a href="esafiri.html">E-Safiri</a>
+            <span class="subdrop__head">Projects</span>
             <a href="wedding.html">Weddings</a>
             <a href="sga.html">SGA Security</a>
             <a href="gtc.html">Nairobi GTC</a>
             <a href="laundry.html">Laundry Link Up</a>
+          </div>
+        </div>
+        <div class="dd-has">
+          <button type="button" class="dd-parent">Cinematography <i class="dd-arrow">&lsaquo;</i></button>
+          <div class="subdrop">
+            <span class="subdrop__head">Films</span>
+            <a href="esafiri.html">E-Safiri</a>
+            <a href="sma.html">SMA &middot; Lorugum</a>
           </div>
         </div>
       </div>
@@ -642,11 +660,16 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <li><a href="gallery.html" data-close>Gallery</a></li>
         <li><a href="portfolio.html" data-close>Portfolio</a>
           <ul class="menu__sub2">
-            <li><a href="esafiri.html" data-close>E-Safiri</a></li>
             <li><a href="wedding.html" data-close>Weddings</a></li>
             <li><a href="sga.html" data-close>SGA Security</a></li>
             <li><a href="gtc.html" data-close>Nairobi GTC</a></li>
             <li><a href="laundry.html" data-close>Laundry Link Up</a></li>
+          </ul>
+        </li>
+        <li><span class="menu__grp">Cinematography</span>
+          <ul class="menu__sub2">
+            <li><a href="esafiri.html" data-close>E-Safiri</a></li>
+            <li><a href="sma.html" data-close>SMA &middot; Lorugum</a></li>
           </ul>
         </li>
       </ul>
@@ -731,13 +754,13 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
         <div class="case__main rv-img" data-reveal-img style="--d:180ms"><img id="caseMain" alt="Featured case" loading="lazy"></div>
       </div>
       <div class="case__text">
-        <span class="eyebrow fade-swap" data-reveal id="caseTag">Cases</span>
+        <span class="eyebrow fade-swap" data-reveal id="caseTag">Projects</span>
         <h2 class="h-lg fade-swap" id="caseTitle"></h2>
         <p class="case__sub fade-swap" id="caseSub"></p>
         <p class="p-body fade-swap" id="caseDesc"></p>
         <dl class="case__meta fade-swap" id="caseMeta"></dl>
         <div class="case__foot">
-          <a href="portfolio.html" class="btn" id="caseLink"><span>View Case</span></a>
+          <a href="portfolio.html" class="btn" id="caseLink"><span>View Project</span></a>
           <div class="case__nav">
             <span class="case__count" id="caseCount"></span>
             <button class="nav-arrow nav-arrow--prev" data-case="prev" aria-label="Previous case">
@@ -958,7 +981,6 @@ const IMG = {
     { name:'hero-matatu',  pos:'58% 45%', alt:'Dancer swinging from the door of a painted matatu on a Nairobi street' },
     { name:'hero-rusinga', pos:'52% 42%', alt:'Shield-bearing performer striding out of the water at the Rusinga festival' }
   ],
-  faces: [1,2,3,4,5].map(n => 'https://i.pravatar.cc/240?img=' + (n * 7))
 };
 
 
@@ -1037,13 +1059,15 @@ const CASES = [
   }
 ];
 
-/* PLACEHOLDER TESTIMONIALS — swap in real words from real clients before this goes live. */
+/* Real client words. Attribution is still missing — add a name/role per quote when
+   you have permission to publish them; the dots below step through the quotes. */
 const SAID = [
-  { text:'He shot our wedding like he already knew the family. We got the big moments, but also the ones we never noticed were happening \u2014 my mother laughing in the corner, my brother fixing his tie. We open that album every anniversary.', name:'Client name', role:'Wedding' },
-  { text:'I came in nervous about being photographed and left with frames I actually recognise myself in. He talks you through it, shows you the back of the camera, and by the tenth shot you forget the lens is there.', name:'Client name', role:'Personal Session' },
-  { text:'We needed campaign images that looked like our people and our branches, not stock photography. He spent a day on the ground with the team before shooting anything. Those images ran across our channels for a full year.', name:'Client name', role:'Commercial' },
-  { text:'Our podcast finally looks the way it sounds. Lighting, stills and thumbnails delivered fast and consistent across the whole season \u2014 which is exactly what we could not get anywhere else.', name:'Client name', role:'Podcast' },
-  { text:'He documented the entire festival, from setup at dawn to the last set of the night. What came back told the story of the day better than anything our own team managed to capture.', name:'Client name', role:'Events' }
+  { text:'Ronny has a way of finding the human story inside a larger project, and that made the final work much more meaningful to us.', name:'Dennis', role:'Documentary', photo:'clients/dennis.jpg' },
+  { text:'Ronny has a way of removing that pressure. He talks to you, listens, jokes when necessary, and somehow you forget that the camera is there. What I appreciated most was that he wasn’t trying to turn me into someone I wasn’t. He was looking for the version of me that already existed. The photographs felt like me — just seen with more intention.', name:'Grace', role:'Personal Session', photo:'clients/grace.jpg' },
+  { text:'Ronny brought much more to the project than a camera. He understood the brief, but he was also willing to question it when he felt there was a better story underneath it. That balance between listening and contributing is rare.', name:'Mona', role:'Commercial', photo:'clients/mona.jpg' },
+  { text:'The best part of working with Ronny was that the process felt collaborative. He came prepared, understood what we needed, and still left enough room for the unexpected. If something wasn’t working, he didn’t make it complicated — he adjusted and kept moving. For a project centred around real people and real experiences, that mattered enormously to us. We weren’t looking for photographs that simply looked beautiful. We wanted photographs that told the real story authentically.', name:'Nicole', role:'Campaign', photo:'clients/nicole.jpg' },
+  { text:'Every production has moments when the plan changes. Locations don’t work, time disappears, weather shifts, people arrive late. Ronny handled those moments with a calmness that made the entire team feel more confident. He knew what needed to be captured, but he wasn’t rigid about how we got there. He could work quickly when necessary without making the images feel rushed. That combination of creativity and practicality is what makes him someone I would happily work with again. You know the work will get done, but you also know it will be done thoughtfully.', name:'Vivian', role:'Production', photo:'clients/vivian.jpg' },
+  { text:'Some photographs are impressive when you first see them and then you move on. Ronny’s work tends to stay with you.', name:'Kotrell', role:'Print', photo:'clients/kotrell.jpg' }
 ];
 
 const ICONS = {
@@ -1277,7 +1301,7 @@ function renderCase(i, instant){
     $('#caseDesc').textContent = c.desc;
     $('#caseMeta').innerHTML = c.meta.map(([ic,label,val])=>
       `<div class="meta">${ICONS[ic]}<div><dt>${label}</dt><dd>${val}</dd></div></div>`).join('');
-    $('#caseTag').textContent = 'Cases \u00b7 ' + c.tag;
+    $('#caseTag').textContent = 'Projects \u00b7 ' + c.tag;
     $('#caseCount').innerHTML = `<b>${String(caseIdx+1).padStart(2,'0')}</b> / ${String(CASES.length).padStart(2,'0')}`;
     $('#caseMain').src  = `${c.slug}-main.jpg`;
     $('#caseMain').alt  = c.title.join(' ').replace(/&amp;/g,'&');
@@ -1301,7 +1325,9 @@ const faces = $('#faces');
 SAID.forEach((s,i)=>{
   const b = document.createElement('button');
   b.className = 'face';
-  b.innerHTML = `<img src="${IMG.faces[i]}" alt="${s.name}" loading="lazy">`;
+  b.setAttribute('aria-label', s.name || ('Testimonial ' + (i + 1)));
+  /* give a testimonial a `photo` and it shows the portrait instead of the monogram */
+  b.innerHTML = `<img src="${s.photo}" alt="${s.name}" loading="lazy">`;
   b.addEventListener('click',()=>renderSaid(i));
   faces.appendChild(b);
 });
