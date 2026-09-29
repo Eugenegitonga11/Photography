@@ -253,6 +253,21 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .hero__slide.is-active{opacity:1}
 .hero__slide img{width:100%;height:100%;object-fit:cover;transform:scale(1.09);transition:transform 11s linear}
 .hero__slide.is-active img{transform:scale(1)}
+
+/* On a phone the frame is portrait and these photographs are landscape, so a
+   static crop throws most of the picture away. While a slide is up, pan the
+   crop from the left of the frame to the right instead of scaling. */
+@media(max-width:760px){
+  .hero__slide img{transform:none;transition:none;object-position:12% var(--oy,50%)}
+  .hero__slide.is-active img{animation:heropan 8.3s linear both}
+}
+@keyframes heropan{
+  from{object-position:12% var(--oy,50%)}
+  to  {object-position:88% var(--oy,50%)}
+}
+@media (prefers-reduced-motion:reduce){
+  .hero__slide.is-active img{animation:none}
+}
 .hero__veil{
   position:absolute;inset:0;
   background:
@@ -1155,7 +1170,7 @@ IMG.hero.forEach((h,i)=>{
       srcset="${h.name}-1280.jpg 1280w, ${h.name}-1920.jpg 1920w"
       sizes="100vw"
       alt="${h.alt}"
-      style="object-position:${h.pos}"
+      style="--oy:${h.pos.split(' ')[1]};object-position:${h.pos}"
       ${i ? 'loading="lazy"' : 'fetchpriority="high"'}>`;
   heroBg.appendChild(d);
 });
