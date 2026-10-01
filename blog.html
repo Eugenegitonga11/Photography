@@ -2,8 +2,9 @@
 <html lang="en">
 <head>
 <meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Blog — Ronny Photography</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Journal — Ronny Onkeo</title>
+<meta name="description" content="Notes on photography, shoots and the work behind the pictures.">
 <link rel="icon" href="favicon-32.png" sizes="32x32" type="image/png">
 <link rel="icon" href="favicon-16.png" sizes="16x16" type="image/png">
 <link rel="apple-touch-icon" href="apple-touch-icon.png">
@@ -11,8 +12,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@200;300;400;500;600;700&display=swap" rel="stylesheet">
-<link rel="preload" as="image" href="page-banner-1920.jpg"
-      imagesrcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" imagesizes="100vw">
 <style>
 /* ============================================================
    RONNY — tokens
@@ -140,13 +139,24 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .burger:hover i:nth-child(2){width:100%}
 .logo{display:flex;align-items:center;font-size:20px;letter-spacing:.3em;font-weight:500;margin-right:auto}
 .logo__o{
-  /* the lens replaces a letter, so it has to carry the same advance:
-     its own width plus the .3em tracking the real letters get after them */
-  width:.70em;height:.70em;border-radius:50%;margin:0 .30em 0 .05em;position:relative;
-  background:radial-gradient(circle at 50% 45%,#0c1220 0 38%,#7d8aa8 42%,#dfe6f5 55%,#4c5670 72%,#0c1220 100%);
-  box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(180,200,255,.35);
+  /* the O is an ordinary letter — the star is a glare sitting over it,
+     so spacing stays exactly as the typeface intends. The letter itself
+     carries the lens glow it had before. */
+  position:relative;display:inline-block;font-style:normal;color:#eef3ff;
+  text-shadow:0 0 6px rgba(223,230,245,.95),
+              0 0 14px rgba(160,190,255,.6),
+              0 0 28px rgba(120,150,230,.35);
 }
-.logo__o::after{content:"";position:absolute;inset:26%;border-radius:50%;background:#080a10;box-shadow:inset 0 0 6px rgba(255,255,255,.5)}
+.logo__o::after{
+  /* The glint sits on the rim of the O at about one o'clock, the way a
+     specular highlight catches the edge of a lens. The -.15em offset is
+     half the tracking, since the element box includes the space after the
+     letter; +.28em/-.25em then walks out to the ring at 45 degrees. */
+  content:"";position:absolute;left:calc(50% + .13em);top:calc(50% - .25em);
+  width:2.2em;height:2.2em;transform:translate(-50%,-50%);
+  background:url("star-lens.png") center/contain no-repeat;
+  pointer-events:none;opacity:.95;
+}
 .nav{display:flex;align-items:center;gap:36px}
 .nav a{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;position:relative;padding:6px 0;color:rgba(255,255,255,.86)}
 .nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:#fff;transition:width .4s var(--ease)}
@@ -205,8 +215,19 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   border:0;box-shadow:none;background:none;padding:0;margin:0}}
 
 /* mobile: nested one level under Portfolio */
-/* the mobile menu is centred, so nest by scale rather than indent */
-.menu__sub2{list-style:none;margin:4px 0 12px;padding:0}
+/* mobile: the two groups collapse like the Pages menu above them */
+.menu__grp-toggle{
+  display:block;width:100%;background:none;border:0;cursor:pointer;font:inherit;color:inherit;
+  font-size:clamp(15px,2.4vw,20px);font-weight:300;line-height:2.3;opacity:.68;
+  letter-spacing:.1em;text-transform:uppercase;padding:0;text-align:center;
+}
+.menu__grp-toggle:hover,.menu__grp-toggle.is-open{opacity:1}
+.menu__grp-toggle .caret{font-size:.42em;margin-left:.5em;display:inline-block;
+  transition:transform .4s var(--ease);vertical-align:middle;opacity:.6}
+.menu__grp-toggle.is-open .caret{transform:rotate(180deg)}
+.menu__sub2{list-style:none;margin:0;padding:0;max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .55s var(--ease-out),opacity .45s,margin .4s}
+.menu__sub2.is-open{max-height:320px;opacity:1;margin:2px 0 10px}
 .menu__list .menu__sub2 a{font-size:clamp(13px,2vw,16px);line-height:2.1;opacity:.55;letter-spacing:.08em}
 .menu__list .menu__sub2 a:hover{opacity:1}
 .dropdown a.is-current::before{content:"";display:inline-block;width:14px;height:1px;background:#fff;vertical-align:middle;margin-right:10px}
@@ -681,6 +702,35 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   .blog__grid{grid-template-columns:1fr;gap:56px}
   .side{max-width:420px}
 }
+
+/* ---------- journal (database-driven) ---------- */
+.jgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:30px;margin-top:46px}
+.jcard{display:block;background:var(--panel-2);border:1px solid rgba(255,255,255,.05);overflow:hidden;
+  transition:transform .6s var(--ease-out),border-color .5s}
+.jcard:hover{transform:translateY(-6px);border-color:rgba(255,255,255,.16)}
+.jcard__media{aspect-ratio:3/2;overflow:hidden;background:var(--panel)}
+.jcard__media img{width:100%;height:100%;object-fit:cover;display:block;transition:transform 1.3s var(--ease-out)}
+.jcard:hover .jcard__media img{transform:scale(1.05)}
+.jcard__body{padding:24px 24px 28px}
+.jcard__meta{font-size:10.5px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.jcard h3{font-size:19px;font-weight:600;line-height:1.35;margin:12px 0 0;letter-spacing:-.01em}
+.jcard p{color:var(--muted);font-size:13.5px;line-height:1.8;margin:11px 0 0}
+.pager{display:flex;gap:10px;justify-content:center;margin-top:50px}
+.pager a,.pager span{padding:10px 17px;border:1px solid var(--line-soft);font-size:12.5px;letter-spacing:.1em}
+.pager .on{background:#fff;color:#0a0c12;border-color:#fff}
+.chips{text-align:center;margin-top:22px}
+.chips a{display:inline-block;margin:4px 6px;padding:7px 15px;border:1px solid var(--line-soft);
+  border-radius:30px;font-size:12px;color:var(--muted)}
+.chips a.on{background:#fff;color:#0a0c12;border-color:#fff}
+.article{max-width:74ch;margin:0 auto}
+.article__meta{font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:var(--blue)}
+.article h1{font-size:clamp(28px,3.6vw,46px);line-height:1.15;letter-spacing:-.02em;margin:18px 0 0;font-weight:600}
+.article__cover{margin:40px 0;overflow:hidden}
+.article__cover img{width:100%;display:block}
+.article__body p{color:#c9cdd7;font-size:15.5px;line-height:1.95;margin:0 0 22px}
+.article__tags{margin-top:40px;padding-top:24px;border-top:1px solid var(--line-soft);display:flex;gap:9px;flex-wrap:wrap}
+.article__tags span{padding:7px 15px;border:1px solid var(--line-soft);border-radius:30px;font-size:12px;color:var(--muted)}
+.empty-note{text-align:center;color:var(--muted);padding:70px 0}
 </style>
 </head>
 <body>
@@ -710,7 +760,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 </svg>
 
 <div class="preload" id="preload">
-  <div class="preload__logo">R<i class="logo__o" style="display:inline-block"></i>NNY</div>
+  <div class="preload__logo">R<i class="logo__o">O</i>NNY</div>
   <div class="preload__bar"></div>
 </div>
 
@@ -719,7 +769,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <header class="hdr" id="hdr">
   <button class="burger" id="burger" aria-label="Open menu"><i></i><i></i><i></i></button>
-  <a href="index.html" class="logo">R<i class="logo__o"></i>NNY</a>
+  <a href="index.html" class="logo">R<i class="logo__o">O</i>NNY</a>
   <nav class="nav">
     <a href="index.html">Home</a>
     <div class="nav__has" data-nav-has>
@@ -748,7 +798,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         </div>
       </div>
     </div>
-    <a href="blog.html" class="is-active">Blog</a>
+    <a href="blog.html" class="is-current">Blog</a>
     <a href="booking.html">Booking</a>
   </nav>
   <a href="contacts.html" class="btn"><span>Contact</span></a>
@@ -764,15 +814,18 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="about-me.html" data-close>About Me</a></li>
         <li><a href="flow-tell.html" data-close>Flow &amp; Tell</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
-        <li><a href="portfolio.html" data-close>Portfolio</a>
+        <li>
+          <button class="menu__grp-toggle" data-sub>Portfolio <span class="caret">&#9660;</span></button>
           <ul class="menu__sub2">
+            <li><a href="portfolio.html" data-close>All projects</a></li>
             <li><a href="wedding.html" data-close>Weddings</a></li>
             <li><a href="sga.html" data-close>SGA Security</a></li>
             <li><a href="gtc.html" data-close>Nairobi GTC</a></li>
             <li><a href="laundry.html" data-close>Laundry Link Up</a></li>
           </ul>
         </li>
-        <li><span class="menu__grp">Cinematography</span>
+        <li>
+          <button class="menu__grp-toggle" data-sub>Cinematography <span class="caret">&#9660;</span></button>
           <ul class="menu__sub2">
             <li><a href="esafiri.html" data-close>E-Safiri</a></li>
             <li><a href="sma.html" data-close>SMA &middot; Lorugum</a></li>
@@ -786,7 +839,6 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="menu__meta">ronnyonkeo@gmail.com &nbsp;&middot;&nbsp; +254 705 488 046</div>
 </div>
 
-<!-- ===================== PAGE BANNER ===================== -->
 <section class="pbanner" id="pbanner">
   <img src="page-banner-1920.jpg" srcset="page-banner-1280.jpg 1280w, page-banner-1920.jpg 1920w" sizes="100vw" fetchpriority="high" alt="Camera lens close-up">
   <div class="pbanner__veil"></div>
@@ -797,71 +849,19 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   </div>
 </section>
 
-<!-- ===================== BLOG ===================== -->
-<section class="blog">
-  <div class="radar blog__radar--a" data-parallax="0.05"><svg><use href="#radar"/></svg></div>
-  <div class="radar blog__radar--b" data-parallax="-0.04"><svg><use href="#radar"/></svg></div>
-  <div class="wrap wrap--narrow">
-    <div class="blog__grid">
-
-      <div>
-        <div class="feed" id="feed"></div>
-        <div class="pager" id="pager"></div>
-      </div>
-
-      <aside class="side">
-        <div class="search">
-          <input type="search" id="q" placeholder="Search..." aria-label="Search the blog">
-          <svg viewBox="0 0 16 16"><circle cx="7" cy="7" r="5.2"/><path d="M11 11l4 4"/></svg>
-        </div>
-
-        <div class="card-w author" data-reveal>
-          <div class="author__pic"><img src="https://picsum.photos/seed/broms-ariana/200/200" alt="Ariana Bennett" loading="lazy"></div>
-          <h3>Ariana Bennett</h3>
-          <p>Hi! I&rsquo;m an author of this blog. I would be glad if my posts are useful to you.</p>
-          <div class="author__soc">
-            <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
-    <a class="soc" href="https://www.instagram.com/ronnyonkeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M12 2.16c3.2 0 3.58.01 4.85.07 1.17.05 1.8.25 2.23.41.56.22.96.48 1.38.9.42.42.68.82.9 1.38.16.43.36 1.06.41 2.23.06 1.27.07 1.65.07 4.85s-.01 3.58-.07 4.85c-.05 1.17-.25 1.8-.41 2.23-.22.56-.48.96-.9 1.38-.42.42-.82.68-1.38.9-.43.16-1.06.36-2.23.41-1.27.06-1.65.07-4.85.07s-3.58-.01-4.85-.07c-1.17-.05-1.8-.25-2.23-.41-.56-.22-.96-.48-1.38-.9-.42-.42-.68-.82-.9-1.38-.16-.43-.36-1.06-.41-2.23-.06-1.27-.07-1.65-.07-4.85s.01-3.58.07-4.85c.05-1.17.25-1.8.41-2.23.22-.56.48-.96.9-1.38.42-.42.82-.68 1.38-.9.43-.16 1.06-.36 2.23-.41C8.42 2.17 8.8 2.16 12 2.16zM12 0C8.74 0 8.33.01 7.05.07 5.78.13 4.9.33 4.14.63c-.79.3-1.46.72-2.12 1.39C1.35 2.68.93 3.35.63 4.14.33 4.9.13 5.78.07 7.05.01 8.33 0 8.74 0 12s.01 3.67.07 4.95c.06 1.27.26 2.15.56 2.91.3.79.72 1.46 1.39 2.12.66.66 1.33 1.08 2.12 1.39.76.3 1.64.5 2.91.56C8.33 23.99 8.74 24 12 24s3.67-.01 4.95-.07c1.27-.06 2.15-.26 2.91-.56.79-.31 1.46-.73 2.12-1.39.66-.66 1.08-1.33 1.39-2.12.3-.76.5-1.64.56-2.91.06-1.28.07-1.69.07-4.95s-.01-3.67-.07-4.95c-.06-1.27-.26-2.15-.56-2.91-.31-.79-.73-1.46-1.39-2.12C21.32 1.35 20.65.93 19.86.63 19.1.33 18.22.13 16.95.07 15.67.01 15.26 0 12 0zm0 5.84a6.16 6.16 0 100 12.32 6.16 6.16 0 000-12.32zm0 10.16a4 4 0 110-8 4 4 0 010 8zm7.85-10.4a1.44 1.44 0 11-2.88 0 1.44 1.44 0 012.88 0z"/></svg></a>
-    <a class="soc" href="https://www.linkedin.com/in/ronny-onkeo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="-1.85 -1.85 27.7 27.7" aria-hidden="true"><path d="M20.45 20.45h-3.56v-5.57c0-1.33-.03-3.04-1.85-3.04-1.86 0-2.14 1.45-2.14 2.94v5.67H9.35V9h3.41v1.56h.05c.47-.9 1.63-1.85 3.36-1.85 3.59 0 4.26 2.37 4.26 5.45v6.29zM5.34 7.43a2.07 2.07 0 110-4.14 2.07 2.07 0 010 4.14zm1.78 13.02H3.55V9h3.57v11.45zM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0z"/></svg></a>
-    <a class="soc" href="https://www.youtube.com/@ronnyonkeo" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="-0.85 -0.85 25.7 25.7" aria-hidden="true"><path d="M23.5 6.19a3.02 3.02 0 00-2.12-2.14C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.5A3.02 3.02 0 00.5 6.19C0 8.07 0 12 0 12s0 3.93.5 5.81a3.02 3.02 0 002.12 2.14c1.88.5 9.38.5 9.38.5s7.5 0 9.38-.5a3.02 3.02 0 002.12-2.14C24 15.93 24 12 24 12s0-3.93-.5-5.81zM9.55 15.57V8.43L15.82 12l-6.27 3.57z"/></svg></a>
-          </div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Recent Posts</h3>
-          <div id="recent"></div>
-        </div>
-
-        <div class="promo" data-reveal>
-          <img src="https://picsum.photos/seed/broms-promo/540/740" alt="" loading="lazy">
-          <div class="promo__in">
-            <b>Photography</b><span>studio</span>
-            <div class="promo__off">-20%</div>
-            <a href="booking.html" class="btn"><span>Order Now</span></a>
-          </div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Recent Comments</h3>
-          <div id="comments"></div>
-        </div>
-
-        <div data-reveal>
-          <h3 class="side__title">Tags</h3>
-          <div class="tags" id="tags"></div>
-        </div>
-      </aside>
-
-    </div>
+<section class="sec">
+  <div class="wrap">
+    <div class="chips" id="chips"></div>
+    <div class="jgrid" id="jgrid"></div>
+    <p class="empty-note" id="jempty" hidden>Nothing in that category yet.</p>
   </div>
 </section>
 
-<!-- ===================== FOOTER ===================== -->
 <footer class="ftr" id="footer">
   <div class="wrap">
     <div class="ftr__grid">
       <div data-reveal>
-        <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
+        <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o">O</i>NNY</h4>
         <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
           <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
@@ -896,7 +896,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
-              <span>8272-00200, Nairobi</span>
+              <span>8272-00200, Nairobi, Kenya</span>
             </div>
           </div>
         </div>
@@ -910,174 +910,79 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 </footer>
 
 <script>
-
-/* ---------- posts: swap the seeds for your own images ---------- */
-const POSTS = [
-  { cat:'Fashion',   date:'Dec 13, 2020', by:'Marco Lutinochi', comments:3,  seed:'nikon',
-    title:'Lightroom Processing Lessons',
-    ex:'This is a program for working with photographs from the shooting stage to their upload and further publication. In this program there is no way to…' },
-  { cat:'Lifestyle', date:'Dec 18, 2020', by:'Marco Lutinochi', comments:2,  seed:'selfie',
-    title:'What Can I Take With My Phone?',
-    ex:'Technically, mobile devices now have very good characteristics that allow you to shoot different scenes in a wide variety of conditions. You need to that the…' },
-  { cat:'Portraits', date:'Dec 23, 2020', by:'Marco Lutinochi', comments:16, seed:'street',
-    title:'Beautiful Portrait Quickly & Efficiently',
-    ex:'In this article I will tell you what basic rules must be followed in order for the shooting to really succeed. And following them, each of you can easily make…' },
-
-  { cat:'Studio',    date:'Jan 04, 2021', by:'Marco Lutinochi', comments:5,  seed:'softbox',
-    title:'Lighting A Small Home Studio',
-    ex:'You do not need a hall full of equipment. Two sources, a reflector and a wall you can bounce light off will already give you a usable portrait setup…' },
-  { cat:'Nature',    date:'Jan 11, 2021', by:'Ariana Bennett',  comments:8,  seed:'forest',
-    title:'Shooting In Bad Weather',
-    ex:'Grey skies act like a giant softbox and rain adds texture that a clear day never will. Here is how to protect your gear and still come home with frames…' },
-  { cat:'Fashion',   date:'Jan 19, 2021', by:'Ariana Bennett',  comments:4,  seed:'runway',
-    title:'Working With A Model For The First Time',
-    ex:'The first ten minutes decide the whole shoot. Talk through the plan, show the first frames on the back of the camera, and the shoulders come down…' },
-
-  { cat:'Portraits', date:'Feb 02, 2021', by:'Marco Lutinochi', comments:11, seed:'window',
-    title:'Window Light Is Still The Best Light',
-    ex:'One north-facing window will out-perform most lighting kits. The trick is knowing where to put your subject and when to walk away from the glass…' },
-  { cat:'Music',     date:'Feb 15, 2021', by:'Ariana Bennett',  comments:6,  seed:'concert',
-    title:'Concert Photography Without A Pit Pass',
-    ex:'Shooting a gig from the crowd means slow lenses, moving heads and light you cannot control. It also means frames nobody else in the room got…' },
-  { cat:'Studio',    date:'Feb 27, 2021', by:'Marco Lutinochi', comments:9,  seed:'darkroom',
-    title:'Building A Colour Grade You Can Repeat',
-    ex:'A look is only useful if it survives the next hundred photos. Start from the skin tones, save the steps as a preset, and stop chasing the trend…' }
-];
-
-const RECENT = [
-  { t:'Discuss the important point with the model in advance.', d:'Dec 13, 2020', seed:'r1' },
-  { t:'Rain. Tips on how to save the situation.',               d:'Dec 20, 2020', seed:'r2' },
-  { t:'I&rsquo;ll tell you briefly about what technique I&rsquo;m using.', d:'Dec 27, 2020', seed:'r3' }
-];
-
-const COMMENTS = [
-  { who:'Bruce Jones',    on:'expensive professional camera needed…' },
-  { who:'Scott Bush',     on:'my favorite lens is Nikkor 50mm and Fujinon 35…' },
-  { who:'Stacey Longman', on:'the main thing is to try and choose…' }
-];
-
-const TAGS = ['Portraits','Fashion','Nature','Music','Studio','Wedding'];
-const PER_PAGE = 3;
-
 const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 const $  = (s,c=document) => c.querySelector(s);
 const $$ = (s,c=document) => [...c.querySelectorAll(s)];
 
-/* ---------- never show a broken image ---------- */
-const FALLBACK = 'linear-gradient(135deg,#171922 0%,#0e1018 50%,#1c1f2b 100%)';
-function guard(img){
-  img.addEventListener('error', ()=>{ img.style.opacity = 0; if(img.parentElement) img.parentElement.style.background = FALLBACK; }, {once:true});
-}
-new MutationObserver(ms=>ms.forEach(m=>m.addedNodes.forEach(n=>{
-  if(n.nodeType===1) (n.tagName==='IMG' ? [n] : [...n.querySelectorAll('img')]).forEach(guard);
-}))).observe(document.body,{childList:true,subtree:true});
-document.querySelectorAll('img').forEach(guard);
-
-/* ---------- reveal ---------- */
 const io = new IntersectionObserver(es=>es.forEach(e=>{
   if(!e.isIntersecting) return;
   e.target.classList.add('is-in');
   io.unobserve(e.target);
 }),{threshold:.14, rootMargin:'0px 0px -6% 0px'});
-const observe = root => $$('[data-reveal], [data-reveal-img], .post, h1 .line, h2 .line', root).forEach(el=>io.observe(el));
+$$('[data-reveal], [data-reveal-img], h1 .line, h2 .line').forEach(el=>io.observe(el));
 
-/* ---------- sidebar ---------- */
-$('#recent').innerHTML = RECENT.map(r=>`
-  <a class="rp" href="#">
-    <span class="rp__pic"><img src="https://picsum.photos/seed/broms-${r.seed}/120/120" alt="" loading="lazy"></span>
-    <span><b>${r.t}</b><span>${r.d}</span></span>
-  </a>`).join('');
-$('#comments').innerHTML = COMMENTS.map(c=>`<div class="cmt"><b>${c.who}</b> on ${c.on}</div>`).join('');
-$('#tags').innerHTML = TAGS.map(t=>`<a href="#" data-tag="${t}">${t}</a>`).join('');
-
-/* ---------- feed ---------- */
-const feed = $('#feed'), pager = $('#pager');
-const ARROW = '<svg viewBox="0 0 56 12" fill="none" stroke="currentColor" stroke-width="1.2"><path d="M0 6h54M48 1l6 5-6 5"/></svg>';
-let page = 0, query = '';
-
-const matches = p => {
-  if(!query) return true;
-  const q = query.toLowerCase();
-  return (p.title + ' ' + p.ex + ' ' + p.cat).toLowerCase().includes(q);
-};
-
-function cardHtml(p, i){
-  return `
-  <article class="post" style="--d:${i*120}ms">
-    <a href="#" class="post__media">
-      <img src="https://picsum.photos/seed/broms-b-${p.seed}/1000/540" alt="${p.title}" loading="lazy">
-      <span class="chip">${p.cat}</span>
-    </a>
-    <div class="post__body">
-      <div class="meta">
-        <span>${p.date}</span><i>&middot;</i><em>${p.by}</em><i>&middot;</i><span>${p.comments} comments</span>
-      </div>
-      <div class="post__rule"></div>
-      <a href="#"><h2>${p.title}</h2></a>
-      <p class="post__ex">${p.ex}</p>
-      <a href="#" class="arrow-link" aria-label="Read ${p.title}">${ARROW}</a>
-    </div>
-  </article>`;
-}
-
-function render(animate){
-  const list = POSTS.filter(matches);
-  const pages = Math.max(1, Math.ceil(list.length / PER_PAGE));
-  if(page >= pages) page = 0;
-  const slice = query ? list : list.slice(page * PER_PAGE, page * PER_PAGE + PER_PAGE);
-
-  const paint = ()=>{
-    feed.innerHTML = slice.length
-      ? slice.map(cardHtml).join('')
-      : `<p class="feed__empty">Nothing matches &ldquo;${query}&rdquo; yet. Try another word.</p>`;
-    pager.innerHTML = query || pages < 2 ? '' :
-      Array.from({length: pages}, (_,n)=>
-        `<button class="${n === page ? 'is-active' : ''}" data-page="${n}" aria-label="Page ${n+1}">${n+1}</button>`).join('');
-    observe(feed);
-    feed.classList.remove('is-swapping');
-  };
-
-  if(animate && !reduce){ feed.classList.add('is-swapping'); setTimeout(paint, 300); }
-  else paint();
-}
-
-pager.addEventListener('click', e=>{
-  const b = e.target.closest('button');
-  if(!b) return;
-  page = +b.dataset.page;
-  render(true);
-  window.scrollTo({ top: feed.getBoundingClientRect().top + scrollY - 130, behavior: reduce ? 'auto' : 'smooth' });
-});
-
-let typing;
-$('#q').addEventListener('input', e=>{
-  clearTimeout(typing);
-  typing = setTimeout(()=>{ query = e.target.value.trim(); page = 0; render(true); }, 260);
-});
-$('#tags').addEventListener('click', e=>{
-  const a = e.target.closest('[data-tag]');
-  if(!a) return;
-  e.preventDefault();
-  $('#q').value = a.dataset.tag;
-  query = a.dataset.tag; page = 0; render(true);
-  window.scrollTo({ top: feed.getBoundingClientRect().top + scrollY - 130, behavior: reduce ? 'auto' : 'smooth' });
-});
-
-render(false);
-
-/* ---------- boot ---------- */
-/* boot on window.load, but never wait longer than 2.2s — a slow image
-   must not leave the visitor staring at the preloader */
 let booted = false;
 function boot(){
   if(booted) return; booted = true;
-    $('#preload').classList.add('is-done');
-  $('#pbanner').classList.add('is-ready');
-  observe(document);
+  $('#preload').classList.add('is-done');
+  document.body.classList.add('is-ready');
 }
-const BOOT_WAIT = reduce ? 100 : 1450;
-window.addEventListener('load', ()=>setTimeout(boot, BOOT_WAIT));
-setTimeout(boot, reduce ? 200 : 2200);
+window.addEventListener('load', ()=>setTimeout(boot, reduce ? 100 : 1200));
+setTimeout(boot, 2000);
+
+/* ---------- the journal ----------
+   Add a post by adding one entry. Newest first.
+   (The PHP build of this site reads these from the database instead.) */
+const POSTS = [
+  { title:'What a commercial shoot actually costs you',
+    slug:'what-a-commercial-shoot-costs',
+    category:'Commercial',
+    date:'12 Jun 2026',
+    excerpt:'Crew, permits, backups, the second camera body that sits in the bag all day — the parts of a quote nobody itemises.',
+    cover:'sga/sga-cit-road.jpg' },
+  { title:'How to prepare for your first portrait session',
+    slug:'preparing-for-your-first-portrait-session',
+    category:'Portraits',
+    date:'03 Jul 2026',
+    excerpt:'What to bring, what to wear, and why the first ten frames are always the stiff ones.',
+    cover:'laundry/la-curtains.jpg' },
+  { title:'Shooting in the Turkana light',
+    slug:'shooting-in-the-turkana-light',
+    category:'Documentary',
+    date:'18 Sep 2026',
+    excerpt:'What midday sun does to skin tones, and why I stopped fighting it.',
+    cover:'sma/sma-the-walk.jpg' }
+];
+
+const grid = document.querySelector('#jgrid');
+const chips = document.querySelector('#chips');
+let filter = 'All';
+
+function drawPosts(){
+  const list = filter === 'All' ? POSTS : POSTS.filter(p => p.category === filter);
+  document.querySelector('#jempty').hidden = list.length > 0;
+  grid.innerHTML = list.map(p => `
+    <a class="jcard rv-img is-in" href="post.html?p=${encodeURIComponent(p.slug)}">
+      ${p.cover ? `<div class="jcard__media"><img src="${p.cover}" alt="${p.title}" loading="lazy"></div>` : ''}
+      <div class="jcard__body">
+        <span class="jcard__meta">${p.category} &middot; ${p.date}</span>
+        <h3>${p.title}</h3>
+        <p>${p.excerpt}</p>
+      </div>
+    </a>`).join('');
+}
+
+const cats = ['All', ...new Set(POSTS.map(p => p.category))];
+chips.innerHTML = cats.map(c => `<a href="#" data-cat="${c}" class="${c === filter ? 'on' : ''}">${c}</a>`).join('');
+chips.addEventListener('click', e => {
+  const a = e.target.closest('[data-cat]');
+  if(!a) return;
+  e.preventDefault();
+  filter = a.dataset.cat;
+  [...chips.children].forEach(x => x.classList.toggle('on', x === a));
+  drawPosts();
+});
+drawPosts();
 
 /* ---------- header, menu, dropdown ---------- */
 const hdr = $('#hdr');

@@ -141,13 +141,24 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
 .burger:hover i:nth-child(2){width:100%}
 .logo{display:flex;align-items:center;font-size:20px;letter-spacing:.3em;font-weight:500;margin-right:auto}
 .logo__o{
-  /* the lens replaces a letter, so it has to carry the same advance:
-     its own width plus the .3em tracking the real letters get after them */
-  width:.70em;height:.70em;border-radius:50%;margin:0 .30em 0 .05em;position:relative;
-  background:radial-gradient(circle at 50% 45%,#0c1220 0 38%,#7d8aa8 42%,#dfe6f5 55%,#4c5670 72%,#0c1220 100%);
-  box-shadow:0 0 0 1px rgba(255,255,255,.35),0 0 12px rgba(180,200,255,.35);
+  /* the O is an ordinary letter — the star is a glare sitting over it,
+     so spacing stays exactly as the typeface intends. The letter itself
+     carries the lens glow it had before. */
+  position:relative;display:inline-block;font-style:normal;color:#eef3ff;
+  text-shadow:0 0 6px rgba(223,230,245,.95),
+              0 0 14px rgba(160,190,255,.6),
+              0 0 28px rgba(120,150,230,.35);
 }
-.logo__o::after{content:"";position:absolute;inset:26%;border-radius:50%;background:#080a10;box-shadow:inset 0 0 6px rgba(255,255,255,.5)}
+.logo__o::after{
+  /* The glint sits on the rim of the O at about one o'clock, the way a
+     specular highlight catches the edge of a lens. The -.15em offset is
+     half the tracking, since the element box includes the space after the
+     letter; +.28em/-.25em then walks out to the ring at 45 degrees. */
+  content:"";position:absolute;left:calc(50% + .13em);top:calc(50% - .25em);
+  width:2.2em;height:2.2em;transform:translate(-50%,-50%);
+  background:url("star-lens.png") center/contain no-repeat;
+  pointer-events:none;opacity:.95;
+}
 .nav{display:flex;align-items:center;gap:36px}
 .nav a{font-size:11.5px;letter-spacing:.2em;text-transform:uppercase;font-weight:500;position:relative;padding:6px 0;color:rgba(255,255,255,.86)}
 .nav a::after{content:"";position:absolute;left:0;bottom:0;height:1px;width:0;background:#fff;transition:width .4s var(--ease)}
@@ -206,8 +217,19 @@ button{font-family:inherit;border:0;background:none;color:inherit;cursor:pointer
   border:0;box-shadow:none;background:none;padding:0;margin:0}}
 
 /* mobile: nested one level under Portfolio */
-/* the mobile menu is centred, so nest by scale rather than indent */
-.menu__sub2{list-style:none;margin:4px 0 12px;padding:0}
+/* mobile: the two groups collapse like the Pages menu above them */
+.menu__grp-toggle{
+  display:block;width:100%;background:none;border:0;cursor:pointer;font:inherit;color:inherit;
+  font-size:clamp(15px,2.4vw,20px);font-weight:300;line-height:2.3;opacity:.68;
+  letter-spacing:.1em;text-transform:uppercase;padding:0;text-align:center;
+}
+.menu__grp-toggle:hover,.menu__grp-toggle.is-open{opacity:1}
+.menu__grp-toggle .caret{font-size:.42em;margin-left:.5em;display:inline-block;
+  transition:transform .4s var(--ease);vertical-align:middle;opacity:.6}
+.menu__grp-toggle.is-open .caret{transform:rotate(180deg)}
+.menu__sub2{list-style:none;margin:0;padding:0;max-height:0;overflow:hidden;opacity:0;
+  transition:max-height .55s var(--ease-out),opacity .45s,margin .4s}
+.menu__sub2.is-open{max-height:320px;opacity:1;margin:2px 0 10px}
 .menu__list .menu__sub2 a{font-size:clamp(13px,2vw,16px);line-height:2.1;opacity:.55;letter-spacing:.08em}
 .menu__list .menu__sub2 a:hover{opacity:1}
 .dropdown a.is-current::before{content:"";display:inline-block;width:14px;height:1px;background:#fff;vertical-align:middle;margin-right:10px}
@@ -799,7 +821,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 </svg>
 
 <div class="preload" id="preload">
-  <div class="preload__logo">R<i class="logo__o" style="display:inline-block"></i>NNY</div>
+  <div class="preload__logo">R<i class="logo__o">O</i>NNY</div>
   <div class="preload__bar"></div>
 </div>
 
@@ -808,7 +830,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
 
 <header class="hdr" id="hdr">
   <button class="burger" id="burger" aria-label="Open menu"><i></i><i></i><i></i></button>
-  <a href="index.html" class="logo">R<i class="logo__o"></i>NNY</a>
+  <a href="index.html" class="logo">R<i class="logo__o">O</i>NNY</a>
   <nav class="nav">
     <a href="index.html">Home</a>
     <div class="nav__has" data-nav-has>
@@ -853,15 +875,18 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
         <li><a href="about-me.html" data-close>About Me</a></li>
         <li><a href="flow-tell.html" data-close>Flow &amp; Tell</a></li>
         <li><a href="gallery.html" data-close>Gallery</a></li>
-        <li><a href="portfolio.html" data-close>Portfolio</a>
+        <li>
+          <button class="menu__grp-toggle" data-sub>Portfolio <span class="caret">&#9660;</span></button>
           <ul class="menu__sub2">
+            <li><a href="portfolio.html" data-close>All projects</a></li>
             <li><a href="wedding.html" data-close>Weddings</a></li>
             <li><a href="sga.html" data-close>SGA Security</a></li>
             <li><a href="gtc.html" data-close>Nairobi GTC</a></li>
             <li><a href="laundry.html" data-close>Laundry Link Up</a></li>
           </ul>
         </li>
-        <li><span class="menu__grp">Cinematography</span>
+        <li>
+          <button class="menu__grp-toggle" data-sub>Cinematography <span class="caret">&#9660;</span></button>
           <ul class="menu__sub2">
             <li><a href="esafiri.html" data-close>E-Safiri</a></li>
             <li><a href="sma.html" data-close>SMA &middot; Lorugum</a></li>
@@ -1059,7 +1084,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
   <div class="wrap">
     <div class="ftr__grid">
       <div data-reveal>
-        <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o"></i>NNY</h4>
+        <h4 class="logo" style="margin:0 0 18px;font-size:19px">R<i class="logo__o">O</i>NNY</h4>
         <p>Documentary, editorial and portrait photography out of Nairobi. A decade behind the lens, with work exhibited from the Nairobi GTC to festival walls across the continent.</p>
         <div class="ftr__social">
           <a class="soc" href="https://www.facebook.com/RonnyOnkeo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="1.07 1.12 22.1 22.1" aria-hidden="true"><path d="M13.5 21v-8h2.72l.41-3.16H13.5V7.83c0-.91.25-1.53 1.57-1.53h1.67V3.47c-.29-.04-1.28-.13-2.44-.13-2.41 0-4.06 1.47-4.06 4.18v2.32H7.5V13h2.74v8h3.26z"/></svg></a>
@@ -1094,7 +1119,7 @@ textarea.field{height:auto;min-height:116px;border-radius:24px;padding:17px 24px
           <div>
             <div class="ftr__line">
               <svg viewBox="0 0 24 24"><path d="M12 22s7-6.2 7-12a7 7 0 10-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.6"/></svg>
-              <span>8272-00200, Nairobi</span>
+              <span>8272-00200, Nairobi, Kenya</span>
             </div>
           </div>
         </div>
